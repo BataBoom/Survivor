@@ -58,7 +58,8 @@ class SurvivorGame extends Component
 
     public function status()
     {
-        return $this->user->pools()->where('pool_id', $this->mypool)->where('alive',1)->exists() ? true : false;
+        //return $this->user->pools()->where('pool_id', $this->mypool)->where('alive',1)->exists() ? true : false;
+        return true;
     }
 
 
