@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\DB;
+use App\Models\WagerResult;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -14,6 +15,10 @@ abstract class TestCase extends BaseTestCase
 
         parent::setUp();
 
-        $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
+        $alreadySeeded = WagerResult::All()->isEmpty();
+
+        if ($alreadySeeded) {
+            $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
+        }
     }
 }

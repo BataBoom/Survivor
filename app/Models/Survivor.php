@@ -68,17 +68,11 @@ class Survivor extends Model
     {
     return $this->hasOne(WagerQuestion::class, 'game_id', 'game_id');
     }
-    
-    /* Only Appears as function if result is correct */ 
+
     public function results()
     {
-    return $this->hasOne(WagerResult::class, 'winner', 'selection_id');
+        return $this->hasOne(WagerResult::class, 'game', 'game_id');
     }
 
-    /* Fixed lol but keep results incase its stuck in codebase somewhere for now... */
-    public function resultz()
-    {
-    return $this->hasOne(WagerResult::class, 'game', 'game_id');
-    }
 
 }

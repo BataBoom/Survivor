@@ -21,7 +21,8 @@ use DateTime;
 
 class SurvivorGame extends Component
 {
-    public $mypool = "9c10208a-2840-4a75-9872-b59f491610f3";
+    //public $mypool = "9c10208a-2840-4a75-9872-b59f491610f3";
+    public $mypool;
     public $week;
     public $choice = '';
     public $pickteam;

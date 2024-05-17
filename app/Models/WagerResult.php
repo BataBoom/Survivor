@@ -28,4 +28,9 @@ class WagerResult extends Model
     {
     return $this->hasMany(WagerOption::class, 'game_id', 'game');
     }
+
+    public function survivor()
+    {
+        return $this->hasMany(Survivor::class, 'game_id', 'game');
+    }
 }
