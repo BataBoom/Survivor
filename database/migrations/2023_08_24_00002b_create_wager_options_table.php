@@ -23,6 +23,7 @@ return new class extends Migration
         $table->string('week')->nullable();
         $table->unique(['team_id', 'game_id', 'option']);
         $table->timestamps();
+
         });
     }
 

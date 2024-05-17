@@ -24,17 +24,11 @@ class SurvivorFactory extends Factory
             'user_id' => User::factory(),
             'selection' => $selection->option,
             'selection_id' => $selection->team_id,
-            'pool_id' => $pool->id,
+            //'pool_id' => $pool->id,
+            'pool_id' => Pool::factory(),
             'week' => $game->week,
         ];
     }
 
-    public function configure()
-    {
-        return $this->afterCreating(function (Survivor $survivor) {
-            $survivor->offers()->saveMany(AuctionBid::factory(['auction_id' => $auction->id])->count(5)->create());
-            $survivor->offers()->saveMany(AuctionBid::factory(['auction_id' => $auction->id])->count(5)->create());
-        });
-    }
 
 }
