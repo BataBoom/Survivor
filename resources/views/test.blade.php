@@ -6,6 +6,8 @@
 <div class="column w-full h-20 p-4" data-theme="aqua">
 <p class="bg-primary">yeee</p>
 <h1 class="text-primary">whaa</h1>
+
+  <livewire:survivor-game />
 </div>
 
 <button

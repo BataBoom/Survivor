@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SurvivorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome');
 
 Route::view('/test', 'test');
+
+Route::get('/fun', [SurvivorController::class, 'fun']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

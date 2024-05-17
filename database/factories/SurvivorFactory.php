@@ -15,9 +15,9 @@ class SurvivorFactory extends Factory
 
     public function definition()
     {
-        $game = WagerQuestion::All()->random();
+        $game = WagerQuestion::Scheduled()->random();
         $selection = $game->gameoptions->random();
-        $pool = Pool::All()->skip(1)->first();
+        $pool = Pool::Where('type', 'survivor')->where('lives_per_person', 1)->first();
 
         return [
             'game_id' => $game->game_id,
@@ -27,6 +27,14 @@ class SurvivorFactory extends Factory
             'pool_id' => $pool->id,
             'week' => $game->week,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Survivor $survivor) {
+            $survivor->offers()->saveMany(AuctionBid::factory(['auction_id' => $auction->id])->count(5)->create());
+            $survivor->offers()->saveMany(AuctionBid::factory(['auction_id' => $auction->id])->count(5)->create());
+        });
     }
 
 }

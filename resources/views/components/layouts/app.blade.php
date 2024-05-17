@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="aqua">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,8 +11,16 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        @livewireStyles
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/js/wire.js', 'resources/js/app.js'])
+        <style>
+            .first-item {
+                display: block;
+                width: 100%;
+            }
+        </style>
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">
@@ -32,5 +40,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        @livewireScriptConfig
     </body>
 </html>

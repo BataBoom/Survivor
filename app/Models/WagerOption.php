@@ -21,17 +21,30 @@ class WagerOption extends Model
 
     public function team()
     {
-    return $this->hasMany(WagerTeam::class, 'team_id', 'team_id');
+    return $this->belongsTo(WagerTeam::class, 'team_id', 'team_id');
     }
 
-    public function teaminfo()
-    {
-    return $this->hasOne(WagerTeam::class, 'team_id', 'team_id');
-    }
-
+    //Relationship to Survivor Picks
     public function wagers()
     {
-    return $this->hasMany(Wager::class, 'selection_id', 'team_id');
+    return $this->hasMany(Survivor::class, 'selection_id', 'team_id');
+    }
+
+    //Relationship to WagerResults
+    public function result()
+    {
+        return $this->hasOne(WagerResult::class, 'game', 'game_id');
+    }
+
+    //Determine if this WagerOption is a winner
+    public function getWinnerAttribute()
+    {
+        if($this->result) {
+            return $this->result->winner === $this->team_id;
+        } else {
+            return null;
+        }
+
     }
     
 }

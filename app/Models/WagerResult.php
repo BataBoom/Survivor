@@ -16,7 +16,7 @@ class WagerResult extends Model
 
     public function question()
     {
-    return $this->belongsTo(WagerQuestion::class, 'game', 'gameid');
+    return $this->belongsTo(WagerQuestion::class, 'game', 'game_id');
     }
 
     public function result()
