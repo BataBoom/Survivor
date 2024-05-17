@@ -25,21 +25,19 @@ class WagerQuestion extends Model
     return $this->hasMany(WagerOption::class, 'game_id', 'game_id');
     }
 
-    /*
-    public function teaminfo()
+    public function result()
     {
-    return $this->options()
-    }
-*/
-
-    public function results()
-    {
-    return $this->hasOne(WagerResults::class, 'game', 'game_id');
+    return $this->hasOne(WagerResult::class, 'game', 'game_id');
     }
 
-    public function bettors()
+    public function wagers()
     {
-    return $this->hasMany(Wager::class, 'gameid', 'game_id');
+    return $this->hasMany(Survivor::class, 'game_id', 'game_id');
+    }
+
+    public function scopeScheduled($query)
+    {
+        return $query->where('ended', false)->where('starts_at', '>=', now())->get();
     }
     
     

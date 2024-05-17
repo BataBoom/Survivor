@@ -1,27 +1,56 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import ar from '@tailwindcss/aspect-ratio';
+import container from '@tailwindcss/container-queries';
+import typography from '@tailwindcss/typography';
 import daisyui from "daisyui";
+import colors from "tailwindcss/colors";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-
 	content: [
-	 './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-	'./resources/views/components/layouts/*.blade.php',
-	'./resources/views/livewire/**/*.blade.php',
-        './resources/**/*.blade.php'
+	    './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        "./resources/**/**/*.blade.php",
+        "./resources/**/**/*.js",
+        "./app/View/Components/**/**/*.php",
+        "./app/Livewire/**/**/*.php",
     ],
     theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
+        extend: {},
+        colors: {
+            // Now we build the full color palette, using all colors available
+            // as shown at this link: https://tailwindcss.com/docs/customizing-colors#color-palette-reference
+            transparent: "transparent",
+            current: "currentColor",
+            black: "#000",
+            white: "#fff",
+            bluegray: colors.blueGray,
+            coolgray: colors.coolGray,
+            gray: colors.gray,
+            truegray: colors.trueGray,
+            warmgray: colors.warmGray,
+            red: colors.red,
+            orange: colors.orange,
+            amber: colors.amber,
+            yellow: colors.yellow,
+            lime: colors.lime,
+            green: colors.green,
+            emerald: colors.emerald,
+            teal: colors.teal,
+            cyan: colors.cyan,
+            sky: colors.sky,
+            blue: colors.blue,
+            indigo: colors.indigo,
+            violet: colors.violet,
+            purple: colors.purple,
+            fuchsia: colors.fuchsia,
+            pink: colors.pink,
+            rose: colors.rose,
+            neutral: colors.neutral,
         },
     },
 
-    plugins: [forms, daisyui],
+    plugins: [forms, daisyui, ar, container, typography],
 
 	daisyui: {
     themes: true, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
