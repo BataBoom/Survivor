@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SurvivorTest extends TestCase
 {
-    use RefreshDatabase;
+    //use RefreshDatabase;
 
     public $pool;
     public $week;
@@ -25,34 +25,27 @@ class SurvivorTest extends TestCase
     {
         parent::setUp();
         $this->user = User::Factory()->create();
-        $this->pool = Pool::Factory()->create();
+        $this->pool = Pool::Factory()->single()->create();
         $this->game = Survivor::Factory(['user_id' => $this->user->id, 'pool_id' => $this->pool->id])->create();
     }
-    /**
-     * A basic unit test example.
-     */
-    public function test_wager_results(): void
+
+
+    public function test_single_survivor_result(): void
     {
 
+        info([$this->game, $this->game->results]);
 
-        $winner = $this->game->question->gameoptions->random();
+        $this->assertInstanceOf(WagerResult::class, $this->game->results);
+        $this->assertInstanceOf(Survivor::class, $this->game);
 
-        if ($winner->home_team) {
-            $scores = ['home' => rand(21, 48), 'away' => rand(7, 20)];
-        } else {
-            $scores = ['away' => rand(21, 48), 'home' => rand(7, 20)];
-        }
+        $this->game->update(['result' => $this->game->selection_id === $this->game->results->winner]);
 
-        $gg = WagerResult::Create([
-            'game' => $this->game->question->game_id,
-            'winner' => $winner->team_id,
-            'winner_name' => $winner->option,
-            'week' => $winner->week,
-            'home_score' => $scores['home'],
-            'away_score' => $scores['away'],
-        ]);
+    }
 
-        info($gg);
+    public function test_multiple_survivor_result(): void
+    {
+
+        info(WagerResult::All()->take(3));
 
         $this->assertTrue(true);
     }

@@ -15,9 +15,9 @@ class SurvivorFactory extends Factory
 
     public function definition()
     {
-        $game = WagerQuestion::Scheduled()->random();
+        $game = WagerQuestion::Where('week', 1)->get()->random();
         $selection = $game->gameoptions->random();
-        $pool = Pool::Where('type', 'survivor')->where('lives_per_person', 1)->first();
+        //$pool = Pool::Where('type', 'survivor')->where('lives_per_person', 1)->first();
 
         return [
             'game_id' => $game->game_id,
