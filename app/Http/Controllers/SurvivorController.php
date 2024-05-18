@@ -88,6 +88,22 @@ class SurvivorController extends Controller
         ]);
          */
 
+        $games = WagerQuestion::Where('week', 1)->get();
+        $combinedData = collect();
+        foreach ($games as $game) {
+            $teamIds = $game->gameoptions()->pluck('team_id');
+            $teamInfo = WagerTeam::whereIn('team_id', $teamIds)->select('abbreviation', 'name', 'team_id', 'color', 'altColor')->get();
+
+            $item = (object)[
+                'game' => $game->question,
+                'starts' => $game->starts_at,
+                'gid' => $game->game_id,
+                'mid' => $game->id,
+                'info' => $teamInfo,
+            ];
+
+            $combinedData->push($item);
+        }
 
         return view('survivor.show', [
             'pool' => $pool,
@@ -95,6 +111,8 @@ class SurvivorController extends Controller
                 ->survivorPools
                 ->where('pool_id', $pool->id)
                 ->first(),
+            'games'=> $combinedData,
+            'mySurvivorPools' => Auth::user()->survivorPools->load('pool'),
         ]);
         
     }

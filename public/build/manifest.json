@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-C2Uo6kqt.css",
+    "file": "assets/app-BYodlbex.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -11,12 +11,12 @@
     "isEntry": true
   },
   "resources/js/wire.js": {
-    "file": "assets/wire-DMfrdqyY.js",
+    "file": "assets/wire-BTAavGWm.js",
     "name": "wire",
     "src": "resources/js/wire.js",
     "isEntry": true,
     "css": [
-      "assets/app-C2Uo6kqt.css"
+      "assets/app-BYodlbex.css"
     ]
   }
 }

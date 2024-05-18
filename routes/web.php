@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SurvivorController;
 use App\Models\Pool;
+use App\Models\SurvivorRegistration;
+use App\Livewire\Fun;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +19,8 @@ use App\Models\Pool;
 */
 
 Route::view('/', 'welcome');
+
+Route::get('/game/{pool:id}/{survivorregistration:id}', Fun::class)->name('fun.wire');
 
 Route::view('/test', 'test');
 

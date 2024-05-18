@@ -16,14 +16,18 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Exception;
-use DateTime;
 use Mary\Traits\Toast;
+use DateTimeZone;
+use Livewire\Attributes\Renderless;
 
 class SurvivorGame extends Component
 {
     use Toast;
 
     public $survivor;
+    public $currentTimeEST;
+
+    public bool $duplicataes = false;
 
     public $mypicks;
 
@@ -32,13 +36,11 @@ class SurvivorGame extends Component
     public $pickteam;
     public $delteam;
     public $newweek;
-    public $gameid;
     public $currentPool;
     public $bl;
     public $status;
     public User $user;
     public $selectedweek;
-    public $showComments = false;
 
     public $rules = [
         'pickteam' => 'required|array',
@@ -52,12 +54,15 @@ class SurvivorGame extends Component
         $this->user = Auth::user();
         $this->newweek = $this->decipherWeek();
         $this->mypicks = $this->survivor->picks;
+        $this->hasDupes();
 
         $this->week = $this->newweek ?? $this->decipherWeek();
         $this->status = $this->status();
 
-    }
+        //Sub 30 mins for security..
+        $this->currentTimeEST = Carbon::now(new DateTimeZone('America/New_York'))->subMinutes(30);
 
+    }
 
 
     public function changeWeek()
@@ -67,19 +72,26 @@ class SurvivorGame extends Component
 
     public function status()
     {
-        //return $this->user->pools()->where('pool_id', $this->mypool)->where('alive',1)->exists() ? true : false;
-        return true;
+        return $this->survivor->where('alive',1)->exists() ? true : false;
+    }
+
+    public function hasDupes()
+    {
+            $selections = $this->survivor->picks->pluck('selection');
+            // Find duplicate selections
+            $duplicateSelections = $selections->duplicates();
+
+            $this->duplicataes = $duplicateSelections->isNotEmpty();
     }
 
 
     public function hydrate() {
         $this->reset('week');
-        $this->lastPick();
         $this->changeWeek();
         $this->teamsLeft($this->week);
-        $this->allGames($this->week);
         $this->biggestLoser($this->week);
         $this->mypicks = $this->survivor->picks;
+        $this->hasDupes();
     }
 
     public function isAllowed($pick) {
@@ -87,75 +99,64 @@ class SurvivorGame extends Component
         $this->selectedweek = $this->newweek ?? $this->decipherWeek();
 
         //Determine if user has placed this pick before, and if he has it hasnt been graded yet.
-        $status = false;
-        if($this->survivor->picks()->where('selection', $pick)->whereNotNull('result')->doesntExist()) {
-            $status = true;
+        $status = $this->survivor->picks()->where('selection', $pick)->whereNotNull('result')->doesntExist();
 
-            // Retrieve schedule for the selected week
-            $Schedule = WagerQuestion::Where("week", $this->selectedweek)->get();
-            $gameIDz = [];
+        //Locate the game and ensure it hasnt started yet.
+        if($status) {
 
-            foreach ($Schedule as $onegame) {
-                $options = WagerOption::where('game_id', $onegame->game_id)->pluck('game_id')->flatten();
-                $gameIDz = array_unique(array_merge($gameIDz, $options->all()));
-            }
+            $locateSelection = WagerOption::with('question')
+                ->where('week', $this->selectedweek)
+                ->where('option', $pick)
+                ->first();
 
-            // Find the location of the picked team
-            $locate = WagerOption::whereIn('game_id', $gameIDz)->where('option', $pick)->get();
+            $isLive = $this->currentTimeEST->lessThan($locateSelection->question->starts_at->subMinutes(30));
 
-            //Determine is the game has already started
-            $nowEastern = Carbon::now('EST');
-            $isLive = $nowEastern->lessThan($locate->first()->question->starts_at);
+            $message = "success";
 
         } else {
-            $status = false;
+
             $message = "You've already used this team, and the match has been graded.";
         }
 
-        //if user is allowed instantly return true, otherwise return with message;
-        if($status && $isLive) {
-            $status = true;
-        } else {
+        if($status && !$isLive) {
             $message = "Match started, cannot update pick!";
             $status = false;
         }
-        return [$status, $message ?? ""];
+
+        return [$status, $message];
 
     }
 
-
-    public function RemovePick($pick) {
+    #[Renderless]
+    public function RemovePick($pick, $week) {
 
         $isAllowed = $this->isAllowed($pick);
-        $status = false;
-        if($isAllowed[0] && $this->status()) {
+        $status = $isAllowed[0];
+        if($status && $this->status()) {
 
-            $delete = $this->survivor->picks()->where('selection', $pick)->delete();
-            $status = true;
+            if($this->survivor->picks()->where(['selection' => $pick, 'week' => $week])->delete()) {
 
-        }
+                $this->toast(
+                    type: 'success',
+                    title: $pick.' Removed',
+                    description: 'Week: '.$week,                  // optional (text)
+                    position: 'toast-top toast-end',    // optional (daisyUI classes)
+                    icon: 'o-information-circle',       // Optional (any icon)
+                    css: 'alert-info',                  // Optional (daisyUI classes)
+                    timeout: 3000,                      // optional (ms)
+                    redirectTo: null                    // optional (uri)
+                );
+            }
 
-        if($status) {
-            $this->toast(
-                type: 'success',
-                title: $pick.' Removed',
-                description: null,                  // optional (text)
-                position: 'toast-top toast-end',    // optional (daisyUI classes)
-                icon: 'o-information-circle',       // Optional (any icon)
-                css: 'alert-info',                  // Optional (daisyUI classes)
-                timeout: 3000,                      // optional (ms)
-                redirectTo: null                    // optional (uri)
-            );
-            $this->mypicks = $this->survivor->picks;
         } else {
+
             $this->error(
                 'Cannot remove' . $pick,
+                description: $isAllowed[1],
                 timeout: 3000,
                 position: 'toast-top toast-end'
             );
         }
-
-
     }
 
     public function submit()
@@ -163,40 +164,27 @@ class SurvivorGame extends Component
 
         $this->validateOnly('pickteam');
 
-        $isAllowed = $this->isAllowed($this->pickteam[0]);
-        $status = false;
+        $status  = $this->isAllowed($this->pickteam[0]);
 
-        if($isAllowed[0] && $this->status()) {
-            $status = true;
+        if($status && $this->status()) {
+
             $this->selectedweek = $this->newweek ?? $this->decipherWeek();
 
-            // Retrieve schedule for the selected week
-            $Schedule = WagerQuestion::Where("week", $this->selectedweek)->get();
-            $gameIDz = [];
-            foreach ($Schedule as $onegame) {
-                $options = WagerOption::where('game_id', $onegame->game_id)->pluck('game_id')->flatten();
-                $gameIDz = array_unique(array_merge($gameIDz, $options->all()));
-            }
-
-            // Find the location of the picked team
-            $locate = WagerOption::whereIn('game_id', $gameIDz)->where('option', $this->pickteam[0])->get();
+            $locateSelection = WagerOption::with('question')
+                ->where('week', $this->selectedweek)
+                ->where('option', $this->pickteam[0])
+                ->first();
 
             try {
                 Survivor::updateOrCreate(
                     ['week' => $this->selectedweek, 'user_id' => $this->user->id, 'pool_id' => $this->currentPool->id],
                     [
-                        'game_id' => $locate->first()->game_id,
-                        'selection_id' => $locate->first()->team_id,
-                        'selection' => $locate->first()->option,
+                        'game_id' => $locateSelection->game_id,
+                        'selection_id' => $locateSelection->team_id,
+                        'selection' => $locateSelection->option,
                         'pool_id' => $this->currentPool->id,
                     ]
                 );
-                $iffy = true;
-            } catch (Exception $e) {
-                $iffy = false;
-            }
-
-            if($status !== false && $iffy) {
 
                 $this->toast(
                     type: 'success',
@@ -208,34 +196,20 @@ class SurvivorGame extends Component
                     timeout: 3000,                      // optional (ms)
                     redirectTo: null                    // optional (uri)
                 );
-            } else {
+
+            } catch (Exception $e) {
+
                 $this->error(
                     'Cannot select ' . $this->pickteam[0]. '. Check your selections and try again...',
                     timeout: 3000,
                     position: 'toast-top toast-end'
                 );
-
             }
+
         }
 
     }
-
-    public function getAbbreviations($week)
-    {
-        $ScheduleIds = WagerQuestion::where('week', $week)->pluck('game_id')->toArray();
-        $Games = WagerQuestion::WhereIn('game_id', $ScheduleIds)->get();
-
-        $options = collect();
-        foreach ($Games as $game) {
-            $teamIds = $game->gameoptions()->pluck('team_id');
-            $teamAbbreviations = WagerTeam::whereIn('team_id', $teamIds)->pluck('abbreviation');
-
-            $options->push($teamAbbreviations);
-        }
-
-        return $options;
-    }
-
+    #[Renderless]
     public function allGames($week)
     {
 
@@ -261,10 +235,12 @@ class SurvivorGame extends Component
         return [$Games, $options->toArray()];
     }
 
+    #[Renderless]
     public function getGames($week)
     {
         return WagerQuestion::all()->where('week', $week);
     }
+
 
     public function picked()
     {
@@ -276,22 +252,27 @@ class SurvivorGame extends Component
 
     public function teamsLeft($week)
     {
-        $currentDatetime = Carbon::now();
+
         $picked = $this->survivor->picks->whereNotNull('result')->pluck('selection_id')->toArray();
+
         $ScheduleIds = WagerQuestion::where("week", $week)
-            ->where('starts_at', '>', $currentDatetime->toDateTimeString())
+            ->where('starts_at', '>', $this->currentTimeEST->toDateTimeString())
             ->pluck('game_id')->toArray();
+
         $Teams = WagerOption::WhereIn('game_id', $ScheduleIds)->get();
 
         $options = collect();
         foreach ($Teams as $team) {
             $options->push(collect($team->teaminfo));
         }
+
         $filteredCollection = $options->whereNotIn('team_id', $picked);
         $sortedCollection = $filteredCollection->sortBy('name');
+
         return $sortedCollection->all();
     }
 
+    #[Renderless]
     public function lastPick()
     {
 
@@ -305,11 +286,14 @@ class SurvivorGame extends Component
 
     }
 
+    #[Renderless]
     public function deleteablePicks() {
 
         return $this->survivor->picks->whereNull('result');
+
     }
 
+    #[Renderless]
     public function decipherWeek()
     {
 
@@ -350,7 +334,6 @@ class SurvivorGame extends Component
 
         $lw = $week - 1;
 
-
         $biggestLoser = Survivor::Where('week', $lw)->where('result', false)->where('pool_id', $this->currentPool->id)->select('selection')->get();
 
         if($biggestLoser->count() >= 1) {
@@ -380,6 +363,7 @@ class SurvivorGame extends Component
         return $bl ?? null;
     }
 
+    #[Renderless]
     public function playerCount() {
 
         $playerCount = ['Alive'=> SurvivorRegistration::Where('alive', 1)->where('pool_id', $this->currentPool->id)->count(), 'Dead' => SurvivorRegistration::Where('alive', 0)->where('pool_id', $this->currentPool->id)->count()];
@@ -388,33 +372,21 @@ class SurvivorGame extends Component
     }
 
 
-
-
-
     public function render()
     {
-        //dd($this->playerCount());
-        //dd($this->currentPool);
-
-        /*
-        $players = $this->playerCount();
-        if($players['Alive'] === 1) {
-        return view('livewire.survivor_won');
-        }
-        */
 
         return view('livewire.survivor-game', [
-            'allGames' => $this->allGames($this->week),
-            'games' => $this->getGames($this->week),
+            //'allGames' => $this->allGames($this->week),
+            //'games' => $this->getGames($this->week),
             //'teams' => $this->teams($this->week),
+            //'picked' => $this->picked(),
+            //'latestpick' => $this->lastPick(),
+            //'delPicks' => $this->deleteablePicks(),
             'choices' => $this->teamsLeft($this->week),
-            'picked' => $this->picked(),
-            'latestpick' => $this->lastPick(),
             'whatweek' => $this->decipherWeek(),
             'week' => $this->changeWeek(),
             'biggestLoser' => $this->biggestLoser($this->week),
             'status' => $this->status,
-            'delPicks' => $this->deleteablePicks(),
             'playerCount' => $this->playerCount(),
 
         ]);
