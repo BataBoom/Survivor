@@ -21,23 +21,6 @@ class SurvivorRegistrationFactory extends Factory
            'lives_count' => 1,
         ];
     }
-
-
-    /**
-     * Configure the model factory.
-
-    public function configure(): static
-    {
-        return $this->state(function (array $attributes) {
-           //
-        })->afterMaking(function (SurvivorRegistration $SurvivorRegistration) {
-            //
-        })->afterCreating(function (SurvivorRegistration $SurvivorRegistration) {
-
-           // return $SurvivorRegistration->update(['lives_count' => $SurvivorRegistration->poolRegistration->lives_per_person ]);
-
-        });
-    }
-     * */
+    
 
 }

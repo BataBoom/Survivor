@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
+
 
     /**
      * The attributes that are mass assignable.
@@ -42,9 +45,52 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->id === 1;
+    }
+
     // Relationship With SurvivorRegistration
     public function pools() {
         return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id');
+    }
+
+    // Relationship With SurvivorRegistration (tracker for survivor)
+    public function survivorPools()
+    {
+        return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id')
+            ->where('alive', true)
+            ->whereHas('pool', function ($query) {
+                $query->where('type', 'survivor');
+            });
+    }
+
+    public function pickemPools()
+    {
+        return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id')
+            ->where('alive', true)
+            ->whereHas('pool', function ($query) {
+                $query->where('type', 'pickem');
+            });
+    }
+
+    // Relationship With Survivor Pools (Generic)
+    public function survivorRegistrations() {
+
+        return $this->hasManyThrough(
+            Pool::class,
+            SurvivorRegistration::class,
+            'user_id', // Foreign key on SurvivorRegistration table...
+            'id',      // Foreign key on Pool table...
+            'id',      // Local key on User table...
+            'pool_id'  // Local key on SurvivorRegistration table...
+        )->where('type', 'survivor');
+
+    }
+
+    // Relationship With User Created Pools (Generic)
+    public function MyPools() {
+        return $this->hasMany(Pool::class, 'creator_id');
     }
 
     public function SurvivorPicks()
