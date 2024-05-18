@@ -15,6 +15,10 @@ class WagerQuestion extends Model
     public $incrementing = true;
     public $timestamps = false;
 
+    protected $casts = [
+        'starts_at' => 'datetime',
+    ];
+
     public function options()
     {
     return $this->hasMany(WagerOption::class, 'game_id', 'game_id')->pluck('option');
