@@ -29,6 +29,10 @@ class SurvivorGameTest extends TestCase
 
         Livewire::actingAs($user)
         ->test(SurvivorGame::class, ['mypool' => $pool->id])
-        ->assertStatus(200);
+        ->assertStatus(200)
+        ->assertNotSetStrict('currentPool', $pool)
+        ->assertSetStrict('status', true)
+        ->assertSet('week', 1)
+        ->assertSet('mypool', $pool->id)
     }
 }

@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Pool;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-
+use App\Models\User;
 class PoolFactory extends Factory
 {
     protected $model = Pool::class;
@@ -49,6 +49,15 @@ class PoolFactory extends Factory
             // ...
         })->afterCreating(function (Pool $pool) {
             //
+        });
+    }
+
+    public function hasCreator(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'creator_id' => User::factory(),
+            ];
         });
     }
 

@@ -15,19 +15,19 @@ class SurvivorRegistration extends Model
     public $incrementing = false;
     public $timestamps = true;
 
-
-    public function poolRegistration()
+    public function pool()
     {
-    return $this->belongsTo(Pool::class, 'pool_id');
+        return $this->belongsTo(Pool::class, 'pool_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function scopeAlive($query)
     {
         return $query->where('alive', 1);
     }
-
-
-
 
 }

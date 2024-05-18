@@ -5,6 +5,7 @@ import container from '@tailwindcss/container-queries';
 import typography from '@tailwindcss/typography';
 import daisyui from "daisyui";
 import colors from "tailwindcss/colors";
+import preset from './vendor/filament/support/tailwind.config.preset';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -14,7 +15,11 @@ export default {
         "./resources/**/**/*.js",
         "./app/View/Components/**/**/*.php",
         "./app/Livewire/**/**/*.php",
+        './app/Filament/**/*.php',
+        './resources/views/filament/**/*.blade.php',
+        './vendor/filament/**/*.blade.php',
     ],
+    presets: [preset],
     theme: {
         extend: {},
         colors: {
