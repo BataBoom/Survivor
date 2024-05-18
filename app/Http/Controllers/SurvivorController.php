@@ -71,8 +71,8 @@ class SurvivorController extends Controller
     }
     public function showByPool(Request $request, Pool $pool)
     {
+        /*
         if (! Gate::allows('view-survivor', $pool)) {
-            /* if user game has been graded, but pool status has not, deflect redirect loop error */
             if (! Gate::allows('view-eliminated', $pool)) {
             return redirect()->route('mypools');  
             }
@@ -85,6 +85,16 @@ class SurvivorController extends Controller
         return view('survivor.index', [
                 'schedule' => $Schedule,
                 'pool' => $pool,
+        ]);
+         */
+
+
+        return view('survivor.show', [
+            'pool' => $pool,
+            'ticket' => Auth::user()
+                ->survivorPools
+                ->where('pool_id', $pool->id)
+                ->first(),
         ]);
         
     }

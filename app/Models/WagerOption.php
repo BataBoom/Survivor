@@ -24,6 +24,11 @@ class WagerOption extends Model
     return $this->belongsTo(WagerTeam::class, 'team_id', 'team_id');
     }
 
+    public function teaminfo()
+    {
+        return $this->hasOne(WagerTeam::class, 'team_id', 'team_id');
+    }
+
     //Relationship to Survivor Picks
     public function wagers()
     {

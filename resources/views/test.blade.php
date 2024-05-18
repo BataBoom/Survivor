@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.survivor>
 
 <x-slot:title>Testing</x-slot:title>
 
@@ -15,4 +15,4 @@
   Button
 </button>
 </div>
-</x-layouts.app>
+</x-layouts.survivor>

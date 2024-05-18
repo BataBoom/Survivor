@@ -19,14 +19,16 @@ class Survivor extends Model
 
     protected $casts = [];
 
-     public function user()
+    public function user()
     {
     return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    public function whichPool()
+
+    public function pool()
     {
     return $this->belongsTo(Pool::class, 'pool_id');
     }
+
     /*
     public function pool()
     {
@@ -58,7 +60,6 @@ class Survivor extends Model
             ->first();
     }
 
-
     public function pick()
     {
     return $this->hasOne(WagerOption::class, 'team_id', 'selection_id');
@@ -74,5 +75,9 @@ class Survivor extends Model
         return $this->hasOne(WagerResult::class, 'game', 'game_id');
     }
 
+    public function scopeInPool($query, $poolId)
+    {
+        return $query->where('pool_id', $poolId);
+    }
 
 }
