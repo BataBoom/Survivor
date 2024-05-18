@@ -21,6 +21,6 @@ class SurvivorRegistrationFactory extends Factory
            'lives_count' => 1,
         ];
     }
-    
+
 
 }

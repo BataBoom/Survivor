@@ -93,7 +93,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Pool::class, 'creator_id');
     }
 
-    public function SurvivorPicks()
+    public function MyPicks()
     {
         return $this->hasMany(
             Survivor::class,
@@ -102,18 +102,12 @@ class User extends Authenticatable implements FilamentUser
         )->orderBy('week', 'asc');
     }
 
-   public function isSurvivorAttribute($pool): bool
-   {
-       return $this->SurvivorPicks()->where('pool', $pool)->whereNot('result', false)->exists();
-   }
-
-    /* Pickem */
-    public function myPickemPicks()
+    public function sp()
     {
-        return $this->hasMany(
-            Pickem::class,
-            'uid', // Foreign key on the Survivor table...
-            'id', // Local key on the Users table...
-        )->orderBy('week', 'asc');
+        return $this->hasMany(Survivor::class, 'user_id', 'id')
+            ->where('pool', function ($query) {
+                $query->where('type', 'pickem');
+            });
     }
+
 }

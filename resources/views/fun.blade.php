@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layouts.survivor>
 
     <x-slot:title>Fun</x-slot:title>
 
@@ -188,4 +188,4 @@
 
 
 
-</x-layouts.app>
+</x-layouts.survivor>

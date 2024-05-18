@@ -25,6 +25,13 @@ class SurvivorRegistration extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function picks()
+    {
+        return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('pool_id', $this->pool_id);
+
+        //return $this->hasMany(Survivor::class, 'user_id', 'user_id')->inPool($this->pool_id);
+    }
+
     public function scopeAlive($query)
     {
         return $query->where('alive', 1);

@@ -3,7 +3,7 @@
         <div class="bg-neutral-800 text-white text-xl items-center rounded-t-xl p-4 mb-2">
             <div class="flex justify-between">
                 <div class="flex justify-start">
-                    NFL Survivor - Week {{ $week }} | @if ($status) <span class="text-green-500 px-2">Alive</span>  @else <span class="text-red-500">Dead</span> @endif
+                    NFL Survivor - Week {{ $week }} |  Pool: {{ $currentPool->name }} | Status: @if ($status) <span class="text-green-500 px-2">Alive</span>  @else <span class="text-red-500">Dead</span> @endif
                 </div>
                 <div class="flex justify-end">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -48,7 +48,7 @@
                                         <li class="text-{{ $pick->result ? 'success' : 'danger' }}">
                                             Week {{ $pick->week }}: {{ $pick->selection }}
                                             @if ($pick->result === null)
-                                                <button class="btn btn-sm btn-error text-xs m-2">Delete</button>
+                                                <button class="btn btn-sm btn-error text-xs m-2" wire:click="RemovePick('{{ $pick->selection }}')">Delete</button>
                                             @endif
                                         </li>
                                     @empty
