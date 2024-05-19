@@ -23,6 +23,12 @@ class Pool extends Model
         return $this->hasOne(SurvivorRegistration::class, 'pool_id');
     }
 
+    //Relationship for viewing Pool Registerees
+    public function contenders()
+    {
+        return $this->hasMany(SurvivorRegistration::class, 'pool_id');
+    }
+
     //Only return users that are still alive
     public function survivors()
     {
@@ -48,6 +54,7 @@ class Pool extends Model
             'user_id'  // Local key on SurvivorRegistration table...
         );
     }
+
 
     //Relationship to Pool Creator
     public function creator()

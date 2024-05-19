@@ -74,6 +74,11 @@ class User extends Authenticatable implements FilamentUser
             });
     }
 
+    public function mypickems()
+    {
+        return $this->hasMany(Pickem::class, 'user_id');
+    }
+
     // Relationship With Survivor Pools (Generic)
     public function survivorRegistrations() {
 

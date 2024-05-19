@@ -107,7 +107,7 @@ class SurvivorController extends Controller
 
         return view('survivor.show', [
             'pool' => $pool,
-            'ticket' => Auth::user()
+            'survivor' => Auth::user()
                 ->survivorPools
                 ->where('pool_id', $pool->id)
                 ->first(),

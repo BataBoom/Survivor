@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SurvivorController;
+use App\Http\Controllers\PickemController;
 use App\Models\Pool;
 use App\Models\SurvivorRegistration;
 use App\Livewire\Fun;
+use App\Livewire\Pickem;
 
 
 /*
@@ -21,6 +23,10 @@ use App\Livewire\Fun;
 Route::view('/', 'welcome');
 
 Route::get('/game/{pool:id}/{survivorregistration:id}', Fun::class)->name('fun.wire');
+
+Route::get('/pickem/controller/{pool:id}', [PickemController::class, 'show']);
+
+Route::get('/pickem/{pool:id}', Pickem::class)->name('pickem.wire');
 
 Route::view('/test', 'test');
 
