@@ -20,6 +20,7 @@ class SurvivorRegistration extends Model
         return $this->belongsTo(Pool::class, 'pool_id');
     }
 
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -31,6 +32,13 @@ class SurvivorRegistration extends Model
 
         //return $this->hasMany(Survivor::class, 'user_id', 'user_id')->inPool($this->pool_id);
     }
+
+    public function pickems()
+    {
+        return $this->hasMany(Pickem::class, 'user_id', 'user_id')->where('ticket_id', $this->id)->orderBy('week');
+
+    }
+
 
     public function scopeAlive($query)
     {

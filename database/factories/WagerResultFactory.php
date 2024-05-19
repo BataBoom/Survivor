@@ -32,7 +32,14 @@ class WagerResultFactory extends Factory
         ];
     }
 
-
+/*
+    public function specificWeek(): Factory
+    {
+        $week = WagerQuestion::Where('week', )
+        return $this->state(function (array $attributes) use ($game) {
+            return $this->generateAttributes($game);
+        });
+    }
 
     /*
     public function definition()
