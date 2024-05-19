@@ -1,3 +1,5 @@
+NFL Survivor + Pickem
+
 ```
 git clone git@github.com:BataBoom/Survivor.git
 cd Survivor
