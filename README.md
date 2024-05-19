@@ -9,3 +9,5 @@ define .env
 php artisan migrate
 php artisan db:seed
 ```
+
+Still in development, Refactoring last years version.
