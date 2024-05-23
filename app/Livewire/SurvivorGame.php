@@ -314,8 +314,12 @@ class SurvivorGame extends Component
 
     public function render()
     {
+        /*
+         * NOOO!
+        if($this->pool->type === 'survivor') {
 
-        dd($this->allGames(1));
+        }
+        */
         return view('livewire.survivor-game', [
             //'allGames' => $this->allGames($this->week),
             //'games' => $this->getGames($this->week),

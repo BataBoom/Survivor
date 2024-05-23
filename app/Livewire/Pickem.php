@@ -38,11 +38,12 @@ class Pickem extends Component
         $this->whatweek = $this->decipherWeek();
         $this->whatweek = 1;
 
-        $this->contender = $this->pool->contenders->where('user_id', $this->user->id)->first();
+        $this->contender = $this->pool?->contenders?->where('user_id', $this->user->id)->first();
         $this->allGames = $this->pickemGames($this->week);
-        $this->mypicks = $this->contender->pickems->where('week', $this->week);
+        $this->mypicks = $this->contender?->pickems?->where('week', $this->week);
 
     }
+
 
     public function pickGame($gameID, $selection, $selectionID)
     {

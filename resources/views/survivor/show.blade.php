@@ -54,12 +54,20 @@
     <div class="flex justify-center mx-auto">
         <div class="flex-flex-col">
             <div>
+                Viewing Survivor Game
             <livewire:survivor-game :currentPool="$pool" :survivor="$survivor" />
             </div>
 
+            @can('view', $globalPickem)
             <div>
                 <livewire:pickem :pool="$globalPickem" />
             </div>
+            @else
+                <div class="text-center justify-center max-w-4xl">
+                <h1 class="text-red-500 text-3xl">Cannot view Pickem Game: {{$pool->name}}</h1>
+                    <a href="{{ route('pool.register', ['pool' => $globalPickem->id]) }}" wire:navigate class="btn btn-success p-2 btn-block">Register?</a>
+                </div>
+                @endif
             <div>
 
             </div>
