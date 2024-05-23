@@ -9,7 +9,6 @@ use App\Http\Controllers\HomeController;
 
 use App\Models\Pool;
 use App\Models\SurvivorRegistration;
-use App\Livewire\Fun;
 use App\Livewire\Pickem;
 use App\Livewire\SurvivorGame;
 
@@ -26,6 +25,7 @@ use App\Livewire\SurvivorGame;
 */
 
 Route::view('/', 'welcome');
+
 
 Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool');
 
@@ -50,6 +50,7 @@ Route::middleware(['auth', 'survivor'])->group(function () {
     Route::view('/test', 'test');
 
     Route::get('/fun', [SurvivorController::class, 'fun']);
+
 
 });
 
