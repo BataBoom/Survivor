@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Pool;
 
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,8 @@ class DatabaseSeeder extends Seeder
             WagerTeamsSeeder::class,
             SurvivorScheduleSeeder::class,
         ]);
+
+        //Global Pool
 
     }
 }

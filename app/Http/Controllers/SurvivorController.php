@@ -88,6 +88,8 @@ class SurvivorController extends Controller
         ]);
          */
 
+        $pickem = Pool::Where('type', 'pickem')->first();
+
         $games = WagerQuestion::Where('week', 1)->get();
         $combinedData = collect();
         foreach ($games as $game) {
@@ -113,6 +115,7 @@ class SurvivorController extends Controller
                 ->first(),
             'games'=> $combinedData,
             'mySurvivorPools' => Auth::user()->survivorPools->load('pool'),
+            'globalPickem' => $pickem,
         ]);
         
     }
