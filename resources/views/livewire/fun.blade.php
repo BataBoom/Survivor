@@ -181,6 +181,7 @@
                         <div class="glass rounded-xl p-2 my-4">
 
                             <div class="flex flex-wrap justify-center lg:justify-evenly py-4 items-center">
+                                @if($week > 1 && $realWeek >= $week)
                                 <div class="col pb-2 lg:pb-0">
                                     <div class="flex items-center justify-center">
                                         <div class="text-center">
@@ -207,6 +208,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
 
                                 <div class="col">
                                     <div class="flex items-center justify-center">
@@ -254,9 +256,9 @@
                 <div class="flex flex-col">
                     <form wire:submit.prevent="submit">
                         <div class="col px-4 pt-4">
-                            <select multiple size="15"
+                            <select size="15"
                                     class="select select-success h-full w-full text-center text-white text-3xl rounded-t-xl px-4 pt-4"
-                                    wire:model.defer="selectTeam">
+                                    wire:model.live="selectTeam">
                                 <option disabled selected class="text-primary text-xl">Select Team</option>
                                 @forelse ($choices as $choice)
                                     <option class="text-white text-xl"> {{ $choice->get('name') }} </option>
@@ -265,11 +267,13 @@
                                 @endforelse
                             </select>
                         </div>
+                        @if($week >= $realWeek)
                         <div class="col pb-4 mx-4">
                             <button class="btn btn-neutral w-full p-2 rounded-t-none rounded-b-xl" wire:click="submit"
                                     wire:loading.attr="disabled">Select Pick
                             </button>
                         </div>
+                            @endif
                     </form>
                 </div>
             </div>
