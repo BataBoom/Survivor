@@ -35,7 +35,6 @@ Route::middleware(['auth', 'survivor'])->group(function () {
 //Route::get('/game/{pool:id}/{survivorregistration:id}', Fun::class)->name('fun.wire');
 
 //Route::get('/survivor/{pool:id}/{survivorregistration:id}', SurvivorGame::class)->name('fun.wire');
-    Route::get('/game/by-pool/{pool:id}', [PoolController::class, 'show'])->name('pool.show')->middleware('can:view,pool');
 
     Route::get('/game/by-pool/{pool:id}', [PoolController::class, 'show'])->name('pool.show')->middleware('can:view,pool');
 
