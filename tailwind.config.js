@@ -21,7 +21,7 @@ export default {
         './vendor/robsontenorio/mary/src/View/Components/**/*.php',
     ],
     presets: [preset],
-
+    darkMode: 'class',
     theme: {
         extend: {},
         colors: {
