@@ -17,6 +17,7 @@ class WagerQuestion extends Model
 
     protected $casts = [
         'starts_at' => 'datetime',
+        //'ended' => 'boolean',
     ];
 
     public function options()
@@ -31,7 +32,7 @@ class WagerQuestion extends Model
 
     public function result()
     {
-    return $this->hasOne(WagerResult::class, 'game', 'game_id');
+    return $this->belongsTo(WagerResult::class, 'game', 'game_id');
     }
 
     public function wagers()

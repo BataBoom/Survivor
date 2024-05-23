@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
+
 class Pool extends Model
 {
     use HasFactory, HasUuids;
@@ -16,7 +17,9 @@ class Pool extends Model
     public $incrementing = false;
     public $timestamps = true;
 
+    public const TYPES = ['survivor', 'pickem'];
 
+    public const PRIZETYPES = ['crypto', 'credits', 'promotion'];
     //Relationship for adding users to this pool
     public function registration()
     {
