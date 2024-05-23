@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
+
 class SurvivorRegistration extends Model
 {
     use HasFactory, HasUuids;
@@ -19,7 +20,6 @@ class SurvivorRegistration extends Model
     {
         return $this->belongsTo(Pool::class, 'pool_id');
     }
-
 
     public function user()
     {

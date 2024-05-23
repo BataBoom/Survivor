@@ -115,4 +115,9 @@ class User extends Authenticatable implements FilamentUser
             });
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->id === 1;
+    }
+
 }

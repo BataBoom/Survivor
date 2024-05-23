@@ -48,19 +48,19 @@
                                 <td>
                                     <div class="flex justify-around">
                                         @can('view', $pool->pool)
-                                        <div>
-                                            <a
-                                                    class="btn btn-sm btn-success"
-                                                    href="{{ route('pool.show', ['pool' => $pool->pool->id]) }}" wire:navigate>Open</a>
-                                        </div>
+                                            <div>
+                                                <a
+                                                        class="btn btn-sm btn-success"
+                                                        href="{{ route('pool.show', ['pool' => $pool->pool->id]) }}" wire:navigate>Open</a>
+                                            </div>
                                         @endcan
 
                                         @can('delete', $pool->pool)
-                                        <div>
-                                            <a
-                                                    class="btn btn-sm btn-error"
-                                                    href="{{ route('pool.destroy', ['pool' => $pool->pool->id]) }}">Delete</a>
-                                        </div>
+                                            <div>
+                                                <a
+                                                        class="btn btn-sm btn-error"
+                                                        href="{{ route('pool.destroy', ['pool' => $pool->pool->id]) }}">Delete</a>
+                                            </div>
                                         @endcan
 
                                         @can('view', $pool->pool)
