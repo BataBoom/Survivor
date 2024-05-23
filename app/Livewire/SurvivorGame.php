@@ -88,12 +88,26 @@ class SurvivorGame extends Component
 
     public function hydrate() {
         $this->reset('week');
-        $this->changeWeek();
+        //$this->changeWeek();
         $this->teamsLeft($this->week);
         $this->biggestLoser($this->week);
         $this->mypicks = $this->survivor->picks;
         $this->hasDupes();
     }
+
+    public function UpdatedWeek()
+    {
+        $this->allGames = $this->pickemGames($this->week);
+        $this->teamsLeft($this->week);
+
+
+    }
+    public function UpdatedNewweek()
+    {
+        $this->week = $this->newweek ?? $this->decipherWeek();
+        $this->teamsLeft($this->week);
+    }
+
 
     public function isAllowed($pick) {
 
@@ -165,11 +179,14 @@ class SurvivorGame extends Component
 
         $this->validateOnly('pickteam');
 
+        //safe-guard, works, but may move
+        //$this->authorize('update', $this->survivor);
+
         $status  = $this->isAllowed($this->pickteam[0]);
 
         if($status && $this->status()) {
 
-            $this->selectedweek = $this->newweek ?? $this->decipherWeek();
+
 
             $locateSelection = WagerOption::with('question')
                 ->where('week', $this->selectedweek)
@@ -197,6 +214,10 @@ class SurvivorGame extends Component
                     timeout: 3000,                      // optional (ms)
                     redirectTo: null                    // optional (uri)
                 );
+
+
+
+
 
             } catch (Exception $e) {
 

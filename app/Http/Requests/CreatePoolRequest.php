@@ -28,6 +28,7 @@ class CreatePoolRequest extends FormRequest
         $this->merge([
             'status' => true,
             'creator_id' => Auth::user()->id,
+            'public' => true,
         ]);
     }
 
@@ -42,12 +43,12 @@ class CreatePoolRequest extends FormRequest
             'name' => ['required', 'string', 'max:200'],
             //'type' => ['required', 'in', implode(',',Pool::TYPES)],
             'type' => ['required', 'string', 'max:200'],
-            'entry_cost' => ['required', 'integer', 'min:0'],
-            'lives_per_person' => ['required', 'integer', 'min:1', 'max:3'],
+            'entry_cost' => ['nullable', 'integer', 'min:0'],
+            'lives_per_person' => ['required', 'integer'],
             'prize_type' => ['required', 'string', 'max:200'],
             //'prize_type' => ['required', 'in', implode(',',Pool::PRIZETYPES)],
             'public' => ['required', 'boolean'],
-            'prize' => ['required', 'integer', 'min:0'],
+            'prize' => ['required', 'integer'],
             'status' => ['required', 'boolean'],
 
 

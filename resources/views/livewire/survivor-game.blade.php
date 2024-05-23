@@ -1,4 +1,4 @@
-<div class="container max-w-7xl sm:mx-6 md:mx-6 lg:mx-auto mt-16 mb-10" wire:poll.visible>
+<div class="container max-w-7xl sm:mx-6 md:mx-6 lg:mx-auto mt-16 mb-10">
     <div id="body" class="container mx-auto bg-gradient-to-bl from-red-800 via-violet-800 to-blue-500 rounded-3xl">
         <div class="bg-neutral-800 text-white text-lg items-center rounded-t-xl p-4 mb-2">
             <div class="flex justify-between items-center">
@@ -65,7 +65,7 @@
                                         <p> Week {{ $pick->week }}: {{ $pick->selection }}</p>
                                     </div>
                                     <div class="col-span-1 flex justify-end item-center">
-                                        @if ($pick->result === null)
+                                        @if ($survivor->alive && $pick->result === null)
                                             <button class="btn btn-sm btn-error"
                                                     wire:click="RemovePick('{{ $pick->selection }}', '{{ $pick->week }}')">
                                                 X
@@ -142,7 +142,7 @@
                                         <div class="flex flex-col">
                                             <div>
                                                 <select class="select select-bordered text-center text-xl text-white w-full"
-                                                        wire:model.lazy="newweek">
+                                                        wire:model.change="newweek">
                                                     <option disabled selected>Week {{ $whatweek }}</option>
                                                     @foreach(range(1,18) as $k)
                                                         <option class="text-white text-xl" value="{{ $k }}">
@@ -167,6 +167,7 @@
                 <div class="flex flex-col">
                     <form wire:submit.prevent="submit">
                         <div class="col px-4 pt-4">
+                            @can('update', $survivor)
                             <select multiple size="15"
                                     class="select select-success h-full w-full text-center text-white text-3xl rounded-t-xl px-4 pt-4"
                                     wire:model.defer="pickteam">
@@ -177,11 +178,29 @@
                                     <option class="text-white text-xl"> EMPTY?</option>
                                 @endforelse
                             </select>
+                            @else
+                                <select multiple size="15"
+                                        class="select select-success h-full w-full text-center text-white text-3xl rounded-t-xl px-4 pt-4">
+                                    <option disabled selected class="text-primary text-xl">Select Team</option>
+                                    @forelse ($choices as $choice)
+                                        <option disabled class="text-white text-xl"> {{ $choice->get('name') }} </option>
+                                    @empty
+                                        <option disabled class="text-white text-xl"> EMPTY?</option>
+                                    @endforelse
+                                </select>
+
+                            @endcan
                         </div>
+
                         <div class="col pb-4 mx-4">
+                            @can('update', $survivor)
                             <button class="btn btn-neutral w-full p-2 rounded-t-none rounded-b-xl" wire:click="submit"
                                     wire:loading.attr="disabled">Select Pick
                             </button>
+                            @else
+                                <button class="btn btn-neutral w-full p-2 rounded-t-none rounded-b-xl" diasbled>Disabled, Eliminated
+                                </button>
+                            @endcan
                         </div>
                     </form>
                 </div>

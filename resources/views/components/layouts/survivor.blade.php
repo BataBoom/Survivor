@@ -11,6 +11,7 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        @livewireStyles
         <!-- Scripts -->
         @vite(['resources/js/wire.js', 'resources/js/app.js'])
         <style>
@@ -40,5 +41,9 @@
         </div>
 
     </body>
+
+    @livewireScriptConfig
+
     <x-mary-toast />
+
 </html>

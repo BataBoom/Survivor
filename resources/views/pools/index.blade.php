@@ -1,4 +1,4 @@
-<x-layouts.survivor>
+<x-app-layout>
 
     <x-slot:title>Browsing Pools </x-slot:title>
     <x-slot:header>
@@ -24,6 +24,7 @@
                             <th>Start Lives</th>
                             <th>Users</th>
                             <th>Starts</th>
+                            <th>Copy</th>
 
 
                         </tr>
@@ -34,7 +35,7 @@
                                 <td>{{ ucfirst($pool->type) }}</td>
                                 <td>{{ $pool->name }}</td>
                                 <td>{{ $pool->prize_type }} @if($pool->prize) |  {{ $pool->prize }} @endif</td>
-                                <th>{{ $pool->entry_fee ?? 'FREE' }}</th>
+                                <th>${{ $pool->entry_cost ?? 'FREE' }}</th>
                                 <td>{{ now()->greaterThan($start_date) ? 'In progress' : 'Registering' }}</td>
                                 <td>
                                     @can('view', $pool)
@@ -45,13 +46,21 @@
                                     @else
                                         <a
                                                 class="btn btn-sm btn-success"
-                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register {{ $pool->entry_fee }}</a>
+                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate> Register </a>
                                     @endcan
                                 </td>
                                 <td>{{ $pool->lives_per_person }}</td>
                                 <td>{{ $pool->users->count() }}</td>
 
                                 <td> {{ $start_date->diffForHumans() .' / '.$start_date->format('jS \o\f F, Y')}}</td>
+                                <td>
+                                    <a class="btn btn-sm" x-clipboard.raw="{{ route('pool.show', ['pool' => $pool->id]) }}">
+
+                                        <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" strokeLinejoin="round" strokeWidth="2" d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z"/>
+                                        </svg>
+                                    </a>
+                                </td>
 
                             </tr>
                         @empty
@@ -72,4 +81,4 @@
             </div>
         </div>
     </div>
-</x-layouts.survivor>
+    </x-app-layout>
