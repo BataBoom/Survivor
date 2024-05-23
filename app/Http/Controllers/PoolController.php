@@ -160,6 +160,7 @@ class PoolController extends Controller
             $paymentURL = $payment->makeInvoice();
 
             //$request->session()->flash('error', 'Error! Registration Ended!');
+
             return redirect()->away($paymentURL);
         }
     }

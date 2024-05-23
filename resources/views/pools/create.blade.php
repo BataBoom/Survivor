@@ -59,7 +59,7 @@
                     </div>
                     <div>
                         <label for="prize" class="block text-sm font-medium text-gray-700">Prize (USD)</label>
-                        <input type="number" value="{{ old('prize') ?? 0 }}" name="prize" placeholder="Prize Units" class="input input-bordered input-primary w-full" />
+                        <input type="number" value="{{ old('guaranteed_prize') ?? 0 }}" name="guaranteed_prize" placeholder="Prize Units" class="input input-bordered input-primary w-full" />
                     </div>
                     <div>
                         <label for="lives" class="block text-sm font-medium text-gray-700">Starting Lives Max(3)</label>

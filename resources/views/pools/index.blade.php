@@ -34,7 +34,8 @@
                             <tr class="hover text-center">
                                 <td>{{ ucfirst($pool->type) }}</td>
                                 <td>{{ $pool->name }}</td>
-                                <td>{{ $pool->prize_type }} @if($pool->prize) |  {{ $pool->prize }} @endif</td>
+                                <td>{{ $pool->prize_type }} @if($pool->total_prize) |  {{ $pool->total_prize }} (USD) @endif</td>
+
                                 <th>${{ $pool->entry_cost ?? 'FREE' }}</th>
                                 <td>{{ now()->greaterThan($start_date) ? 'In progress' : 'Registering' }}</td>
                                 <td>
@@ -46,7 +47,7 @@
                                     @else
                                         <a
                                                 class="btn btn-sm btn-success"
-                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate> Register </a>
+                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}"> Register </a>
                                     @endcan
                                 </td>
                                 <td>{{ $pool->lives_per_person }}</td>

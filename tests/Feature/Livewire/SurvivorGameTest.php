@@ -3,13 +3,13 @@
 namespace Tests\Feature\Livewire;
 
 use App\Livewire\SurvivorGame;
+use App\Models\Pool;
 use App\Models\SurvivorRegistration;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\Pool;
 
 class SurvivorGameTest extends TestCase
 {

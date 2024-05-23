@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Pool;
+use App\Models\SurvivorRegistration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class Pickem extends Component
 
     public $user;
     public $week;
-    public $contender;
+    public SurvivorRegistration $contender;
     public Pool $pool;
     public $whatweek;
     public $weekConcluded;
@@ -91,6 +92,7 @@ class Pickem extends Component
 
     public function render()
     {
+
         return view('livewire.pickem');
     }
 }

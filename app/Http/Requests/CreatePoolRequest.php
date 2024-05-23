@@ -48,7 +48,7 @@ class CreatePoolRequest extends FormRequest
             'prize_type' => ['required', 'string', 'max:200'],
             //'prize_type' => ['required', 'in', implode(',',Pool::PRIZETYPES)],
             'public' => ['required', 'boolean'],
-            'prize' => ['required', 'integer'],
+            'guaranteed_prize' => ['required', 'integer'],
             'status' => ['required', 'boolean'],
 
 

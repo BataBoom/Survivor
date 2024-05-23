@@ -107,13 +107,6 @@ class User extends Authenticatable implements FilamentUser
         )->orderBy('week', 'asc');
     }
 
-    public function sp()
-    {
-        return $this->hasMany(Survivor::class, 'user_id', 'id')
-            ->where('pool', function ($query) {
-                $query->where('type', 'pickem');
-            });
-    }
 
     public function isAdmin(): bool
     {

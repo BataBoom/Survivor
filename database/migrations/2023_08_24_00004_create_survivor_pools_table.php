@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('entry_cost', 8, 2)->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();
-            $table->double('prize', 8, 2)->nullable();
+            $table->double('guaranteed_prize', 8, 2)->default(0);
             $table->enum('prize_type', ['crypto', 'credits', 'promotion'])->default('crypto');
         });
     }
