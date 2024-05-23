@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Listeners;
+
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use App\Events\PoolCreated;
+
+
+class PoolCreatedListener
+{
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     */
+    public function handle(PoolCreated $event): void
+    {
+        $pool  = $event->pool;
+        $creator = $event->user;
+
+        if($event->pool->entry_fee > 0) {
+        //send invoice + email,
+        }
+
+    }
+}

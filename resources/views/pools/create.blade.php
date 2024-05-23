@@ -1,15 +1,16 @@
-<x-layouts.survivor>
+<x-app-layout>
 
     <x-slot:title>Create Pool </x-slot:title>
 
 
 
 
-    <div class="py-12">
+    <div class="flex justify-center py-12">
 
 
-        <div class="max-w-7xl mx-auto">
-            <h1>Create Pick'em or Survivor Pool for the 2024-2025 NFL Season </h1>
+        <div class="max-w-7xl">
+            <h1 class="text-white underline text-xl underline-offset-y-4">Create Pick'em or Survivor Pool for the 2024-2025 NFL Season </h1>
+            <h3 class="text-yellow-500 text-sm italic m-2">If you set an entry fee, you will have 10 days to make a payment. If no payment is made the pool will be deleted.</h3>
 
 
             <form action="{{ route('pool.post') }}" method="POST" class="max-w-4xl mx-auto p-6 rounded-lg shadow-md">
@@ -42,7 +43,7 @@
                     </div>
                     <div>
                         <label for="entry_cost" class="block text-sm font-medium text-gray-700">Pool Entry Fee</label>
-                        <input type="number" value="{{ old('entry_cost') }}" name="entry_cost" class="mt-1 block input input-bordered input-primary w-full sm:text-sm">
+                        <input type="number" value="{{ old('entry_cost') ?? 0 }}" name="entry_cost" class="mt-1 block input input-bordered input-primary w-full sm:text-sm">
                     </div>
                     <div>
                         <label for="prize_type" class="block text-sm font-medium text-gray-700">Prize Type</label>
@@ -57,12 +58,12 @@
                         </select>
                     </div>
                     <div>
-                        <label for="prize" class="block text-sm font-medium text-gray-700">Prize</label>
-                        <input type="number" value="{{ old('prize') }}" name="prize" placeholder="Prize Units" class="input input-bordered input-primary w-full" />
+                        <label for="prize" class="block text-sm font-medium text-gray-700">Prize (USD)</label>
+                        <input type="number" value="{{ old('prize') ?? 0 }}" name="prize" placeholder="Prize Units" class="input input-bordered input-primary w-full" />
                     </div>
                     <div>
-                        <label for="lives" class="block text-sm font-medium text-gray-700">Starting Lives</label>
-                        <input type="number" value="{{ old('lives_per_person') ?? 1 }}" name="lives_per_person" placeholder="Starting / Max Lives" class="input input-bordered input-primary w-full" />
+                        <label for="lives" class="block text-sm font-medium text-gray-700">Starting Lives Max(3)</label>
+                        <input type="number"  name="lives_per_person" value="{{ old('lives_per_person') ?? 1 }}"placeholder="Starting / Max Lives" class="input input-bordered input-primary w-full" />
                     </div>
                     <div class="md:col-span-2">
                         <button type="submit" class="btn btn-primary btn-block">
@@ -77,4 +78,4 @@
 
 
 
-</x-layouts.survivor>
+    </x-app-layout>
