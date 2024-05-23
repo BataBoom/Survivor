@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Survivor;
 use App\Models\Pool;
+use App\Models\SurvivorRegistration;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -25,7 +26,7 @@ class SurvivorFactory extends Factory
             'selection' => $selection->option,
             'selection_id' => $selection->team_id,
             //'pool_id' => $pool->id,
-            'pool_id' => Pool::factory(),
+            'ticket_id' => SurvivorRegistration::factory(),
             'week' => $game->week,
         ];
     }

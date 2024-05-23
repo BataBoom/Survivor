@@ -1,17 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SurvivorController;
-use App\Http\Controllers\PickemController;
-use App\Http\Controllers\PoolController;
 use App\Http\Controllers\ForbiddenController;
 use App\Http\Controllers\HomeController;
-
-use App\Models\Pool;
-use App\Models\SurvivorRegistration;
-use App\Livewire\Fun;
+use App\Http\Controllers\PickemController;
+use App\Http\Controllers\PoolController;
+use App\Http\Controllers\SurvivorController;
 use App\Livewire\Pickem;
-use App\Livewire\SurvivorGame;
+use App\Livewire\Fun;
+use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -47,6 +43,7 @@ Route::middleware(['auth', 'survivor'])->group(function () {
     Route::get('/game/survivor/{pool:id}', [SurvivorController::class, 'showByPool'])->name('survivor.show')->middleware('can:view,pool');
 
     Route::get('/game/wire/pickem/{pool:id}', Pickem::class)->name('pickem.wire')->middleware('can:view,pool');
+    Route::get('/game/wire/survivor/{pool:id}', Fun::class)->name('fun.wire')->middleware('can:view,pool');
 
     Route::get('/my-pools', [HomeController::class, 'show'])->name('mypools.show');
 

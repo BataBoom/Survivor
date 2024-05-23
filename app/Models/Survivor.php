@@ -26,38 +26,7 @@ class Survivor extends Model
 
     public function pool()
     {
-    return $this->belongsTo(Pool::class, 'pool_id');
-    }
-
-    /*
-    public function pool()
-    {
-    return $this->hasOneThrough(
-            SurvivorLog::class,
-            User::class,
-            'id', // Foreign key on the SurvivorLog table...
-            'id', // Foreign key on the users table...
-            'uid', // Local key on the Survivor table...
-            'id' // Local key on the users table...
-        );
-    }
-    */
-    
-    public static function getLastGradedPickByUser(User $user)
-    {
-        return self::where('user_id', $user->id)
-            ->where('pool_id', $pool)
-            ->whereNotNull('result')
-            ->latest()
-            ->first();
-    }
-
-    public static function getLastPickByUser(User $user, $pool)
-    {
-        return self::where('user_id', $user->id)
-            ->where('pool_id', $pool)
-            ->latest()
-            ->first();
+        return $this->belongsTo(SurvivorRegistration::class, 'ticket_id');
     }
 
     public function pick()
@@ -70,14 +39,9 @@ class Survivor extends Model
     return $this->hasOne(WagerQuestion::class, 'game_id', 'game_id');
     }
 
-    public function results()
+    public function result()
     {
         return $this->hasOne(WagerResult::class, 'game', 'game_id');
-    }
-
-    public function scopeInPool($query, $poolId)
-    {
-        return $query->where('pool_id', $poolId);
     }
 
 }

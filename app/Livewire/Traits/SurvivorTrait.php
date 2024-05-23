@@ -113,4 +113,12 @@ trait SurvivorTrait
         return $currentTimeEST->lessThan($locateSelection->question->starts_at->subMinutes(30));
 
     }
+
+    public function fetchSurvivorPicks()
+    {
+        $keys = $games->pluck('game_id');
+
+
+        $combined = collect($keys)->combine($combinedData);
+    }
 }

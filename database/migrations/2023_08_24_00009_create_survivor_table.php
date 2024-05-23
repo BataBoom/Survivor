@@ -19,13 +19,11 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->cascadeOnDelete();
             $table->string('selection')->nullable();
             $table->foreignId('selection_id')->references('team_id')->on('wager_options')->cascadeOnDelete();
-            $table->foreignUuid('pool_id')->references('id')->on('survivor_pools')->cascadeOnDelete();
+            $table->foreignUuid('ticket_id')->references('id')->on('survivor_registrations')->cascadeOnDelete();
             $table->integer('week')->nullable();
             $table->boolean('result')->nullable();
             $table->timestamps();
-            $table->unique(['selection_id', 'selection', 'user_id', 'pool_id', 'week']);
-            
-
+            $table->unique(['selection_id', 'selection', 'user_id', 'ticket_id', 'week']);
         });
     }
 

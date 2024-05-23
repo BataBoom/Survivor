@@ -20,6 +20,18 @@ class Pool extends Model
     public const TYPES = ['survivor', 'pickem'];
 
     public const PRIZETYPES = ['crypto', 'credits', 'promotion'];
+
+    //Relationship to payments
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'pool_id', 'id');
+    }
+
+    public function getTotalPrizeAttribute()
+    {
+        return $this->prize + $this->payments->sum('amount_usd');
+    }
+
     //Relationship for adding users to this pool
     public function registration()
     {
