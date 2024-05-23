@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Pool;
 use App\Models\User;
+use App\Models\WagerOption;
+use App\Models\WagerQuestion;
+use App\Models\WagerTeam;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Config;
-use Carbon\Carbon;
 
-class ForbiddenController extends Controller
+
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,9 +44,12 @@ class ForbiddenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Pool $pool)
+    public function show()
     {
-        return view('forbidden.pool', ['pool' => $pool, 'type' => ucfirst($pool->type), 'start_date' =>Config::get('survivor.start_date') ,]);
+        return view('my-pools', [
+            'myPools' => Auth::user()->pools->load('pool'),
+
+        ]);
     }
 
     /**
