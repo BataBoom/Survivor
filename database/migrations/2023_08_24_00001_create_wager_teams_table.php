@@ -18,7 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('team_id')->comment('espn lookup, leagues overlap ids');
             $table->string('name');
             $table->string('abbreviation')->nullable();
-            $table->enum('league', ['nfl', 'mlb', 'nba', 'ncaaf', 'wrestling', 'mma', 'nhl']);
+            $table->string('division')->nullable();
+            $table->string('conference')->nullable();
+            $table->enum('league', ['nfl', 'mlb', 'nba', 'ncaaf', 'wrestling', 'mma', 'nhl'])->default('nfl');
             $table->unique(['team_id', 'name', 'league']);
             $table->timestamps();
         });
