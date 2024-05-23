@@ -46,6 +46,7 @@ class CreatePoolRequest extends FormRequest
             'lives_per_person' => ['required', 'integer', 'min:1', 'max:3'],
             'prize_type' => ['required', 'string', 'max:200'],
             //'prize_type' => ['required', 'in', implode(',',Pool::PRIZETYPES)],
+            'public' => ['required', 'boolean'],
             'prize' => ['required', 'integer', 'min:0'],
             'status' => ['required', 'boolean'],
 

@@ -23,9 +23,10 @@ class PoolController extends Controller
     public function index()
     {
         return view('pools.index', [
-            'pools' => Pool::withCount('users')
-            ->orderBy('users_count', 'desc')
-            ->get(),
+            'pools' => Pool::Where('public, true')
+                ->withCount('users')
+                ->orderBy('users_count', 'desc')
+                ->get(),
             'start_date' => Config::get('survivor.start_date')
         ]);
     }

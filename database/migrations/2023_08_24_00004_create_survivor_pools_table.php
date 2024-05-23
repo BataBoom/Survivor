@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('survivor_pools', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->Uuid('id')->primary();
             $table->string('name');
             $table->integer('lives_per_person')->default(0);
-            $table->enum('type', ['survivor', 'pickem', 'testing']);
+            $table->enum('type', ['survivor', 'pickem']);
             $table->double('entry_cost', 8, 2)->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();

@@ -26,6 +26,11 @@ class SurvivorRegistration extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'id', 'ticket_id');
+    }
+
     public function picks()
     {
         return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('pool_id', $this->pool_id)->orderBy('week');

@@ -19,15 +19,15 @@
                         <label for="first_name" class="block text-sm font-medium text-gray-700">Pool Name</label>
                         <input type="text" value="{{ old('name') }}" name="name" class="mt-1 block input input-bordered input-primary w-full sm:text-sm">
                     </div>
-                    <!---
+
                     <div>
                         <label for="accessibility" class="block text-sm font-medium text-gray-700">Pool Accessibility</label>
-                        <select class="select select-primary w-full max-w-xs">
-                            <option selected>Public</option>
-                            <option>Unlisted / Private</option>
+                        <select name="public" class="select select-primary w-full max-w-xs">
+                            <option value="true" selected>Public</option>
+                            <option value="false">Unlisted / Private</option>
                         </select>
                     </div>
-                    --->
+
                     <div>
                         <label for="accessibility" class="block text-sm font-medium text-gray-700">Pool Type</label>
                         <select name="type" class="select select-primary w-full">
