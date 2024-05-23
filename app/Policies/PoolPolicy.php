@@ -61,7 +61,7 @@ class PoolPolicy
             return true;
         }
 
-        return false;
+        return $user->id === $pool->creator_id;
     }
 
     /**
