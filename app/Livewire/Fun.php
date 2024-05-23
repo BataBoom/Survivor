@@ -34,11 +34,13 @@ class Fun extends Component
 
     public $week;
 
+    public $realWeek;
+
     public $mypicks;
 
     public $choices;
 
-    public $selectTeam;
+    public $selectTeam = '';
 
     public $delteam;
 
@@ -55,6 +57,9 @@ class Fun extends Component
 
         $this->week = $this->decipherWeek();
 
+        //$this->realWeek = $this->decipherWeek();
+        $this->realWeek = 1;
+
         $this->survivor = $this->pool?->contenders->where('user_id', $this->user->id)->first();
         $this->mypicks = $this->survivor->survivorPicks()->get();
 
@@ -64,13 +69,14 @@ class Fun extends Component
     }
 
     public $rules = [
-        'selectTeam' => 'required|array',
+        'selectTeam' => 'required|string',
         'delteam' => 'required|array',
     ];
 
     public function UpdatedWeek()
     {
-        $this->teamsLeft($this->week);
+        $this->choices = $this->teamsLeft($this->week);
+        $this->reset('selectTeam');
     }
 
     public function teamsLeft($week)
@@ -98,12 +104,12 @@ class Fun extends Component
     public function changeWeek()
     {
         $this->biggestLoser($this->week);
-        $this->teamsLeft($this->week);
+        $this->choices = $this->teamsLeft($this->week);
     }
 
     public function hydrate() {
         $this->biggestLoser($this->week);
-        $this->teamsLeft($this->week);
+        $this->choices = $this->teamsLeft($this->week);
 
         //$this->mypicks = $this->survivor->survivorPicks()->get();
         //$this->choices = $this->teamsLeft($this->week);
@@ -112,38 +118,54 @@ class Fun extends Component
 
     public function submit() {
 
-        //dd($this->selectTeam);
-        $locateSelection = WagerOption::with('question')
-            ->where('week', $this->week)
-            ->where('option', $this->selectTeam[0])
-            ->first();
 
-        try {
-            Survivor::updateOrCreate(
-                ['week' => $this->week, 'user_id' => $this->user->id, 'ticket_id' => $this->survivor->id],
-                [
-                    'game_id' => $locateSelection->game_id,
-                    'selection_id' => $locateSelection->team_id,
-                    'selection' => $locateSelection->option,
-                    'ticket_id' => $this->survivor->id,
-                ]
-            );
+        $this->validateOnly('selectTeam');
 
-            $this->toast(
-                type: 'success',
-                title: 'Added! Week ' . $this->week.' - '.$this->selectTeam[0],
-                description: null,                  // optional (text)
-                position: 'toast-top toast-end',    // optional (daisyUI classes)
-                icon: 'o-information-circle',       // Optional (any icon)
-                css: 'alert-info',                  // Optional (daisyUI classes)
-                timeout: 3000,                      // optional (ms)
-                redirectTo: null                    // optional (uri)
-            );
+        $isAllowed = $this->isAllowed($this->selectTeam);
+        $status = $isAllowed[0];
 
-        } catch (Exception $e) {
+        if($status) {
 
+            $locateSelection = WagerOption::with('question')
+                ->where('week', $this->week)
+                ->where('option', $this->selectTeam)
+                ->first();
+
+            try {
+
+                $this->survivor->survivorPicks()->updateOrCreate(
+                    ['week' => $locateSelection->week, 'user_id' => $this->user->id, 'ticket_id' => $this->survivor->id],
+                    [
+                        'game_id' => $locateSelection->game_id,
+                        'selection_id' => $locateSelection->team_id,
+                        'selection' => $locateSelection->option,
+                    ]
+                );
+
+                $this->toast(
+                    type: 'success',
+                    title: 'Added! Week ' . $this->week . ' - ' . $this->selectTeam,
+                    description: null,                  // optional (text)
+                    position: 'toast-top toast-end',    // optional (daisyUI classes)
+                    icon: 'o-information-circle',       // Optional (any icon)
+                    css: 'alert-info',                  // Optional (daisyUI classes)
+                    timeout: 3000,                      // optional (ms)
+                    redirectTo: null                    // optional (uri)
+                );
+
+            } catch (Exception $e) {
+                report($e);
+                $this->error(
+                    'Cannot select ' . $this->selectTeam . '. Check your selections and try again...',
+                    timeout: 3000,
+                    position: 'toast-top toast-end'
+                );
+            }
+
+        } else {
             $this->error(
-                'Cannot select ' . $this->selectTeam[0]. '. Check your selections and try again...',
+                'Cannot select ' . $this->selectTeam,
+                description: $isAllowed[1],
                 timeout: 3000,
                 position: 'toast-top toast-end'
             );
@@ -152,13 +174,15 @@ class Fun extends Component
 
         $this->mypicks = $this->survivor->survivorPicks()->get();
         $this->choices = $this->teamsLeft($this->week);
+        $this->reset('selectTeam');
+
     }
 
 
     public function isAllowed($pick) {
 
         //Determine if user has placed this pick before, and if he has it hasnt been graded yet.
-        $status = $this->survivor->survivorPicks()->where('selection', $pick)->whereNull('result')->exists();
+        $status = $this->survivor->survivorPicks()->where('selection', $pick)->whereNotNull('result')->doesntExist();
 
         //Locate the game and ensure it hasnt started yet.
         if($status) {
@@ -174,7 +198,7 @@ class Fun extends Component
 
         } else {
 
-            $message = "You've already used this team, and the match has been graded.";
+            $message = "Game Started.";
         }
 
         if($status && !$isLive) {
@@ -182,15 +206,16 @@ class Fun extends Component
             $status = false;
         }
 
+        //dd([$status, $message]);
         return [$status, $message];
 
     }
 
-    #[Renderless]
     public function RemovePick($pick, $week) {
 
         $isAllowed = $this->isAllowed($pick);
         $status = $isAllowed[0];
+
         if($status) {
 
             if($this->survivor->survivorPicks()->where(['selection' => $pick, 'week' => $week])->delete()) {
@@ -219,6 +244,10 @@ class Fun extends Component
                 position: 'toast-top toast-end'
             );
         }
+
+
+
+
     }
 
     public function biggestLoser($week)

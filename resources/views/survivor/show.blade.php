@@ -55,7 +55,7 @@
         <div class="flex-flex-col">
             <div>
                 Viewing Survivor Game
-            <livewire:survivor-game :currentPool="$pool" :survivor="$survivor" />
+            <livewire:survivor-game :pool="$pool" />
             </div>
 
             @can('view', $globalPickem)
