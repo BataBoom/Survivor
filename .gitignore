@@ -2,3 +2,6 @@
 vendor/
 storage/
 node_modules/
+!storage/framework/views
+!storage/framework/sessions
+!storage/framework/cache
