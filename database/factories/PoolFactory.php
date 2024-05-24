@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Pool;
+use App\Models\SurvivorRegistration;
+use App\Models\Survivor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -58,6 +60,38 @@ class PoolFactory extends Factory
             return [
                 'creator_id' => User::factory(),
             ];
+        });
+    }
+/*
+    public function configure()
+    {
+        return $this->afterCreating(function (Pool $pool) {
+            $pool->contenders()
+                ->saveMany(SurvivorRegistration::factory(['pool_id' => $pool->id])->count(5)->create());
+        });
+    }
+*/
+    public function survivor(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'lives_per_person' => 1,
+                'type' => $this->type[0],
+            ];
+        })->afterMaking(function (Pool $pool) {
+            // ...
+        })->afterCreating(function (Pool $pool) {
+            $registrations = SurvivorRegistration::factory(['pool_id' => $pool->id])
+                ->count(2)
+                ->create();
+            /*
+          * Moved this part to seeder SimulateSeasonSeeder... for now
+          $registrations->each(function ($registration) {
+              $registration->tickets()->create(Survivor::factory(['ticket_id' => $registration->id])->raw());
+          });
+          */
+
+            $pool->contenders()->saveMany($registrations);
         });
     }
 
