@@ -4,7 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Pool;
-use Validator;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,11 +26,28 @@ class CreatePoolRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
+
+        if ($this->input('entry_cost') > 1 || $this->input('guaranteed_prize') > 1) {
+            $hidden = true;
+        } else {
+            $hidden = false;
+        }
+
         $this->merge([
             'status' => true,
             'creator_id' => Auth::user()->id,
-            'public' => true,
+            'hidden' => $hidden,
+            'public' => filter_var($this->public, FILTER_VALIDATE_BOOLEAN),
         ]);
+
+       //dd($this->all());
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            redirect()->back()->withErrors($validator)->withInput()
+        );
     }
 
     /**
@@ -41,17 +59,17 @@ class CreatePoolRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:200'],
-            //'type' => ['required', 'in', implode(',',Pool::TYPES)],
             'type' => ['required', 'string', 'max:200'],
             'entry_cost' => ['nullable', 'integer', 'min:0'],
             'lives_per_person' => ['required', 'integer'],
             'prize_type' => ['required', 'string', 'max:200'],
-            //'prize_type' => ['required', 'in', implode(',',Pool::PRIZETYPES)],
             'public' => ['required', 'boolean'],
-            'guaranteed_prize' => ['required', 'integer'],
+            'hidden' => ['required', 'boolean'],
+            'guaranteed_prize' => ['required', 'numeric'],
             'status' => ['required', 'boolean'],
-
+            'creator_id' => ['required', 'exists:users,id'],
 
         ];
+
     }
 }

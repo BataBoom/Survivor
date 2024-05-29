@@ -49,6 +49,11 @@ class SurvivorRegistration extends Model
         return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('ticket_id', $this->id)->orderBy('week');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('ticket_id', $this->id);
+    }
+
 
     public function scopeAlive($query)
     {

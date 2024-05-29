@@ -47,11 +47,16 @@ class SurvivorGame extends Component
 
 
 
+
+
+
     /* Survivor & currentPool are mounted from view */
     public function mount()
     {
         //Sub 30 mins for security..
         $this->currentTimeEST = Carbon::now(new DateTimeZone('America/New_York'))->subMinutes(30);
+
+        //$this->
 
         $this->user = Auth::User();
 

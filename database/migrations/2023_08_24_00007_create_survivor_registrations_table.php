@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')
             ->constrained()
             ->onUpdate('cascade')
-            ->onDelete('cascade');
+            ->onDelete('restrict');
             $table->foreignUuid('pool_id')->references('id')->on('survivor_pools')
             ->constrained()
             ->onUpdate('cascade')

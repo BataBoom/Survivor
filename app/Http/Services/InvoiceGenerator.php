@@ -29,14 +29,10 @@ class InvoiceGenerator {
 
 
         try {
-            $response = Http::accept('application/json')->post("https://".env('MERCHANT_DOMAIN').'/api/createCashiersInvoice?auth_token='.env('MERCHANT_TOKEN'),[
+            $response = Http::accept('application/json')->post("https://".env('MERCHANT_DOMAIN').'/api/createSurvivorInvoice?auth_token='.env('MERCHANT_TOKEN'),[
                 'user_id' => $this->user->id,
                 'username' => $this->user->name,
                 'amount' => $this->getTotal(),
-                'ip' => '0.0.0.0', //must be set
-                'duration' => '365 days', //must be set
-                'shop_hash' => $this->survivorRegistration->id,
-                'type'=> 69, //must
                 'product'=> 0, //must be set
             ]);
 

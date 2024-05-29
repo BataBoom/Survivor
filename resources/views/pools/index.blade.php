@@ -52,7 +52,6 @@
                                 </td>
                                 <td>{{ $pool->lives_per_person }}</td>
                                 <td>{{ $pool->users->count() }}</td>
-
                                 <td> {{ $start_date->diffForHumans() .' / '.$start_date->format('jS \o\f F, Y')}}</td>
                                 <td>
                                     <a class="btn btn-sm" x-clipboard.raw="{{ route('pool.show', ['pool' => $pool->id]) }}">

@@ -57,11 +57,16 @@ class PoolPolicy
      */
     public function delete(User $user, Pool $pool): bool
     {
+        return $pool->contenders->where('alive', true)->isEmpty();
+
         if($user->isAdmin()) {
             return true;
         }
 
-        return $user->id === $pool->creator_id;
+        if($user->id === $pool->creator_id) {
+            return true;
+        }
+
     }
 
     /**

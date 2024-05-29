@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Event;
 use App\Listeners\FreshRegistrationListener;
 use App\Events\PoolCreated;
 use App\Listeners\PoolCreatedListener;
+use App\Events\IncomingPaymentEvent;
+use App\Listeners\IncomingPaymentListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,10 +24,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
             FreshRegistrationListener::class,
-        ],
+
+            ],
         PoolCreated::class => [
             PoolCreatedListener::class
             ],
+
+        IncomingPaymentEvent::class => [
+            IncomingPaymentListener::class,
+        ]
     ];
 
     /**

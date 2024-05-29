@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->Uuid('id');
-            $table->foreignId('user_id')->references('id')->on('users')->constrained();
+            $table->foreignId('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->enum('payment_type', ['crypto', 'other'])->default('crypto');
-            $table->foreignUuid('pool_id')->references('id')->on('survivor_pools')->constrained();
+            $table->foreignUuid('pool_id')->references('id')->on('survivor_pools')->restrictOnDelete();
+            //$table->foreignUuid('pool_id')->constrained('survivor_pools')->restrictOnDelete();
             $table->nullableUuidMorphs('ticket');
             $table->boolean('paid')->default(true);
             $table->string('payment_id')->nullable()->comment('3rd party ref');
@@ -27,6 +28,8 @@ return new class extends Migration
             $table->string('crypto_method')->nullable();
 
             $table->unique(['id', 'user_id', 'payment_id', 'ticket_id']);
+
+            $table->softDeletes();
         });
     }
 

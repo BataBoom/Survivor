@@ -8,6 +8,7 @@ use App\Http\Controllers\SurvivorController;
 use App\Livewire\Pickem;
 use App\Livewire\Fun;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
 
 
 /*
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Volt::route('/loginv2', 'loginv2')->name('loginv2');
+
 Route::view('/', 'welcome');
 
 Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool');
@@ -31,6 +34,12 @@ Route::get('/my-pools/create', [PoolController::class, 'create'])->name('pool.cr
 Route::get('/my-pools/{pool:id}/delete', [PoolController::class, 'destroy'])->name('pool.destroy');
 Route::post('/my-pools/create', [PoolController::class, 'store'])->middleware('auth')->name('pool.post');
 Route::get('/my-pools/register/{pool:id}', [PoolController::class, 'register'])->name('pool.register')->middleware('auth');
+Route::post('/my-pools/register/{pool:id}/checkout', [PoolController::class, 'checkout'])->name('pool.checkout')->middleware('auth');
+
+Route::get('/my-pools/{pool:id}/setup', [PoolController::class, 'finishSetup'])->name('pool.setup');
+Route::post('/my-pools/{pool:id}/setup/checkout', [PoolController::class, 'creatorCheckout'])->name('pool.creatorCheckout')->middleware('auth');
+
+
 Route::get('/my-pools/leave/{survivorregistration:id}', [PoolController::class, 'leave'])->name('pool.leave')->middleware('auth');
 
 Route::middleware(['auth', 'survivor'])->group(function () {

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('survivor_pools', function (Blueprint $table) {
             $table->boolean('public')->default(true);
+            $table->boolean('hidden')->default(false);
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('survivor_pools', function (Blueprint $table) {
             $table->dropColumn('public');
+            $table->dropColumn('hidden');
         });
     }
 };

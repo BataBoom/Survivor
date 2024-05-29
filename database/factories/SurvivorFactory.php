@@ -14,9 +14,11 @@ class SurvivorFactory extends Factory
 {
     protected $model = Survivor::class;
 
+    public $game;
+
     public function definition()
     {
-        $game = WagerQuestion::Where('week', 1)->get()->random();
+        $game = WagerQuestion::Where('week', $this->week)->get()->random();
         $selection = $game->gameoptions->random();
         //$pool = Pool::Where('type', 'survivor')->where('lives_per_person', 1)->first();
 
@@ -25,11 +27,27 @@ class SurvivorFactory extends Factory
             'user_id' => User::factory(),
             'selection' => $selection->option,
             'selection_id' => $selection->team_id,
-            //'pool_id' => $pool->id,
             'ticket_id' => SurvivorRegistration::factory(),
             'week' => $game->week,
         ];
     }
-
-
+/*
+    public function exclusive(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'game_id' => $game->game_id,
+                'user_id' => User::factory(),
+                'selection' => $selection->option,
+                'selection_id' => $selection->team_id,
+                'ticket_id' => SurvivorRegistration::factory(),
+                'week' => $game->week,
+            ];
+        })->afterMaking(function (Pool $pool) {
+            // ...
+        })->afterCreating(function (Pool $pool) {
+            //
+        });
+    }
+*/
 }

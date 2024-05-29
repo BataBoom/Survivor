@@ -120,8 +120,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="flex flex-col lg:grid lg:grid-rows-1 lg:grid-flow-col gap-2 lg:gap-4 items-center pb-2  mx-4">
@@ -181,7 +179,7 @@
                                 <div class="glass rounded-xl p-2 my-4">
 
                                     <div class="flex flex-wrap justify-center lg:justify-evenly py-4 items-center">
-                                        @if($week > 1 && $realWeek >= $week)
+                                        @if(strtotime(date('Y-m-d')) > strtotime('2024-09-12') && $realWeek >= $week)
                                             <div class="col pb-2 lg:pb-0">
                                                 <div class="flex items-center justify-center">
                                                     <div class="text-center">

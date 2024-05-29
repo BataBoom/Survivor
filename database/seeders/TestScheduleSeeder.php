@@ -22,7 +22,7 @@ class TestScheduleSeeder extends Seeder
         $year = 2023;
 
 
-        while ($week < 2) { // Assuming the maximum value of $week is 18
+        while ($week < 18) { // Assuming the maximum value of $week is 18
 
             $file = json_decode(file_get_contents('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week='.$week.'&dates='.$year), true);
 

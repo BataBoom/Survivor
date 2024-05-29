@@ -30,9 +30,9 @@ class WagerQuestion extends Model
     return $this->hasMany(WagerOption::class, 'game_id', 'game_id');
     }
 
-    public function result()
+    public function results()
     {
-    return $this->belongsTo(WagerResult::class, 'game', 'game_id');
+    return $this->belongsTo(WagerResult::class, 'game_id', 'game');
     }
 
     public function wagers()

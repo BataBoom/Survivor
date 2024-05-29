@@ -20,5 +20,8 @@ abstract class TestCase extends BaseTestCase
         if ($alreadySeeded) {
             $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
         }
+
+
+        $this->artisan('db:seed', ['--class' => 'SimulateSeasonSeeder']);
     }
 }

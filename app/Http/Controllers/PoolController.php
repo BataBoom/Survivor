@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Config;
 use App\Http\Requests\CreatePoolRequest;
 use Validator;
 use Illuminate\Validation\Rule;
-use App\Http\Services\InvoiceGenerator;
+use App\Models\User;
+use App\Http\Services\InvoiceGeneratorV2;
 
 class PoolController extends Controller
 {
@@ -25,6 +26,7 @@ class PoolController extends Controller
     {
         return view('pools.index', [
             'pools' => Pool::Where('public', true)
+                ->Where('hidden', false)
                 ->withCount('users')
                 ->orderBy('users_count', 'desc')
                 ->get(),
@@ -48,12 +50,20 @@ class PoolController extends Controller
 
         $validated = $request->validated();
 
+        /*
+        dd($validated);
         $create = Pool::create(
             $validated
         );
+        */
 
-        if($create->id) {
-            $request->session()->flash('success', 'Pool Created Successfully');
+        if($validated['entry_cost'] == 0 && $validated['guaranteed_prize'] == 0) {
+
+            $create = Pool::create(
+                $validated
+            );
+
+            $request->session()->flash('success', 'Created & Registered in Pool: '. $create->name);
 
             SurvivorRegistration::Create([
                 'user_id' => Auth::user()->id,
@@ -64,6 +74,17 @@ class PoolController extends Controller
 
             return redirect()->route('mypools.show');
 
+
+        } elseif($validated['entry_cost'] !== 0 || $validated['guaranteed_prize'] !== 0) {
+
+           $create = Pool::create(
+                $validated
+            );
+
+            $request->session()->flash('success', 'Pool Created Successfully.');
+
+            return redirect()->route('forbidden.pool', ['pool' => $create->id]);
+
         } else {
 
             $request->session()->flash('errors', 'Error Creating Pool. Try again.');
@@ -72,7 +93,7 @@ class PoolController extends Controller
                 ->withErrors($validated)
                 ->withInput();
         }
-
+              
     }
 
     /**
@@ -148,6 +169,7 @@ class PoolController extends Controller
             }
         } else {
 
+            /*
             $register = $pool->registration()->create([
                 'user_id' => Auth::user()->id,
                 'alive' => true,
@@ -162,8 +184,55 @@ class PoolController extends Controller
             //$request->session()->flash('error', 'Error! Registration Ended!');
 
             return redirect()->away($paymentURL);
+            */
+            return view('checkout.show', ['pool' => $pool]);
         }
     }
+
+    public function finishSetup(Request $request, Pool $pool)
+    {
+        $setupCost = number_format($pool->entry_cost + $pool->guaranteed_prize, 2);
+
+        return view('checkout.setup', ['pool' => $pool, 'setupCost' => $setupCost]);
+    }
+
+    public function checkout(Request $request, Pool $pool)
+    {
+
+        $user = User::Where('email', $request->input('email'))->first();
+
+        if($user) {
+
+            $payment = new InvoiceGeneratorV2($user, $pool);
+            $paymentURL = $payment->makeInvoice();
+            return redirect()->away($paymentURL);
+
+        } else {
+            $request->session()->flash('error', "Email has not been registered!");
+            return back();
+        }
+    }
+
+    public function creatorCheckout(Request $request, Pool $pool)
+    {
+        $user = $pool->creator;
+
+        if($user) {
+
+            $payment = new InvoiceGeneratorV2($user, $pool);
+            $payment->extraFee = $pool->guaranteed_prize;
+            $paymentURL = $payment->makeCreatorInvoice();
+
+            return redirect()->away($paymentURL);
+
+        } else {
+            $request->session()->flash('error', "Email has not been registered!");
+            return back();
+        }
+
+
+    }
+
 
     public function leave(Request $request, SurvivorRegistration $survivorregistration) {
 

@@ -44,4 +44,9 @@ class Survivor extends Model
         return $this->hasOne(WagerResult::class, 'game', 'game_id');
     }
 
+    public function ticket()
+    {
+        return $this->belongsTo(SurvivorRegistration::class, 'ticket_id');
+    }
+
 }
