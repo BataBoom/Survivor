@@ -103,7 +103,7 @@ trait SurvivorTrait
     public function isLive($week, $pick): bool
     {
         //return false;
-        $currentTimeEST = Carbon::now(new DateTimeZone('America/New_York'))->subMinutes(30);
+        $currentTimeEST = now();
 
         $locateSelection = WagerOption::with('question')
             ->where('week', $week)
@@ -120,5 +120,23 @@ trait SurvivorTrait
 
 
         $combined = collect($keys)->combine($combinedData);
+    }
+
+    public function canUpdatePick()
+    {
+        $locateSelection = WagerOption::with('question')
+            ->where('week', $this->week)
+            ->where('option', $this->selectTeam)
+            ->first();
+
+        // If the record has been graded, disallow update
+        if (!is_null($model->result)) {
+            return false;
+        }
+
+        // If the game has started, disallow update
+        if ($model->question->starts_at->lessThan(now())) {
+            return false;
+        }
     }
 }
