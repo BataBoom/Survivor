@@ -13,7 +13,10 @@ php artisan migrate
 php artisan db:seed
 ```
 
-Still in development, Refactoring last years version.
+Login: admin@github.com
+Password: YourAdminPassword (or as defined in .env)
+
+
 
 ![](https://i.imgur.com/MiHsVs0.png)
 ![](https://i.imgur.com/njHpkJD.png)
