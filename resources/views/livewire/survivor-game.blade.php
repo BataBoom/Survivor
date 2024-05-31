@@ -100,8 +100,10 @@
                                 <div class="mx-4">
                                     NFL Survivor
                                 </div>
-                                <div class="mx-4">
-                                    Week {{ $week }}
+                                <div class="flex flex-col">
+                                   <p class="text-xs lg:text-sm px-4 block">Real Week {{ $realWeek }}<p>
+
+                                    <p class="text-xs lg:text-sm px-4 block">Display Week: {{$week}}</p>
                                 </div>
                             </div>
                         </div>
@@ -150,11 +152,19 @@
                                 </div>
 
                                 <div class="mx-8 lg:mx-14 py-6">
+                                    @if($mypicks->isNotEmpty())
                                     <h1 class="text-center text-lg text-accent">Your Selections:</h1>
+                                    @endif
                                     <div class="grid grid-cols-3 items-center mt-2 text-xs lg:text-base mx-auto gap-y-2">
                                         @forelse ($mypicks as $pick)
                                             <div class="col-span-2 flex justify-start item-center">
-                                                <p> Week {{ $pick->week }}: {{ $pick->selection }}</p>
+                                                <p @class([
+                                                        'text-white/100' => is_null($pick->result),
+                                                        'text-red-500/100' => $pick->result === 0,
+                                                        'text-green-500/100' => $pick->result === 1,
+                                                    ])>
+                                                    Week {{ $pick->week }}: {{ $pick->selection }}
+                                                </p>
                                             </div>
                                             <div class="col-span-1 flex justify-end item-center">
                                                 @if ($pick->result === null)
