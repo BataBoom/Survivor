@@ -31,6 +31,19 @@ $logout = function (Logout $logout) {
                     <x-nav-link :href="route('mypools.show')" :active="request()->routeIs('mypools.show')" wire:navigate>
                         {{ __('My Pools') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('my-payments.index')" :active="request()->routeIs('my-payments.index')" wire:navigate>
+                        {{ __('My Payments') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('trophies.index')" :active="request()->routeIs('trophies.index')" wire:navigate>
+                        {{ __('Trophy Room') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('support.index')" :active="request()->routeIs('support.index')" wire:navigate>
+                        {{ __('Contact Support') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
@@ -55,9 +68,22 @@ $logout = function (Logout $logout) {
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
-                        <x-responsive-nav-link :href="route('mypools.show')">
+                        <x-dropdown-link :href="route('mypools.show')" wire:navigate>
                             {{ __('My Pools') }}
-                        </x-responsive-nav-link>
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('my-payments.index')" wire:navigate>
+                            {{ __('My Payments') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('trophies.index')" wire:navigate>
+                            {{ __('Trophy Room') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('support.index')" wire:navigate>
+                            {{ __('Contact Support') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
@@ -102,8 +128,20 @@ $logout = function (Logout $logout) {
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('mypools.show')">
+                <x-responsive-nav-link :href="route('mypools.show')" wire:navigate>
                     {{ __('My Pools') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('my-payments.index')" wire:navigate>
+                    {{ __('My Payments') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('trophies.index')" wire:navigate>
+                    {{ __('Trophy Room') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('support.index')" wire:navigate>
+                    {{ __('Support') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

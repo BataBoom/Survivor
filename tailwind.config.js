@@ -31,11 +31,7 @@ export default {
             current: "currentColor",
             black: "#000",
             white: "#fff",
-            bluegray: colors.blueGray,
-            coolgray: colors.coolGray,
             gray: colors.gray,
-            truegray: colors.trueGray,
-            warmgray: colors.warmGray,
             red: colors.red,
             orange: colors.orange,
             amber: colors.amber,
@@ -54,6 +50,11 @@ export default {
             pink: colors.pink,
             rose: colors.rose,
             neutral: colors.neutral,
+            slate: colors.slate,
+            zinc: colors.zinc,
+            stone: colors.stone,
+
+
         },
     },
 
