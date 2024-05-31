@@ -51,9 +51,13 @@
                                 <td>{{ $pool->name }}</td>
                                 <td>{{ $pool->prize_type }} @if($pool->prize) |  {{ $pool->prize }} @endif</td>
                                 <td>
-                                    <a
-                                            class="btn btn-sm btn-success"
-                                            href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register</a>
+                                    @if(Auth::user()->is($pool->creator))
+                                    <a      class="btn btn-success"
+                                            href="{{ route('pool.setup', ['pool' => $pool->id]) }}" wire:navigate>Finish Set up, Pay Entry Fee: ${{$pool->entry_cost }} @if($pool->guaranteed_prize > 1) + Guaranteed: ${{$pool->guaranteed_prize }} @endif</a>
+                                    @else
+                                        <a      class="btn btn-sm btn-success"
+                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register, Entry Fee: ${{$pool->entry_cost }}</a>
+                                    @endif
                                 </td>
                                 <td>{{ now()->greaterThan(Config::get('survivor.start_date')) ? 'In progress' : 'Registering' }}</td>
                                 <td>{{ $pool->lives_per_person }}</td>
@@ -70,8 +74,6 @@
                         <a href="{{ route('pools.browse') }}" class="btn btn-primary w-1/2 mx-4" wire:navigate>Browse Pools</a>
                         <a class="btn btn-success w-1/2 mx-4">Create Pool</a>
                     </div>
-
-
                 </div>
             </div>
         </div>

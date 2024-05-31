@@ -46,7 +46,7 @@
                     </div>
 
 
-                    <div id="body" class="bg-neutral-500 text-white text-xl items-center rounded-b-xl">
+                    <div id="body" class="text-white text-xl items-center rounded-b-xl">
 
                         <div class="flex justify-evenly">
                             @if($week >= $whatweek)
