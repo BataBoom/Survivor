@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 
+
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -12,7 +13,11 @@ use App\Events\PoolCreated;
 use App\Listeners\PoolCreatedListener;
 use App\Events\IncomingPaymentEvent;
 use App\Listeners\IncomingPaymentListener;
-
+use App\Events\SurvivedAWeekEvent;
+use App\Listeners\SurvivedAWeekEventListener;
+use App\Events\SurvivorDiedEvent;
+use App\Listeners\SurvivorDiedListener;
+use Illuminate\Auth\Events\Verified;
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -23,16 +28,23 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-            FreshRegistrationListener::class,
+        ],
 
-            ],
+        Verified::class => [
+            FreshRegistrationListener::class,
+        ],
+
         PoolCreated::class => [
             PoolCreatedListener::class
-            ],
+        ],
 
-        IncomingPaymentEvent::class => [
-            IncomingPaymentListener::class,
-        ]
+        SurvivedAWeekEvent::class => [
+            SurvivedAWeekEventListener::class,
+        ],
+
+        SurvivorDiedEvent::class => [
+            SurvivorDiedListener::class,
+        ],
     ];
 
     /**

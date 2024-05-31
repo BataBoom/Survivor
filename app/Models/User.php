@@ -8,10 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
 
     /**
@@ -48,6 +50,11 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->id === 1;
+    }
+
+    // Relationship With Pool (CREATOR)
+    public function createdPools() {
+        return $this->hasMany(Pool::class, 'creator_id', 'id');
     }
 
     // Relationship With SurvivorRegistration
@@ -98,6 +105,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Pool::class, 'creator_id');
     }
 
+    public function payments() {
+        return $this->hasMany(Payment::class, 'user_id');
+    }
+
     public function MyPicks()
     {
         return $this->hasMany(
@@ -111,6 +122,26 @@ class User extends Authenticatable implements FilamentUser
     public function isAdmin(): bool
     {
         return $this->id === 1;
+    }
+
+    /* Model for pending deletions..
+    * Yes Kinda ghetto but idc.. it works.
+    */
+    public function DeleteUser()
+    {
+        return $this->hasOne(DeleteUser::class, 'user_id', 'id');
+    }
+
+    /* Determine if user has wanted to delete itself
+    *
+    */
+    public function hasDeletedSelf(): bool
+    {
+        return $this->DeleteUser ? true : false;
+    }
+
+    public function tickets() {
+        return $this->hasMany(Ticket::class, 'user_id');
     }
 
 }

@@ -31,7 +31,7 @@ class Pool extends Model
 
     public function getTotalPrizeAttribute()
     {
-        return $this->prize + $this->payments->sum('amount_usd');
+        return '$'.number_format($this->guaranteed_prize + $this->payments->sum('amount_usd'), 2);
     }
 
     //Relationship for adding users to this pool
