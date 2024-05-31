@@ -67,7 +67,7 @@
                                             <div>
                                                 <a
                                                         class="btn btn-sm btn-error"
-                                                        href="{{ route('pool.destroy', ['pool' => $pool->pool->id]) }}">Delete</a>
+                                                        href="{{ route('pool.destroy', ['pool' => $pool->pool->id]) }}" disabled>Delete</a>
                                             </div>
                                         @endcan
                                     @if($pool->pool->entry_cost < 1)
@@ -169,7 +169,7 @@
                                                 <div>
                                                     <a
                                                             class="btn btn-sm btn-error"
-                                                            href="{{ route('pool.destroy', ['pool' => $pool->id]) }}">Delete</a>
+                                                            href="{{ route('pool.destroy', ['pool' => $pool->id]) }}" disabled>Delete</a>
                                                 </div>
                                             @endcan
                                         @endif
