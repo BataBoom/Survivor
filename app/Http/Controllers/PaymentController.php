@@ -4,25 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Pool;
 use App\Models\User;
-use App\Models\WagerOption;
-use App\Models\WagerQuestion;
-use App\Models\WagerTeam;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Config;
+use Carbon\Carbon;
 
-
-class HomeController extends Controller
+class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('payments', ['payments' => Auth::user()->payments]);
     }
 
     /**
@@ -44,14 +42,9 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(Request $request)
     {
-
-        return view('my-pools', [
-            'myPools' => Auth::user()->pools->load('pool'),
-            'createdPools' => Auth::user()->createdPools,
-
-        ]);
+        //
     }
 
     /**

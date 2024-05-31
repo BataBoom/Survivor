@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Pool extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected $table = 'survivor_pools';
     protected $guarded = [];
@@ -22,6 +23,7 @@ class Pool extends Model
     public const PRIZETYPES = ['crypto', 'credits', 'promotion'];
 
     //Relationship to payments
+
     public function payments()
     {
         return $this->hasMany(Payment::class, 'pool_id', 'id');
@@ -29,13 +31,13 @@ class Pool extends Model
 
     public function getTotalPrizeAttribute()
     {
-        return $this->prize + $this->payments->sum('amount_usd');
+        return '$'.number_format($this->guaranteed_prize + $this->payments->sum('amount_usd'), 2);
     }
 
     //Relationship for adding users to this pool
     public function registration()
     {
-        return $this->hasOne(SurvivorRegistration::class, 'pool_id');
+        return $this->hasMany(SurvivorRegistration::class, 'pool_id');
     }
 
     //Relationship for viewing Pool Registerees
@@ -44,16 +46,14 @@ class Pool extends Model
         return $this->hasMany(SurvivorRegistration::class, 'pool_id');
     }
 
-    //Only return users that are still alive
+    //Relationship to Survivor
     public function survivors()
     {
         return $this->hasManyThrough(
-            User::class,
+            Survivor::class,
             SurvivorRegistration::class,
             'pool_id', // Foreign key on SurvivorRegistration table...
-            'id',      // Foreign key on User table...
-            'id',      // Local key on Pool table...
-            'user_id'  // Local key on SurvivorRegistration table...
+            'ticket_id',      // Foreign key on Survivor table...
         )->where('alive', true);
     }
 
@@ -76,5 +76,15 @@ class Pool extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
+
+    public function IsSetupAttribute()
+    {
+        if($this->contenders->isNotEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
