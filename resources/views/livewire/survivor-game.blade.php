@@ -156,8 +156,8 @@
                                             <div class="col-span-2 flex justify-start item-center">
                                                 <p @class([
                                                         'text-white/100' => is_null($pick->result),
-                                                        'line-through text-red-500 font-bold' => $pick->result === 0,
-                                                        'text-green-500/100 font-semibold' => $pick->result === 1,
+                                                        'text-red-500/100' => $pick->result === 0,
+                                                        'text-green-500/100' => $pick->result === 1,
                                                     ])>
                                                     Week {{ $pick->week }}: {{ $pick->selection }}
                                                 </p>
@@ -261,13 +261,16 @@
                     <div class="col glass rounded-2xl">
                         <div class="flex flex-col">
                             <form wire:submit.prevent="submit">
+                                <input class="hidden" wire:model="currentTimeEST"/>
                                 <div class="col px-4 pt-4">
                                     <select size="15"
                                             class="select select-success h-full w-full text-center text-white text-3xl rounded-t-xl px-4 pt-4"
-                                            wire:model.live="selectTeam">
+                                            wire:model.defer="selectTeam">
                                         <option disabled selected class="text-primary text-xl">Select Team</option>
                                         @forelse ($choices as $choice)
-                                            <option class="text-white text-xl"> {{ $choice->get('name') }} </option>
+                                            <option class="text-white text-xl" value="{{ $choice->get('OptionID') }}">
+                                                {{ $choice->get('TeamName') }}
+                                            </option>
                                         @empty
                                             <option class="text-white text-xl"> EMPTY?</option>
                                         @endforelse
