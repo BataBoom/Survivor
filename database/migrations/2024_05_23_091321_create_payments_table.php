@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('crypto_method')->nullable();
 
             $table->unique(['id', 'user_id', 'payment_id', 'ticket_id']);
+
+  	    $table->softDeletes();
         });
     }
 
