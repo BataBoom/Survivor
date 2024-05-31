@@ -23,6 +23,8 @@ return new class extends Migration
             $table->timestamps();
             $table->double('guaranteed_prize', 8, 2)->default(0);
             $table->enum('prize_type', ['crypto', 'credits', 'promotion'])->default('crypto');
+
+	    $table->softDeletes();
         });
     }
 

@@ -45,20 +45,6 @@
                     </a>
                 </div>
 
-                <div class="bg-white transition text-accent hover:text-white hover:bg-orange-500  rounded-lg shadow-md p-6">
-                    <a href="{{ route('mypools.show') }}">
-                        <h2 class="text-xl font-bold mb-4">Quick Stats</h2>
-                        <p class="text-black hover:text-white font-semibold">Alive: 69 | Dead: 4
-                        </p>
-                    </a>
-                </div>
-
-                <div class="bg-white transition text-primary hover:text-accent hover:bg-blue-800  rounded-lg shadow-md p-6">
-                    <a href="http://telegram.me/satoshyeez_bot" target="_blank">
-                        <h2 class="text-xl font-bold mb-4">Telegram</h2>
-                        <p class="underline">Add us on the gram</p>
-                    </a>
-                </div>
 
                 <div class="bg-white transition text-primary hover:text-accent hover:bg-blue-800  rounded-lg shadow-md p-6">
                     <a href="{{ route('support.index') }}" target="_blank">
