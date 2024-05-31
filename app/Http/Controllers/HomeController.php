@@ -46,8 +46,10 @@ class HomeController extends Controller
      */
     public function show()
     {
+
         return view('my-pools', [
             'myPools' => Auth::user()->pools->load('pool'),
+            'createdPools' => Auth::user()->createdPools,
 
         ]);
     }

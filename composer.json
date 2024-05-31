@@ -17,7 +17,7 @@
         "livewire/volt": "^1.0",
         "mailersend/laravel-driver": "^2.6",
         "resend/resend-laravel": "^0.11.0",
-        "robsontenorio/mary": "^1.30"
+        "robsontenorio/mary": "1.30.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

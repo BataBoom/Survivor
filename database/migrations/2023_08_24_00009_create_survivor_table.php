@@ -23,7 +23,11 @@ return new class extends Migration
             $table->integer('week')->nullable();
             $table->boolean('result')->nullable();
             $table->timestamps();
+<<<<<<< Updated upstream:database/migrations/2023_08_24_00009_create_survivor_table.php
             $table->unique(['selection_id', 'selection', 'user_id', 'ticket_id', 'week']);
+=======
+            $table->unique(['selection_id', 'selection', 'user_id', 'pool_id', 'week']);
+>>>>>>> Stashed changes:database/migrations/2023_08_24_00005_create_survivor_table.php
         });
     }
 
