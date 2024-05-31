@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('survivor', function (Blueprint $table) {
             $table->uuid('id');
             $table->foreignId('game_id')->references('game_id')->on('wager_questions')->cascadeOnDelete();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->cascadeOnDelete();
+            $table->foreignId('user_id')->references('id')->on('users')->restrictOnDelete();
             $table->string('selection')->nullable();
             $table->foreignId('selection_id')->references('team_id')->on('wager_options')->cascadeOnDelete();
             $table->foreignUuid('ticket_id')->references('id')->on('survivor_registrations')->cascadeOnDelete();
