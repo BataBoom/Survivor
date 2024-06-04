@@ -21,7 +21,7 @@ $logout = function (Logout $logout) {
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-200" />
                     </a>
                 </div>
-
+                @auth
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
@@ -43,14 +43,28 @@ $logout = function (Logout $logout) {
                     <x-nav-link :href="route('support.index')" :active="request()->routeIs('support.index')" wire:navigate>
                         {{ __('Contact Support') }}
                     </x-nav-link>
-
                 </div>
+                    @endauth
+                @guest
+                    <div class="max-md:hidden sm:fixed sm:top-0 sm:right-0 p-6 text-end z-10">
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>Log in</a>
+
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="ms-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500" wire:navigate>Register</a>
+                            @endif
+                        @endauth
+                    </div>
+                @endguest
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-
+                @auth
                 <x-dropdown align="right" width="48">
+
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
@@ -62,6 +76,7 @@ $logout = function (Logout $logout) {
                             </div>
                         </button>
                     </x-slot>
+
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile')" wire:navigate>
@@ -93,6 +108,7 @@ $logout = function (Logout $logout) {
 
 
                     </x-slot>
+                    @endauth
                 </x-dropdown>
             </div>
 
@@ -111,13 +127,26 @@ $logout = function (Logout $logout) {
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            @auth
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+                @endauth
+            @guest
+                    <x-responsive-nav-link :href="route('login')" :active="request()->routeIs('login')" wire:navigate>
+                        {{ __('Login') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
+                        {{ __('Register') }}
+                    </x-responsive-nav-link>
+                @endguest
+
         </div>
 
         <!-- Responsive Settings Options -->
+        @auth
         <div class="pt-4 pb-1 border-t border-gray-600">
+
             <div class="px-4">
                 <div class="font-medium text-base text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
@@ -150,7 +179,9 @@ $logout = function (Logout $logout) {
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </button>
+
             </div>
         </div>
+            @endauth
     </div>
 </nav>

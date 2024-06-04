@@ -6,6 +6,7 @@ use App\Http\Controllers\PickemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PoolController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\SurvivorController;
 use App\Livewire\Pickem;
 use App\Livewire\Fun;
@@ -47,7 +48,7 @@ Route::view('/landing', 'landing');
 
 Volt::route('/loginv2', 'loginv2')->name('loginv2');
 
-Route::view('/', 'welcome');
+Route::get('/', [GuestController::class, 'index'])->name('landing');
 
 Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool');
 
