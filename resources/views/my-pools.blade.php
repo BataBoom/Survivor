@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div>
         @session('success')
         <div class="flex justify-center">
         <div class="p-4 bg-green-500 rounded-xl max-w-7xl text-white text-xl text-center">
@@ -56,10 +56,17 @@
                                 <td>
                                     <div class="flex justify-around">
                                         @can('view', $pool->pool)
-                                            <div>
+                                            <div class="flex justify-between">
+                                                <div class="flex justify-start px-2">
                                                 <a
                                                         class="btn btn-sm btn-success"
                                                         href="{{ route('pool.show', ['pool' => $pool->pool->id]) }}" wire:navigate>Open</a>
+                                                </div>
+                                                <div class="flex justify-end px-2">
+                                                <a
+                                                        class="btn btn-sm btn-primary"
+                                                        href="{{ route('chat.show', ['pool' => $pool->pool->id]) }}" wire:navigate>Chat</a>
+                                                </div>
                                             </div>
                                         @endcan
 
@@ -116,7 +123,7 @@
     </div>
 
     @if($createdPools)
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="flex flex-col justify-center mt-16">
                 <div class="overflow-x-auto">
@@ -158,20 +165,37 @@
                                         @endif
                                         @if($pool->IsSetupAttribute())
                                             @can('view', $pool)
-                                                <div>
-                                                    <a
-                                                            class="btn btn-sm btn-success"
-                                                            href="{{ route('pool.show', ['pool' => $pool->id]) }}" wire:navigate>Open</a>
-                                                </div>
+                                                    <div class="flex justify-between">
+                                                        <div class="flex justify-start px-2">
+                                                            <a
+                                                                    class="btn btn-sm btn-success"
+                                                                    href="{{ route('pool.show', ['pool' => $pool->id]) }}" wire:navigate>Open</a>
+                                                        </div>
+                                                        <div class="flex justify-end px-2">
+                                                            <a
+                                                                    class="btn btn-sm btn-primary"
+                                                                    href="{{ route('chat.show', ['pool' => $pool->id]) }}" wire:navigate>Chat</a>
+                                                        </div>
+
+                                                    </div>
                                             @endcan
 
-                                            @can('delete', $pool)
-                                                <div>
-                                                    <a
-                                                            class="btn btn-sm btn-error"
+
+                                                    <div class="flex justify-between">
+                                                        @can('delete', $pool)
+                                                        <div class="flex justify-start px-2">
+                                                        <a class="btn btn-sm btn-error"
                                                             href="{{ route('pool.destroy', ['pool' => $pool->id]) }}" disabled>Delete</a>
-                                                </div>
-                                            @endcan
+                                                        </div>
+                                                        @endcan
+                                                        @can('update', $pool)
+                                                        <div class="flex justify-end px-1">
+                                                            <a class="btn btn-sm btn-warning"
+                                                                    href="{{ route('pool.edit', ['pool' => $pool->id]) }}" wire:navigate>Manage</a>
+                                                        </div>
+                                                        @endcan
+                                                    </div>
+
                                         @endif
                                     </div>
                                 </td>
