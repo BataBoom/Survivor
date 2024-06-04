@@ -25,13 +25,18 @@
     --}}
     <div class="relative h-screen" id="top">
         <div class="bg-black h-full">
-            <img src="{{$bg}}" alt="Header Image" class="w-full h-full object-cover opacity-50">
+            <img src="{{$bg}}" class="w-full h-full object-cover opacity-50">
             <div class="absolute inset-0 bg-black bg-opacity-20 flex flex-col justify-center items-center text-white text-center">
                 <h1 class="text-3xl lg:text-4xl font-bold mb-4">Outpick, Outplay, Outlast</h1>
                 <p class="text-base lg:text-lg mb-8">Welcome to the 3rd Annual NBZ NFL Survivor League.</p>
                 <div>
                     <a x-transition.duration.500ms x-on:click.prevent="$scrollTo({ behavior: 'smooth' })" href="#bottom" class="btn btn-primary mr-4">How it works</a>
+                    @guest
                     <a href="{{ route('register') }}" wire:navigate class="btn btn-success mr-4">Sign up</a>
+                        @endguest
+                    @auth
+                        <a href="{{ route('dashboard') }}" wire:navigate class="btn btn-success mr-4">Dashboard</a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -105,9 +110,11 @@
             </div>
 
         </div>
+        @guest
         <div class="flex justify-center items-center pt-6">
             <button class="btn btn-primary w-2/3 text-white text-xl tracking-wide">Signup!</button>
         </div>
+            @endguest
     </div>
     {{--
     <a x-on:click.prevent="$scrollTo({ behavior: 'smooth' })" href="#top" aria-label="Back to top" class="fixed bottom-0 right-0 p-2 mx-10 my-10 text-white bg-gray-800 hover:bg-gray-700 focus:outline-none">
