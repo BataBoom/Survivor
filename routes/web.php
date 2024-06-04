@@ -30,6 +30,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
+/* Chat requires Reverb to be configured */
 
 //Route::get('/support', [ContactController::class, 'index'])->name('support.index')->middleware('auth');
 
