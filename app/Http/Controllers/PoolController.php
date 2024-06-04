@@ -27,10 +27,15 @@ class PoolController extends Controller
         return view('pools.index', [
             'pools' => Pool::Where('public', true)
                 ->Where('hidden', false)
+                ->WhereNot('creator_id', 1)
                 ->withCount('users')
                 ->orderBy('users_count', 'desc')
-                ->get(),
-            'start_date' => Config::get('survivor.start_date')
+                ->paginate(10),
+            'start_date' => Config::get('survivor.start_date'),
+            'sitePools' => Pool::Where('creator_id', 1)
+                            ->withCount('users')
+                            ->orderBy('users_count', 'desc')
+                            ->paginate(5),
         ]);
     }
 
@@ -132,9 +137,9 @@ class PoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, Pool $pool)
     {
-        //
+        return view('pools.edit', ['pool' => $pool, 'type' => ucfirst($pool->type), 'start_date' =>Config::get('survivor.start_date'), 'contenders' => $pool->contenders]);
     }
 
     /**
