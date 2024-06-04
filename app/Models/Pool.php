@@ -34,6 +34,11 @@ class Pool extends Model
         return '$'.number_format($this->guaranteed_prize + $this->payments->sum('amount_usd'), 2);
     }
 
+    public function getTotalSetupCostAttribute()
+    {
+        return number_format($this->guaranteed_prize + $this->entry_cost, 2);
+    }
+
     //Relationship for adding users to this pool
     public function registration()
     {
@@ -44,6 +49,12 @@ class Pool extends Model
     public function contenders()
     {
         return $this->hasMany(SurvivorRegistration::class, 'pool_id');
+    }
+
+    //Relationship for viewing Pool Count
+    public function Alive()
+    {
+        return $this->hasMany(SurvivorRegistration::class, 'pool_id')->where('alive', true);
     }
 
     //Relationship to Survivor
@@ -84,6 +95,12 @@ class Pool extends Model
         } else {
             return false;
         }
+    }
+
+    //Chatroom
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'pool_chat_id');
     }
 
 
