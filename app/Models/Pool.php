@@ -22,6 +22,12 @@ class Pool extends Model
 
     public const PRIZETYPES = ['crypto', 'credits', 'promotion'];
 
+    public const DummyPrizes = [
+        "9c358964-47a0-4d8a-8665-3698e22059d2" => '0.01 BTC',
+        "9c358a69-cc4a-483e-89d0-599b3ca44475" => '0.005 BTC',
+        "9c3588ef-3c03-4d28-b7d3-cbd7a1bc6c00" => "0.0",
+    ];
+
     //Relationship to payments
 
     public function payments()
@@ -31,8 +37,14 @@ class Pool extends Model
 
     public function getTotalPrizeAttribute()
     {
-        return '$'.number_format($this->guaranteed_prize + $this->payments->sum('amount_usd'), 2);
+        if(in_array($this->id, array_keys(Self::DummyPrizes))) {
+            return Self::DummyPrizes[$this->id];
+        } else {
+            return '$'.number_format($this->payments->sum('amount_usd'), 2);
+            //return '$'.number_format($this->guaranteed_prize + $this->payments->sum('amount_usd'), 2);
+        }
     }
+
 
     public function getTotalSetupCostAttribute()
     {
@@ -101,6 +113,12 @@ class Pool extends Model
     public function messages()
     {
         return $this->hasMany(Message::class, 'pool_chat_id');
+    }
+
+    //Relationship to DummyPool
+    public function promoable()
+    {
+        return $this->morphTo();
     }
 
 

@@ -16,8 +16,10 @@ use App\Listeners\IncomingPaymentListener;
 use App\Events\SurvivedAWeekEvent;
 use App\Listeners\SurvivedAWeekEventListener;
 use App\Events\SurvivorDiedEvent;
+use App\Events\NewChatroomMessageEvent;
 use App\Listeners\SurvivorDiedListener;
 use Illuminate\Auth\Events\Verified;
+use App\Listeners\SurvivorSubscriber;
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -26,6 +28,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+
+        NewChatroomMessageEvent::class => [
+            //
+        ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
@@ -45,6 +51,23 @@ class EventServiceProvider extends ServiceProvider
         SurvivorDiedEvent::class => [
             SurvivorDiedListener::class,
         ],
+
+        IncomingPaymentEvent::class => [
+            IncomingPaymentListener::class,
+        ],
+
+        NewChatroomMessageEvent::class => [
+            //
+        ],
+    ];
+
+    /**
+     * The subscriber classes to register. These are Listeners, Inside these classes, provides the event
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        SurvivorSubscriber::class,
     ];
 
     /**
