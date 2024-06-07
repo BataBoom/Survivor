@@ -18,8 +18,9 @@ Login: admin@github.com
 Password: YourAdminPassword (or as defined in .env)
 
 Admin panel included on /admin, publish the assets using:
+```
 php artisan filament:assets
-
+```
 
 
 ![](https://i.imgur.com/MiHsVs0.png)
