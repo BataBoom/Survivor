@@ -13,13 +13,10 @@ use App\Events\PoolCreated;
 use App\Listeners\PoolCreatedListener;
 use App\Events\IncomingPaymentEvent;
 use App\Listeners\IncomingPaymentListener;
-use App\Events\SurvivedAWeekEvent;
-use App\Listeners\SurvivedAWeekEventListener;
-use App\Events\SurvivorDiedEvent;
 use App\Events\NewChatroomMessageEvent;
-use App\Listeners\SurvivorDiedListener;
 use Illuminate\Auth\Events\Verified;
 use App\Listeners\SurvivorSubscriber;
+
 class EventServiceProvider extends ServiceProvider
 {
     /**
@@ -42,14 +39,6 @@ class EventServiceProvider extends ServiceProvider
 
         PoolCreated::class => [
             PoolCreatedListener::class
-        ],
-
-        SurvivedAWeekEvent::class => [
-            SurvivedAWeekEventListener::class,
-        ],
-
-        SurvivorDiedEvent::class => [
-            SurvivorDiedListener::class,
         ],
 
         IncomingPaymentEvent::class => [
