@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class SurvivorRegistration extends Model
@@ -49,10 +50,21 @@ class SurvivorRegistration extends Model
         return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('ticket_id', $this->id)->orderBy('week');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('ticket_id', $this->id);
+    }
 
-    public function scopeAlive($query)
+
+    public function scopeAlive(Builder $query)
     {
         return $query->where('alive', 1);
+    }
+
+    public function scopeSurvivorsAlive($query)
+    {
+        return $query->whereRelation('pool', 'type', 'survivor')
+            ->where('alive', true);
     }
 
 }

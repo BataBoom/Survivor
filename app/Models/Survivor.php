@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Events\SurvivorGradedEvent;
 
 class Survivor extends Model
 {
@@ -19,6 +20,10 @@ class Survivor extends Model
 
     protected $casts = [];
 
+    protected $dispatchesEvents = [
+        'updated' => SurvivorGradedEvent::class,
+    ];
+    
     public function user()
     {
     return $this->belongsTo(User::class, 'user_id', 'id');
@@ -39,9 +44,14 @@ class Survivor extends Model
     return $this->hasOne(WagerQuestion::class, 'game_id', 'game_id');
     }
 
-    public function result()
+    public function results()
     {
         return $this->hasOne(WagerResult::class, 'game', 'game_id');
+    }
+
+    public function ticket()
+    {
+        return $this->belongsTo(SurvivorRegistration::class, 'ticket_id');
     }
 
 }

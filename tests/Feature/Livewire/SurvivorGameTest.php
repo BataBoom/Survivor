@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class SurvivorGameTest extends TestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -33,6 +33,6 @@ class SurvivorGameTest extends TestCase
         ->assertNotSetStrict('currentPool', $pool)
         ->assertSetStrict('status', true)
         ->assertSet('week', 1)
-        ->assertSet('mypool', $pool->id)
+        ->assertSet('mypool', $pool->id);
     }
 }
