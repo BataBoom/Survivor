@@ -6,7 +6,7 @@ cd Survivor
 composer install
 npm install
 npm run build
-mv .env.example .env
+cp .env.example .env
 define .env
 php artisan config:clear
 php artisan key:generate
@@ -23,5 +23,5 @@ php artisan filament:assets
 ```
 
 
-![](https://i.imgur.com/MiHsVs0.png)
+![](https://i.imgur.com/if0T9Jw.png)
 ![](https://i.imgur.com/njHpkJD.png)
