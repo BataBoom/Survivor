@@ -180,7 +180,7 @@ class SurvivorGame extends Component
 
         //Ensure the previous selection hasnt started (live game)
         if($status) {
-            return Carbon::parse(now())->greaterThan(Carbon::parse($fetchPossiblePick->question->starts_at));
+            return Carbon::parse(now())->lessThan(Carbon::parse($fetchPossiblePick->question->starts_at));
         }
 
     }
