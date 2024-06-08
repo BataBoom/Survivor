@@ -12,7 +12,7 @@ class SurvivorPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user)
     {
         //
     }
@@ -20,7 +20,7 @@ class SurvivorPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Survivor $survivor): bool
+    public function view(User $user, Survivor $survivor)
     {
         //
     }
