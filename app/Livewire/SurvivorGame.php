@@ -57,7 +57,7 @@ class SurvivorGame extends Component
 
         $this->user = Auth::User();
 
-        $this->week = $this->decipherWeek();
+        $this->week = 1;
 
         $this->realWeek = $this->decipherWeek();
         //$this->realWeek = 2;
