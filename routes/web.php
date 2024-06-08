@@ -30,7 +30,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-/* Chat requires Reverb to be configured */
 
 //Route::get('/support', [ContactController::class, 'index'])->name('support.index')->middleware('auth');
 
@@ -44,9 +43,12 @@ Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
 
     Route::get('/game/pickem/{pool:id}', [PickemController::class, 'show'])->name('pickem.show')->middleware('can:view,pool');
 
+    Route::get('/stats/pickem/{pool:id}', [PickemController::class, 'viewStats'])->name('pickem.stats')->middleware('can:view,pool');
+
     Route::get('/game/survivor/{pool:id}', [SurvivorController::class, 'showByPool'])->name('survivor.show')->middleware('can:view,pool');
 
     Route::get('/game/wire/pickem/{pool:id}', Pickem::class)->name('pickem.wire')->middleware('can:view,pool');
+
     Route::get('/game/wire/survivor/{pool:id}', Fun::class)->name('fun.wire')->middleware('can:view,pool');
 
     Route::get('/my-pools', [HomeController::class, 'show'])->name('mypools.show');
