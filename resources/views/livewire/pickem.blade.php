@@ -1,7 +1,8 @@
 <div class="flex flex-col max-w-7xl mx-auto">
     <div class="column mx-auto text-center my-4">
        <ul>
-           <li>Pick'em Pool: {{$pool->name}}</li>
+           <li>Pick'em Pool: {{$pool->name}} </li>
+           <li class="my-2">Tap a Team Logo to update your pick</li>
        </ul>
     </div>
 
@@ -40,6 +41,11 @@
                                 @if (session('status'.$game->gid))
                                     <p class="text-success pt-2"> {{ session('status'.$game->gid) }} </p>
                                 @endif
+
+                                @if($game->result)
+                                        <p class="text-success pt-2"> {{ $game->result->home_score }} - {{ $game->result->away_score }} </p>
+                                @endif
+
                             </div>
 
                         </div>
@@ -53,27 +59,41 @@
 
                                 <img
 
-                                        wire:click="pickGame('{{$game->gid}}','{{ $game->info->first()->name }}','{{ $game->info->first()->team_id }}')"
+                                        wire:click="pickGame('{{$game->gid}}','{{ $game->teams->away->name }}','{{ $game->teams->away->team_id }}')"
                                         @class([
-                                        'h-24 opacity-50' => $mypicks->where('game_id', $key)->isEmpty() || $mypicks->where('game_id', $key)->first()->selection_id !== $game->info->first()->team_id,
-                                        'h-32 opacity-100' => $mypicks->where('game_id', $key)->isNotEmpty() && $mypicks->where('game_id', $key)->first()->selection_id === $game->info->first()->team_id])
+                                        'h-24 opacity-50' => $mypicks->where('game_id', $key)->isEmpty() || $mypicks->where('game_id', $key)->first()->selection_id !== $game->teams->away->team_id,
+                                        'h-32 opacity-100' => $mypicks->where('game_id', $key)->isNotEmpty() && $mypicks->where('game_id', $key)->first()->selection_id === $game->teams->away->team_id])
 
-                                        src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->info->first()->name)) }}.png">
+                                        src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->away->name)) }}.png">
                                 <img
-                                        wire:click="pickGame('{{$game->gid}}','{{ $game->info->last()->name }}','{{ $game->info->last()->team_id }}')"
+                                        wire:click="pickGame('{{$game->gid}}','{{ $game->teams->home->name }}','{{ $game->teams->home->team_id }}')"
                                         @class([
-                                        'h-24 opacity-50' => $mypicks->where('game_id', $key)->isEmpty() || $mypicks->where('game_id', $key)->first()->selection_id !== $game->info->last()->team_id,
-                                        'h-32 opacity-100' => $mypicks->where('game_id', $key)->isNotEmpty() && $mypicks->where('game_id', $key)->first()->selection_id === $game->info->last()->team_id])
-                                        src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->info->last()->name)) }}.png">
+                                        'h-24 opacity-50' => $mypicks->where('game_id', $key)->isEmpty() || $mypicks->where('game_id', $key)->first()->selection_id !== $game->teams->home->team_id,
+                                        'h-32 opacity-100' => $mypicks->where('game_id', $key)->isNotEmpty() && $mypicks->where('game_id', $key)->first()->selection_id === $game->teams->home->team_id])
+                                        src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->home->name)) }}.png">
 
 
                             @else
                                 <div class="flex flex-col text-center items-center">
                                     <div>
+                                        <img
+                                                class="h-24"
+                                                :class="{ 'opacity-50': '{{ $game->result->winner }}' !== '{{ $game->teams->away->team_id }}' }"
+                                                src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->away->name)) }}.png">
+                                    </div>
+                                    <div>
+                                        <p>
+                                            {{ $game->result->away_score }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col text-center items-center">
+                                    <div>
                                     <img
                                             class="h-24"
-                                            :class="{ 'opacity-50': '{{ $game->result->winner }}' !== '{{ $game->info->first()->team_id }}' }"
-                                            src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->info->first()->name)) }}.png">
+                                            :class="{ 'opacity-50': '{{ $game->result->winner }}' !== '{{ $game->teams->home->name }}' }"
+                                            src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->home->name)) }}.png">
                                     </div>
                                     <div>
                                         <p>
@@ -82,19 +102,6 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col text-center items-center">
-                                    <div>
-                                        <img
-                                                class="h-24"
-                                                :class="{ 'opacity-50': '{{ $game->result->winner }}' !== '{{ $game->info->last()->team_id }}' }"
-                                                src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->info->last()->name)) }}.png">
-                                    </div>
-                                    <div>
-                                        <p>
-                                            {{ $game->result->away_score }}
-                                        </p>
-                                    </div>
-                                </div>
                             @endif
                         </div>
 
@@ -102,34 +109,34 @@
                             <div class="flex flex-wrap justify-around text-white">
                                 <div>
                                     <a
-                                            style="background: linear-gradient(#{{ $game->info->first()->altColor }}, #{{ $game->info->first()->color }});"
+                                            style="background: linear-gradient(#{{ $game->teams->away->altColor }}, #{{ $game->teams->away->color }});"
                                             class="btn w-24 m-4"
-                                            href="https://www.espn.com/nfl/team/depth/_/name/{{ $game->info->first()->abbreviation }}"
+                                            href="https://www.espn.com/nfl/team/depth/_/name/{{ $game->teams->away->abbreviation }}"
                                             target="_blank"
-                                    >{{ $game->info->first()->abbreviation }} Depth</a>
+                                    >{{ $game->teams->away->abbreviation }} Depth</a>
                                     <a
-                                            style="background: linear-gradient(#{{ $game->info->last()->altColor }}, #{{ $game->info->last()->color }});"
+                                            style="background: linear-gradient(#{{ $game->teams->home->altColor }}, #{{ $game->teams->home->color }});"
                                             class="btn w-24 m-4"
-                                            href="https://www.espn.com/nfl/team/depth/_/name/{{ $game->info->last()->abbreviation }}"
+                                            href="https://www.espn.com/nfl/team/depth/_/name/{{ $game->teams->home->abbreviation }}"
                                             target="_blank"
-                                    >{{ $game->info->last()->abbreviation }} Depth</a>
+                                    >{{ $game->teams->home->abbreviation }} Depth</a>
                                 </div>
                                 <div>
                                     <a
-                                            style="background: linear-gradient(#{{ $game->info->first()->altColor }}, #{{ $game->info->first()->color }});"
+                                            style="background: linear-gradient(#{{ $game->teams->away->altColor }}, #{{ $game->teams->away->color }});"
                                             class="btn w-24 m-4"
-                                            href="https://www.espn.com/nfl/team/injuries/_/name/{{ $game->info->first()->abbreviation }}"
+                                            href="https://www.espn.com/nfl/team/injuries/_/name/{{ $game->teams->away->abbreviation }}"
                                             target="_blank"
-                                    >{{ $game->info->first()->abbreviation }} Injuries</a>
+                                    >{{ $game->teams->away->abbreviation }} Injuries</a>
                                     <a
-                                            style="background: linear-gradient(#{{ $game->info->last()->altColor }}, #{{ $game->info->last()->color }});"
+                                            style="background: linear-gradient(#{{ $game->teams->home->altColor }}, #{{ $game->teams->home->color }});"
                                             class="btn w-24 m-4"
-                                            href="https://www.espn.com/nfl/team/injuries/_/name/{{ $game->info->last()->abbreviation }}"
+                                            href="https://www.espn.com/nfl/team/injuries/_/name/{{ $game->teams->home->abbreviation }}"
                                             target="_blank"
-                                    >{{ $game->info->last()->abbreviation }} Injuries</a>
+                                    >{{ $game->teams->home->abbreviation }} Injuries</a>
                                 </div>
                                 <a
-                                        style="background: linear-gradient(to right, #{{ $game->info->first()->color }}, #{{ $game->info->first()->altColor }}, #{{ $game->info->last()->color }}, #{{ $game->info->last()->altColor }});"
+                                        style="background: linear-gradient(to right, #{{ $game->teams->away->color }}, #{{ $game->teams->away->altColor }}, #{{ $game->teams->home->color }}, #{{ $game->teams->home->altColor }});"
                                         class="btn text-xl w-5/6 my-4"
                                         href="https://www.espn.com/nfl/game/_/gameId/{{$key}}"
                                         target="_blank"

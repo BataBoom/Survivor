@@ -98,7 +98,7 @@
                         <div class="flex justify-start">
                             <div class="flex flex-col justify-start text-center">
                                 <div class="text-sm lg:text-base">NFL Survivor</div>
-                                <div class="text-xs lg:text-sm">Real Week: {{$week}}</div>
+                                <div class="text-xs lg:text-sm">Real Week: {{$realWeek}}</div>
                                 <div class="text-xs lg:text-sm">Showing Week: {{$week}}</div>
                             </div>
                         </div>
@@ -160,11 +160,11 @@
 
                                                         @if ($pick->result === null)
                                                             <button class="btn btn-sm btn-error"
-                                                                    wire:click="RemovePick('{{ $pick->selection }}', '{{ $pick->week }}')">
+                                                                    wire:click="RemovePick('{{ $pick->id }}')">
                                                                 X
                                                             </button>
                                                         @else
-                                                            <button class="btn btn-sm btn-success">
+                                                            <button @class(["btn btn-sm", "btn-success" => $pick->result === 1, "btn-error" => $pick->result === 0])>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
                                                                      fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                                      stroke-width="2">
@@ -281,12 +281,24 @@
                                         @endforelse
                                     </select>
                                 </div>
-                                @if($week >= $realWeek)
+                                @if(Auth::user()->can('update', $survivor))
                                     <div class="col pb-4 mx-4">
-                                        <button class="btn btn-neutral w-full p-2 rounded-t-none rounded-b-xl"
+                                        <button class="btn btn-neutral w-full p-2 rounded-t-none rounded-b-xl disabled:text-red-400 disabled:cursor-not-allowed disabled:opacity-100"  @if($week < $realWeek) disabled @endif
                                                 wire:click="submit"
-                                                wire:loading.attr="disabled">Select Pick
+                                                wire:loading.attr="disabled">
+                                            @if($week < $realWeek)
+                                            Week Concluded
+                                            @else
+                                                Select Pick
+                                            @endif
+
                                         </button>
+                                    </div>
+                                @else
+                                    <div class="col pb-4 mx-4">
+                                        <a class="btn btn-neutral w-full p-2 rounded-t-none rounded-b-xl">
+                                           Survivor Eliminated
+                                        </a>
                                     </div>
                                 @endif
                             </form>

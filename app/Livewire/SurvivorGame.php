@@ -22,6 +22,7 @@ use App\Livewire\Traits\SurvivorTrait;
 use Illuminate\Validation\Rule;
 use App\Rules\BeforeWagerQuestionStart;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\NotTrueOrFalse;
 
 class SurvivorGame extends Component
 {
@@ -58,8 +59,8 @@ class SurvivorGame extends Component
 
         $this->week = $this->decipherWeek();
 
-        //$this->realWeek = $this->decipherWeek();
-        $this->realWeek = 1;
+        $this->realWeek = $this->decipherWeek();
+        //$this->realWeek = 2;
 
         $this->survivor = $this->pool?->contenders->where('user_id', $this->user->id)->first();
 
@@ -85,6 +86,13 @@ class SurvivorGame extends Component
                     return $query->where('ticket_id', $this->survivor->id);
                 }),
             ],
+            /*
+            'result' => [
+                'sometimes',
+                'boolean',
+                new NotTrueOrFalse($this->survivor->survivorPicks->where('week', $this->week)->pluck('result')->implode(',')),
+            ],
+            */
         ];
     }
 
@@ -157,26 +165,48 @@ class SurvivorGame extends Component
     }
 
 
-    public function submit()
+    public function canUpdatePick()
     {
-        //dd([$this->selectTeam, $this->selectTeamName]);
-        //dd([$this->selectTeam[0], $this->selectTeam[1]]);
-        if ($this->getErrorBag()->isNotEmpty()) {
-            $this->error(
-                $this->getErrorBag()->first(),
-                //description: 'what',
-                timeout: 3000,
-                position: 'toast-top toast-end'
-            );
+        $fetchPossiblePick = $this->survivor->survivorPicks->where('week', $this->week)->first();
+        $status = false;
+
+        if($fetchPossiblePick && is_null($fetchPossiblePick->result)) {
+            $status = true;
+        } elseif($fetchPossiblePick && !is_null($fetchPossiblePick->result)) {
+            return false;
+        } else {
+            return true;
         }
 
-        $this->validate();
+        //Ensure the previous selection hasnt started (live game)
+        if($status) {
+            return Carbon::parse(now())->greaterThan(Carbon::parse($fetchPossiblePick->question->starts_at));
+        }
 
+    }
 
-        $locateSelection = WagerOption::Find($this->selectTeam);
+    public function submit()
+    {
+
+        if($this->canUpdatePick()) {
+
+            if ($this->getErrorBag()->isNotEmpty()) {
+                $this->error(
+                    $this->getErrorBag()->first(),
+                    //description: 'what',
+                    timeout: 3000,
+                    position: 'toast-top toast-end'
+                );
+            }
+
+            $this->validate();
+
+            $locateSelection = WagerOption::Find($this->selectTeam);
 
             try {
 
+                // if(is_null($this->survivor->survivorPicks->where('week', $locateSelection->week)->result)) {
+                // if($this->canUpdatePick()) {
                 $this->survivor->survivorPicks()->updateOrCreate(
                     ['week' => $locateSelection->week, 'user_id' => $this->user->id, 'ticket_id' => $this->survivor->id],
                     [
@@ -196,6 +226,7 @@ class SurvivorGame extends Component
                     timeout: 3000,                      // optional (ms)
                     redirectTo: null                    // optional (uri)
                 );
+                // }
 
             } catch (Exception $e) {
                 report($e);
@@ -206,10 +237,18 @@ class SurvivorGame extends Component
                 );
             }
 
-        $this->mypicks = $this->survivor->survivorPicks()->get();
-        $this->choices = $this->teamsLeft($this->week);
+            $this->mypicks = $this->survivor->survivorPicks()->get();
+            $this->choices = $this->teamsLeft($this->week);
 
-        $this->reset('selectTeam');
+            $this->reset('selectTeam');
+
+        } else {
+            $this->error(
+                'Pick locked cannot update',
+                timeout: 3000,
+                position: 'toast-top toast-end'
+            );
+        }
 
 
     }
@@ -236,35 +275,40 @@ class SurvivorGame extends Component
     }
 
     /* Remove pick may need work, but should be ok */
-    public function RemovePick($pick, $week) {
+    public function RemovePick(Survivor $id) {
 
-        $isAllowed = $this->isAllowed($pick, $week);
-        $status = $isAllowed[0];
+        if($this->canUpdatePick()) {
 
-        if($status) {
 
-            if($this->survivor->survivorPicks()->where(['selection' => $pick, 'week' => $week])->delete()) {
+            $this->authorize('delete', $id);
+
+            if ($id->delete()) {
 
                 $this->choices = $this->teamsLeft($this->week);
                 $this->mypicks = $this->survivor->survivorPicks()->get();
 
                 $this->toast(
                     type: 'success',
-                    title: $pick.' Removed',
-                    description: 'Week: '.$week,                  // optional (text)
+                    title: $id->selection . ' Removed',
+                    description: 'Week: ' . $id->week,                  // optional (text)
                     position: 'toast-top toast-end',    // optional (daisyUI classes)
                     icon: 'o-information-circle',       // Optional (any icon)
                     css: 'alert-info',                  // Optional (daisyUI classes)
                     timeout: 3000,                      // optional (ms)
                     redirectTo: null                    // optional (uri)
                 );
+            } else {
+
+                $this->error(
+                    'Cannot remove' . $id->selection,
+                    //description: $isAllowed[1],
+                    timeout: 3000,
+                    position: 'toast-top toast-end'
+                );
             }
-
         } else {
-
             $this->error(
-                'Cannot remove' . $pick,
-                description: $isAllowed[1],
+                'Cannot remove pick, game is under way',
                 timeout: 3000,
                 position: 'toast-top toast-end'
             );
