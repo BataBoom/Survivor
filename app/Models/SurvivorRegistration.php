@@ -34,21 +34,21 @@ class SurvivorRegistration extends Model
 
     public function picks()
     {
-        return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('pool_id', $this->pool_id)->orderBy('week');
-
-        //return $this->hasMany(Survivor::class, 'user_id', 'user_id')->inPool($this->pool_id);
+        //return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('pool_id', $this->pool_id)->orderBy('week');
+        return $this->hasMany(Survivor::class, 'ticket_id', 'id')->orderBy('week');
     }
 
     public function pickems()
     {
-        return $this->hasMany(Pickem::class, 'user_id', 'user_id')->where('ticket_id', $this->id)->orderBy('week');
-
+        return $this->hasMany(Pickem::class, 'ticket_id', 'id')->orderBy('week');
     }
 
     public function survivorPicks()
     {
-        return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('ticket_id', $this->id)->orderBy('week');
+        //return $this->hasMany(Survivor::class, 'user_id', 'user_id')->where('ticket_id', $this->id)->orderBy('week');
+        return $this->hasMany(Survivor::class, 'ticket_id', 'id')->orderBy('week');
     }
+
 
     public function tickets()
     {
