@@ -36,33 +36,6 @@ trait SurvivorTrait
         return [$Games, $options->toArray()];
     }
 
-    public function pickemGamesOld($week)
-    {
-
-        $games = WagerQuestion::Where('week', $week)->get();
-        $combinedData = collect();
-        $keys = $games->pluck('game_id');
-        foreach ($games as $game) {
-            $teamIds = $game->gameoptions()->pluck('team_id');
-            $teamInfo = WagerTeam::whereIn('team_id', $teamIds)->select('abbreviation', 'name', 'team_id', 'color', 'altColor')->get();
-
-            $item = (object)[
-                'game' => $game->question,
-                'starts' => $game->starts_at,
-                'gid' => $game->game_id,
-                'mid' => $game->id,
-                'info' => $teamInfo,
-                'result' => $game->results,
-            ];
-
-            $combinedData->push($item);
-        }
-
-        $combined = collect($keys)->combine($combinedData);
-
-        return $combined;
-    }
-
     public function pickemGames($week)
     {
 
@@ -77,14 +50,6 @@ trait SurvivorTrait
                 } elseif($go->home_team === 0) {
                     $awayTeamInfo = $go->teaminfo;
                 }
-                /*
-                $tmz = collect([
-                    $go->game_id => [
-                        'home' => $homeTeamInfo,
-                        'away' => $awayTeamInfo,
-                    ],
-                ]);
-                */
                 $tmz = (object) [
                         'home' => $homeTeamInfo ?? $awayTeamInfo,
                         'away' => $awayTeamInfo,
