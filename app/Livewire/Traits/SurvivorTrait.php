@@ -36,7 +36,7 @@ trait SurvivorTrait
         return [$Games, $options->toArray()];
     }
 
-    public function pickemGames($week)
+    public function pickemGamesOld($week)
     {
 
         $games = WagerQuestion::Where('week', $week)->get();
@@ -52,7 +52,7 @@ trait SurvivorTrait
                 'gid' => $game->game_id,
                 'mid' => $game->id,
                 'info' => $teamInfo,
-                'result' => $game->result,
+                'result' => $game->results,
             ];
 
             $combinedData->push($item);
@@ -62,6 +62,52 @@ trait SurvivorTrait
 
         return $combined;
     }
+
+    public function pickemGames($week)
+    {
+
+        $games = WagerQuestion::Where('week', $week)->get();
+        $combinedData = collect();
+        $keys = $games->pluck('game_id');
+        foreach ($games as $game) {
+            foreach ($game->gameoptions as $go) {
+                $teamType = $go->home_team ? 'home' : 'away';
+                if($go->home_team === 1) {
+                    $homeTeamInfo = $go->teaminfo;
+                } elseif($go->home_team === 0) {
+                    $awayTeamInfo = $go->teaminfo;
+                }
+                /*
+                $tmz = collect([
+                    $go->game_id => [
+                        'home' => $homeTeamInfo,
+                        'away' => $awayTeamInfo,
+                    ],
+                ]);
+                */
+                $tmz = (object) [
+                        'home' => $homeTeamInfo ?? $awayTeamInfo,
+                        'away' => $awayTeamInfo,
+                ];
+            }
+
+            $item = (object)[
+                'game' => $game->question,
+                'starts' => $game->starts_at,
+                'gid' => $game->game_id,
+                'mid' => $game->id,
+                'teams' => $tmz,
+                'result' => $game->results,
+            ];
+
+            $combinedData->push($item);
+        }
+
+        $combined = collect($keys)->combine($combinedData);
+
+        return $combined;
+    }
+
 
 
     public function decipherWeek()
@@ -117,26 +163,6 @@ trait SurvivorTrait
     public function fetchSurvivorPicks()
     {
         $keys = $games->pluck('game_id');
-
-
         $combined = collect($keys)->combine($combinedData);
-    }
-
-    public function canUpdatePick()
-    {
-        $locateSelection = WagerOption::with('question')
-            ->where('week', $this->week)
-            ->where('option', $this->selectTeam)
-            ->first();
-
-        // If the record has been graded, disallow update
-        if (!is_null($model->result)) {
-            return false;
-        }
-
-        // If the game has started, disallow update
-        if ($model->question->starts_at->lessThan(now())) {
-            return false;
-        }
     }
 }
