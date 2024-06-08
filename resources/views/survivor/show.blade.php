@@ -8,9 +8,16 @@
         <div x-data="{ selectedSurvivorId: null }">
             @forelse(Auth::user()->pickemPools as $pickemPool)
                 <div class="flex justify-center">
-                        <a class="btn btn-sm btn-primary m-2" href="{{ route('pickem.show', ['pool' => $pickemPool->pool_id]) }}" wire:navigate>
+                    <div>
+                        <a class="btn btn-sm btn-primary m-2" href="{{ route('pickem.stats', ['pool' => $pickemPool->pool_id]) }}" wire:navigate>
+                            Stats {{$pickemPool->pool->name}}
+                        </a>
+                    </div>
+                    <div>
+                        <a class="btn btn-sm btn-primary m-2" href="{{ route('pool.show', ['pool' => $pickemPool->pool_id]) }}" wire:navigate>
                             Go to {{$pickemPool->pool->name}}
                         </a>
+                    </div>
                 </div>
             @empty
             @endforelse

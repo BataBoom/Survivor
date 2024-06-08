@@ -16,7 +16,6 @@ use DateTimeZone;
 use Livewire\Attributes\Renderless;
 use App\Livewire\Traits\SurvivorTrait;
 
-/* Looks great, just need to add a new view I think for weeks that are over/graded */
 
 class Pickem extends Component
 {
@@ -35,9 +34,9 @@ class Pickem extends Component
     public function mount()
     {
         $this->user = Auth::User();
-        $this->week = 1;
+        $this->week = $this->decipherWeek();;
         $this->whatweek = $this->decipherWeek();
-        $this->whatweek = 1;
+        //$this->whatweek = 2;
 
         $this->contender = $this->pool?->contenders?->where('user_id', $this->user->id)->first();
         $this->allGames = $this->pickemGames($this->week);
@@ -59,6 +58,7 @@ class Pickem extends Component
                     'selection' => $selection,
                     'selection_id' => $selectionID,
                     'week' => $this->week,
+                    'user_id' => $this->contender->user_id,
                 ]
             );
 
