@@ -9,6 +9,7 @@ use App\Models\User;
 /***
  *
  * $this sends outgoing payment invoice to user.
+ * Merchant: https://github.com/BataBoom/SatsBB
  *
  ****/
 class InvoiceGenerator {
