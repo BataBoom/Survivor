@@ -20,8 +20,51 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $bgimg = ['bg-1.jpg','bg-2.jpeg','bg-3.jpeg','bg-4.jpeg','bg-10.jpg','bg-5.jpg','bg-6.jpg','bg-7.jpg','bg-8.jpg','bg-9.jpg','bg-10.jpg'];
-        return view ('landing', ['bg' => 'https://survivor.nbz.one/'.$bgimg[array_rand($bgimg)] ]);
+        $slides = [
+        [
+            'image' => 'https://survivor.nbz.one/bg-1.jpg',
+            'title' => 'Outpick, Outplay, Outlast',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-2.jpeg',
+            'title' => 'Survive, Thrive, Win 0.01 BTC',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-3.jpeg',
+            'title' => 'Become The Last Survivor',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-4.jpeg',
+            'title' => 'Outpick, Outplay, Outlast',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-5.jpg',
+            'title' => 'Survive, Thrive, Win 0.01 BTC',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-6.jpg',
+            'title' => 'Become The Last Survivor',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-7.jpg',
+            'title' => 'Become The Last Survivor',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-8.jpg',
+            'title' => 'Become The Last Survivor',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-9.jpg',
+            'title' => 'Become The Last Survivor',
+        ],
+        [
+            'image' => 'https://survivor.nbz.one/bg-10.jpg',
+            'title' => 'Become The Last Survivor',
+        ]
+    ];
+        shuffle($slides);
+        return view ('landingv2', compact('slides'));
+        
     }
 
     /**
