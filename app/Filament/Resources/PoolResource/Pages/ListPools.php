@@ -13,7 +13,9 @@ class ListPools extends ListRecords
 {
     protected static string $resource = PoolResource::class;
 
-    protected ?string $heading = 'Survivor Pools';
+    protected ?string $heading = 'Game Pools';
+
+    protected ?string $subheading = 'Admin view of all pools';
 
 
     public function getTabs(): array

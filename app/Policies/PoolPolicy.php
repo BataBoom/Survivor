@@ -14,7 +14,7 @@ class PoolPolicy
     public function viewAny(User $user): bool
     {
         if($user->isAdmin()) {
-           // return true;
+            return true;
         }
 
         return false;
@@ -25,6 +25,10 @@ class PoolPolicy
      */
     public function view(User $user, Pool $pool): bool
     {
+        if($user->isAdmin()) {
+            return true;
+        }
+        
         return $user->pools->contains('pool_id', $pool->id);
     }
 
@@ -49,8 +53,9 @@ class PoolPolicy
             return true;
         }
 
+        return $user === $pool->creator_id ? true : false;
 
-        return false;
+        //return false;
     }
 
     /**
@@ -58,11 +63,16 @@ class PoolPolicy
      */
     public function delete(User $user, Pool $pool): bool
     {
+        return $pool->contenders->where('alive', true)->isEmpty();
+
         if($user->isAdmin()) {
             return true;
         }
 
-        return $user->id === $pool->creator_id;
+        if($user->id === $pool->creator_id) {
+            return true;
+        }
+
     }
 
     /**

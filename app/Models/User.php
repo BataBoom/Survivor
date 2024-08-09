@@ -10,10 +10,11 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use BataBoom\PollsBB\Traits\HasPolls;
 
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasPolls;
 
 
     /**
@@ -25,6 +26,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'name',
         'email',
         'password',
+        'email_verified_at'
     ];
 
     /**
@@ -142,6 +144,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function tickets() {
         return $this->hasMany(Ticket::class, 'user_id');
+    }
+
+    public function getAvatarAttribute()
+    {
+        return 'https://ui-avatars.com/api/?background=random&rounded=true&name='.$this->name;
     }
 
 }

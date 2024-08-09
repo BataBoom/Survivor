@@ -18,6 +18,8 @@ class UsersResource extends Resource
 {
     protected static ?string $model = User::class;
 
+    protected static ?string $navigationGroup = 'Survivor';
+
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationLabel = 'Users';
@@ -35,9 +37,33 @@ class UsersResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
+                Tables\Columns\TextColumn::make('id')->label('ID')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')->label('Name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('email')->label('Email')->searchable(),
+                Tables\Columns\TextColumn::make('email')->label('Email')->searchable()->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('created_at')->label('Created')->since()->sortable(),
+                Tables\Columns\TextColumn::make('survivorpools_count')
+                ->label('Survivor Tix')
+                ->counts('survivorpools')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('pickempools_count')
+                ->label('Pickem Tix')
+                ->counts('pickempools')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('mypicks_count')
+                ->label('Survivor Picks')
+                ->counts('mypicks')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('mypickems_count')
+                ->label('Pickem Picks')
+                ->counts('mypickems')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
                 //

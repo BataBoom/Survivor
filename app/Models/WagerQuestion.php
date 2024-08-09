@@ -27,12 +27,17 @@ class WagerQuestion extends Model
 
     public function gameoptions()
     {
-    return $this->hasMany(WagerOption::class, 'game_id', 'game_id');
+    return $this->hasMany(WagerOption::class, 'game_id', 'game_id')->orderBy('home_team');
     }
 
-    public function result()
+    public function results()
     {
-    return $this->belongsTo(WagerResult::class, 'game', 'game_id');
+    return $this->belongsTo(WagerResult::class, 'game_id', 'game');
+    }
+
+    public function teaminfo()
+    {
+        return $this->belongsTo(WagerTeam::class, 'team_id', 'team_id');
     }
 
     public function wagers()

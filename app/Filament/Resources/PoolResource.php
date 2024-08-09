@@ -12,14 +12,19 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\Alignment;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 
 class PoolResource extends Resource
 {
     protected static ?string $model = Pool::class;
 
+    protected static ?string $navigationGroup = 'Survivor';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Survivor Pools';
+    protected static ?string $navigationLabel = 'Pools';
 
     public static function form(Form $form): Form
     {
@@ -34,23 +39,76 @@ class PoolResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
-                Tables\Columns\TextColumn::make('type')->label('Type')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('entry_cost')->label('Entry Fee')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('name')->label('Name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('lives_per_person')->label('Lives')->sortable(),
-                Tables\Columns\TextColumn::make('prize_type')->label('Prize Type')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('id')
+                ->label('ID')
+                ->size(TextColumn\TextColumnSize::ExtraSmall)
+                ->toggleable(isToggledHiddenByDefault: true),
+                
+                Tables\Columns\TextColumn::make('name')
+                ->label('Name')
+                ->searchable()
+                ->size(TextColumn\TextColumnSize::Large)
+                ->alignment(Alignment::Center)
+                ->color('info')
+                ->icon('heroicon-s-arrow-top-right-on-square')
+                ->url(fn (Pool $record): ?string => $record ? route('pool.show', $record->id) : null)
+                ->openUrlInNewTab(),
+
+                Tables\Columns\TextColumn::make('type')
+                ->label('Type')
+                ->searchable()
+                ->formatStateUsing(fn (string $state): string => ucfirst($state)) 
+                ->alignment(Alignment::Center),
+                
+                Tables\Columns\TextColumn::make('entry_cost')
+                ->label('Entry Fee')
+                ->sortable()
+                ->size(TextColumn\TextColumnSize::ExtraSmall)
+                ->money('USD')
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->alignment(Alignment::Center),
+
+                Tables\Columns\TextColumn::make('total_prize')
+                ->label('Prize')
+                ->size(TextColumn\TextColumnSize::ExtraSmall)
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->alignment(Alignment::Center),
+
+                Tables\Columns\TextColumn::make('lives_per_person')
+                ->label('Max Lives')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->alignment(Alignment::Center),
+
+                Tables\Columns\TextColumn::make('prize_type')
+                ->label('Prize Type')
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->alignment(Alignment::Center),
+
                 Tables\Columns\TextColumn::make('users_count')
                     ->counts('users')
-                    ->label('Users'),
+                    ->label('Total Players')
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->sortable()
+                    ->alignment(Alignment::Center),
+
                 Tables\Columns\TextColumn::make('survivors_count')
                     ->counts('survivors')
-                    ->label('Survivors'),
+                    ->label('Players Alive')
+                    ->sortable()
+                    ->alignment(Alignment::Center),
+
             ])->defaultSort('survivors_count', 'desc')
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('type')
+                        ->multiple()
+                        ->options(array_combine(Pool::TYPES, Pool::TYPES))
+                        ->attribute('type'),
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

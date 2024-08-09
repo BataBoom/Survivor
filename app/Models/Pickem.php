@@ -23,8 +23,7 @@ class Pickem extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /* Testing a diff approach vs Survivor, could prove to be better */
-    public function pool()
+    public function ticket()
     {
         return $this->belongsTo(SurvivorRegistration::class, 'ticket_id');
     }
@@ -39,9 +38,9 @@ class Pickem extends Model
         return $this->hasOne(WagerQuestion::class, 'game_id', 'game_id');
     }
 
-    public function result()
+    public function results()
     {
-        return $this->hasOne(WagerResult::class, 'game_id', 'game_id');
+        return $this->hasOne(WagerResult::class, 'game', 'game_id');
     }
 
     public static function getGradedPicksByUser(User $user)
@@ -75,6 +74,11 @@ class Pickem extends Model
         return $query->where('game_id', $gameID)
             ->where('starts_at', '>', $timestamp)
             ->exists();
+    }
+
+    public function scopeLeaderboard($query, $gameID)
+    {
+
     }
 
 }

@@ -14,10 +14,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
+use Filament\Support\Enums\Alignment;
+use Illuminate\Database\Eloquent\Model;
 
 class WagerTeamResource extends Resource
 {
     protected static ?string $model = WagerTeam::class;
+
+    protected static ?string $navigationGroup = 'Survivor';
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
     protected static ?string $navigationLabel = 'Sports Teams';
@@ -45,12 +49,31 @@ class WagerTeamResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('location'),
-                Tables\Columns\TextColumn::make('abbreviation'),
-                Tables\Columns\TextColumn::make('color'),
-                Tables\Columns\TextColumn::make('altColor'),
-                Tables\Columns\TextColumn::make('league'),
+                Tables\Columns\TextColumn::make('name')
+                ->alignment(Alignment::Center)
+                ->size(TextColumn\TextColumnSize::Large),
+
+                Tables\Columns\TextColumn::make('location')->alignment(Alignment::Center),
+                Tables\Columns\TextColumn::make('abbreviation')->alignment(Alignment::Center),
+                Tables\Columns\ColorColumn::make('color')->alignment(Alignment::Center),
+                Tables\Columns\ColorColumn::make('altColor')->alignment(Alignment::Center),
+                
+                Tables\Columns\TextColumn::make('league')
+                ->formatStateUsing(fn (string $state): string => strtoupper($state))
+                ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('wins_count')
+                    ->counts('wins')
+                    ->label('Wins')
+                    ->sortable()
+                    ->alignment(Alignment::Center),
+
+                Tables\Columns\TextColumn::make('losses_count')
+                    ->label('Losses')
+                    ->sortable()
+                    ->alignment(Alignment::Center),
+
+        
             ])
             ->filters([
                 //
