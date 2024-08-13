@@ -67,16 +67,6 @@
                 </div>
 
                 <div class="bg-white transition text-primary hover:text-accent hover:bg-blue-800  rounded-lg shadow-md p-6">
-                    <a href="http://telegram.me/satoshyeez_bot" target="_blank">
-                        <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/telegram.png"/>
-                        <h2 class="text-xl font-bold mb-4">Telegram</h2>
-                        </div>
-                        <p class="underline">Add us on the gram</p>
-                    </a>
-                </div>
-
-                <div class="bg-white transition text-primary hover:text-accent hover:bg-blue-800  rounded-lg shadow-md p-6">
                     <a href="{{ route('support.index') }}" target="_blank">
                         <div class="flex flex-1">
                             <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/whistle.png"/>
