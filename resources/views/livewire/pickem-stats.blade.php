@@ -2,8 +2,9 @@
     <div class="flex justify-center mx-auto">
         <div class="flex-flex-col space-y-2">
             <div>
+                @if($whatweek > 1)
                 <a class="btn btn-sm" @click="leaderboard = ! leaderboard" x-text="leaderboard ? 'Hide Leaderboard' : 'Show Leaderboard'" :class="leaderboard ? 'btn-error' : 'btn-primary'">
-
+                @endif
                 </a>
             </div>
             <div>
@@ -13,6 +14,7 @@
             </div>
         </div>
     </div>
+    @if($whatweek > 1)
     <div x-show="leaderboard" x-collapse>
         <h1 class="text-xl tracking-wide text-accent text-center my-2">{{$pool->name}} Pick'em Leaderboard</h1>
         <table class="table">
@@ -53,6 +55,7 @@
 
         </table>
     </div>
+    @endif
     <div x-show="pickemstable" x-collapse>
         <h1 class="text-xl tracking-wide text-primary text-center my-2">My Pickem Log</h1>
         <table class="table">
