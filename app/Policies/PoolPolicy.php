@@ -14,7 +14,7 @@ class PoolPolicy
     public function viewAny(User $user): bool
     {
         if($user->isAdmin()) {
-           // return true;
+            //return true;
         }
 
         return false;
@@ -34,7 +34,7 @@ class PoolPolicy
     public function create(User $user): bool
     {
         if($user->isAdmin()) {
-            return true;
+            //return true;
         }
 
         return false;
@@ -46,11 +46,11 @@ class PoolPolicy
     public function update(User $user, Pool $pool): bool
     {
         if($user->isAdmin()) {
-            return true;
+           // return true;
         }
 
 
-        return false;
+        return $user->id === $pool->creator_id;
     }
 
     /**
@@ -59,7 +59,7 @@ class PoolPolicy
     public function delete(User $user, Pool $pool): bool
     {
         if($user->isAdmin()) {
-            return true;
+            //return true;
         }
 
         return $user->id === $pool->creator_id;

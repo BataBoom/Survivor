@@ -13,6 +13,7 @@ class EditUsers extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('Login as User'),
             Actions\DeleteAction::make(),
         ];
     }

@@ -9,6 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
 
 class PoolsRelationManager extends RelationManager
 {
@@ -18,9 +19,10 @@ class PoolsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Toggle::make('alive')
                     ->required()
-                    ->maxLength(255),
+                    ->onColor('success')
+                    ->offColor('danger'),
             ]);
     }
 
@@ -29,17 +31,33 @@ class PoolsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('pool.name')
+                ->color('info')
+                ->icon('heroicon-s-arrow-top-right-on-square')
+                ->url(fn (Model $record): ?string => $record ? route('pool.show', $record->pool->id) : null)
+                ->openUrlInNewTab(),
+
+                Tables\Columns\TextColumn::make('pool.type')
+                ->formatStateUsing(fn (string $state) => ucwords($state)),
+                
+                Tables\Columns\TextColumn::make('picks_count')
+                ->label('Picks')
+                ->counts('picks'),
+
+                Tables\Columns\IconColumn::make('alive')
+                ->boolean()
+                    ->trueColor('success')
+                    ->falseColor('danger'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                //Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                //Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

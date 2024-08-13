@@ -124,13 +124,13 @@
                         <div class="flex flex-wrap justify-around text-white">
                             <div>
                                 <a
-                                        style="background: linear-gradient(#{{ $game->teams->away->altColor }}, #{{ $game->teams->away->color }});"
+                                        style="background: linear-gradient({{ $game->teams->away->altColor }}, {{ $game->teams->away->color }});"
                                         class="btn w-24 m-4"
                                         href="https://www.espn.com/nfl/team/depth/_/name/{{ $game->teams->away->abbreviation }}"
                                         target="_blank"
                                 >{{ $game->teams->away->abbreviation }} Depth</a>
                                 <a
-                                        style="background: linear-gradient(#{{ $game->teams->home->altColor }}, #{{ $game->teams->home->color }});"
+                                        style="background: linear-gradient({{ $game->teams->home->altColor }}, {{ $game->teams->home->color }});"
                                         class="btn w-24 m-4"
                                         href="https://www.espn.com/nfl/team/depth/_/name/{{ $game->teams->home->abbreviation }}"
                                         target="_blank"
@@ -138,20 +138,20 @@
                             </div>
                             <div>
                                 <a
-                                        style="background: linear-gradient(#{{ $game->teams->away->altColor }}, #{{ $game->teams->away->color }});"
+                                        style="background: linear-gradient({{ $game->teams->away->altColor }}, {{ $game->teams->away->color }});"
                                         class="btn w-24 m-4"
                                         href="https://www.espn.com/nfl/team/injuries/_/name/{{ $game->teams->away->abbreviation }}"
                                         target="_blank"
                                 >{{ $game->teams->away->abbreviation }} Injuries</a>
                                 <a
-                                        style="background: linear-gradient(#{{ $game->teams->home->altColor }}, #{{ $game->teams->home->color }});"
+                                        style="background: linear-gradient({{ $game->teams->home->altColor }}, {{ $game->teams->home->color }});"
                                         class="btn w-24 m-4"
                                         href="https://www.espn.com/nfl/team/injuries/_/name/{{ $game->teams->home->abbreviation }}"
                                         target="_blank"
                                 >{{ $game->teams->home->abbreviation }} Injuries</a>
                             </div>
                             <a
-                                    style="background: linear-gradient(to right, #{{ $game->teams->away->color }}, #{{ $game->teams->away->altColor }}, #{{ $game->teams->home->color }}, #{{ $game->teams->home->altColor }});"
+                                    style="-webkit-text-stroke: 1px #fbe7af;color: white; backdrop-filter: blur(50px);background: linear-gradient(to right, {{ $game->teams->away->color }}, {{ $game->teams->away->altColor }}, {{ $game->teams->home->color }}, {{ $game->teams->home->altColor }});"
                                     class="btn text-xl w-5/6 my-4"
                                     href="https://www.espn.com/nfl/game/_/gameId/{{$key}}"
                                     target="_blank"
@@ -165,12 +165,12 @@
                                 My Pick: {{ $mypicks->where('game_id', $game->gid)->first()?->selection ?? 'None' }}
                             </div>
                                 <div class="text-sm text-slate-400">
-                                    Result: {{$game->result?->winner_name}}
+                                    Result: {{$game->result->winner_name}}
                                 </div>
                             @else
                                 <div class="text-sm text-slate-400">No vote</div>
                                 <div class="text-sm text-slate-400">
-                                    Result: {{$game->result?->winner_name}}
+                                    Result: {{$game->result->winner_name}}
                                 </div>
                             @endif
                         </div>

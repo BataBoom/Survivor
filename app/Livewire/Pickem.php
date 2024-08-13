@@ -34,13 +34,14 @@ class Pickem extends Component
     public function mount()
     {
         $this->user = Auth::User();
-        $this->week = $this->decipherWeek();;
+        $this->week = $this->decipherWeek();
         $this->whatweek = $this->decipherWeek();
         //$this->whatweek = 2;
-
+        //$this->week = 2;
         $this->contender = $this->pool?->contenders?->where('user_id', $this->user->id)->first();
         $this->allGames = $this->pickemGames($this->week);
         $this->mypicks = $this->contender?->pickems?->where('week', $this->week);
+
 
     }
 

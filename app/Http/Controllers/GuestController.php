@@ -22,43 +22,43 @@ class GuestController extends Controller
     {
         $slides = [
         [
-            'image' => 'https://survivor.nbz.one/bg-1.jpg',
+            'image' => asset('storage/bg-1.jpg'),
             'title' => 'Outpick, Outplay, Outlast',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-2.jpeg',
+            'image' => asset('storage/bg-2.jpeg'),
             'title' => 'Survive, Thrive, Win 0.01 BTC',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-3.jpeg',
+            'image' => asset('storage/bg-3.jpeg'),
             'title' => 'Become The Last Survivor',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-4.jpeg',
+            'image' => asset('storage/bg-4.jpeg'),
             'title' => 'Outpick, Outplay, Outlast',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-5.jpg',
+            'image' => asset('storage/bg-5.jpg'),
             'title' => 'Survive, Thrive, Win 0.01 BTC',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-6.jpg',
+            'image' => asset('storage/bg-6.jpg'),
             'title' => 'Become The Last Survivor',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-7.jpg',
+            'image' => asset('storage/bg-7.jpg'),
             'title' => 'Become The Last Survivor',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-8.jpg',
+            'image' => asset('storage/bg-8.jpg'),
             'title' => 'Become The Last Survivor',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-9.jpg',
+            'image' => asset('storage/bg-9.jpg'),
             'title' => 'Become The Last Survivor',
         ],
         [
-            'image' => 'https://survivor.nbz.one/bg-10.jpg',
+            'image' => asset('storage/bg-10.jpg'),
             'title' => 'Become The Last Survivor',
         ]
     ];

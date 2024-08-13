@@ -14,7 +14,7 @@ class SurvivorPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return false;
     }
 
     /**
@@ -22,7 +22,9 @@ class SurvivorPolicy
      */
     public function view(User $user, Survivor $survivor)
     {
-        //
+        if($survivor->user_id === $user->id) return true;
+
+        return false;
     }
 
     /**
@@ -30,7 +32,7 @@ class SurvivorPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -39,6 +41,15 @@ class SurvivorPolicy
     public function update(User $user, Survivor $survivor): bool
     {
 
+        if($user->id === $survivor->user_id && $survivor->pool?->alive) {
+            if(is_null($survivor->result) && Carbon::now()->lessThan(Carbon::parse($survivor->question->starts_at))) {
+                return true;
+            } else {
+               return false;
+            }
+        }
+
+        return $survivor->pool?->alive ?? false;
     }
 
     /**
@@ -46,12 +57,16 @@ class SurvivorPolicy
      */
     public function delete(User $user, Survivor $survivor): bool
     {
-        if(is_null($survivor->result) && Carbon::now()->lessThan(Carbon::parse($survivor->question->starts_at))) {
-            return true;
-        } else {
-           return false;
+        
+        if($survivor->pool?->alive) {
+            if(is_null($survivor->result) && Carbon::now()->lessThan(Carbon::parse($survivor->question->starts_at))) {
+                return true;
+            } else {
+               return false;
+            }
         }
 
+        return $survivor->pool?->alive;
     }
 
     /**

@@ -34,8 +34,8 @@
                             <th>Pool Type</th>
                             <th>Name</th>
                             <th>Entry</th>
+                             <!--<th>Prize</th>-->
                             <th>Prize</th>
-                            <th>Calc Prize</th>
                             <th>Actions</th>
                             <th>Status</th>
                             <th>Max Lives</th>
@@ -51,7 +51,7 @@
                                 <td>{{ ucfirst($pool->pool->type) }}</td>
                                 <td>{{ $pool->pool->name }}</td>
                                 <td>@if($pool->pool->entry_cost) ${{$pool->pool->entry_cost}} @else FREE @endif</td>
-                                <td>{{ $pool->pool->guaranteed_prize }}</td>
+                                {{--<td>{{ $pool->pool->guaranteed_prize }}</td>--}}
                                 <td>{{ $pool->pool->total_prize }}</td>
                                 <td>
                                     <div class="flex justify-around">
@@ -77,18 +77,20 @@
                                                         href="{{ route('pool.destroy', ['pool' => $pool->pool->id]) }}" disabled>Delete</a>
                                             </div>
                                         @endcan
-                                    @if($pool->pool->entry_cost < 1)
-                                        @can('view', $pool->pool)
-                                            <div>
-                                                {{--
-                                                <a
-                                                        class="btn btn-sm btn-warning"
-                                                        href="{{ route('pool.leave', ['survivorregistration' => $pool->id]) }}">Leave Pool</a>
-                                                        --}}
-                                                <button class="btn btn-sm btn-warning" disabled>Leave Pool</button>
-                                            </div>
-                                        @endcan
-                                    @endif
+                                        {{--
+                                            @if($pool->pool->entry_cost < 1)
+                                                @can('view', $pool->pool)
+                                                    <div>
+                                                        <!---
+                                                        <a
+                                                                class="btn btn-sm btn-warning"
+                                                                href="{{ route('pool.leave', ['survivorregistration' => $pool->id]) }}">Leave Pool</a>
+                                                        -->  
+                                                        <button class="btn btn-sm btn-warning" disabled>Leave Pool</button>
+                                                    </div>
+                                                @endcan
+                                            @endif
+                                    --}}
                                     </div>
                                 </td>
                                 <td>{{ $pool->alive ? 'Alive' : 'Dead' }}</td>
