@@ -73,13 +73,13 @@
                                     'h-24 opacity-50' => $mypicks->where('game_id', $key)->isEmpty() || $mypicks->where('game_id', $key)->first()->selection_id !== $game->teams->away->team_id,
                                     'h-32 opacity-100' => $mypicks->where('game_id', $key)->isNotEmpty() && $mypicks->where('game_id', $key)->first()->selection_id === $game->teams->away->team_id])
 
-                                    src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->away->name)) }}.png">
+                                    src="https://survivor.nbz.one/nfl-logos/{{ trim(str_replace(' ', '', $game->teams->away->name)) }}.png">
                             <img
                                     wire:click="pickGame('{{$game->gid}}','{{ $game->teams->home->name }}','{{ $game->teams->home->team_id }}')"
                                     @class([
                                     'h-24 opacity-50' => $mypicks->where('game_id', $key)->isEmpty() || $mypicks->where('game_id', $key)->first()->selection_id !== $game->teams->home->team_id,
                                     'h-32 opacity-100' => $mypicks->where('game_id', $key)->isNotEmpty() && $mypicks->where('game_id', $key)->first()->selection_id === $game->teams->home->team_id])
-                                    src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->home->name)) }}.png">
+                                    src="https://survivor.nbz.one/nfl-logos/{{ trim(str_replace(' ', '', $game->teams->home->name)) }}.png">
 
 
                         @else
@@ -91,7 +91,7 @@
                                             "opacity-50" => $game->result?->winner !== $game->teams->away->team_id,
                                             "opacity-100" => $game->result?->winner === $game->teams->away->team_id
                                     ])
-                                            src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->away->name)) }}.png">
+                                            src="https://survivor.nbz.one/nfl-logos/{{ trim(str_replace(' ', '', $game->teams->away->name)) }}.png">
                                 </div>
                                 <div>
                                     <p>
@@ -108,7 +108,7 @@
                                             "opacity-100" => $game->result?->winner === $game->teams->home->team_id
 
                                     ])
-                                        src="https://survivor.nbz.one/images/logo/nfl/{{ trim(str_replace(' ', '', $game->teams->home->name)) }}.png">
+                                        src="https://survivor.nbz.one/nfl-logos/{{ trim(str_replace(' ', '', $game->teams->home->name)) }}.png">
                                 </div>
                                 <div>
                                     <p>
