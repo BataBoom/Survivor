@@ -46,7 +46,7 @@
                                     @cannot('view', $pool)
                                         @if(now()->lessThan(Config::get('survivor.start_date')))
                                             <a      class="btn btn-sm btn-success"
-                                                    href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register, Entry Fee: {{$pool->entry_cost }}</a>
+                                                    href="{{ route('pool.register', ['pool' => $pool->id]) }}">Register, Entry Fee: {{$pool->entry_cost }}</a>
                                         @else
                                         <button class="btn btn-sm disabled">Registration Concluded</button>
                                         @endif
