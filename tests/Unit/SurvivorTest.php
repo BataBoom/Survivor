@@ -21,12 +21,17 @@ class SurvivorTest extends TestCase
     public $week;
     public $user;
     public $game;
+    public $ticket;
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::Factory()->create();
         $this->pool = Pool::Factory()->single()->create();
-        $this->game = Survivor::Factory(['user_id' => $this->user->id, 'pool_id' => $this->pool->id])->create();
+        
+        $this->ticket = $this->pool->registration()->create(['user_id' => $this->user->id, 'lives_count' => $this->pool->lives_per_person]);
+
+        $this->game = Survivor::Factory(['user_id' => $this->user->id, 'ticket_id' => $this->ticket->id])->create();
+
     }
 
 

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 
 class SurvivorGameTest extends TestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     public $pool;
 
@@ -60,7 +60,11 @@ class SurvivorGameTest extends TestCase
             ->inRandomOrder()
             ->first();
 
+            
+
         $randomSelection = $randomWager->gameoptions->first();
+
+        log::debug($randomSelection->option);
 
         Livewire::actingAs($this->user)
             ->test(SurvivorGame::class, ['pool' => $this->pool])
@@ -68,7 +72,8 @@ class SurvivorGameTest extends TestCase
             ->assertSetStrict('week', 1)
             ->assertSetStrict('realWeek', 1)
             ->assertSee('currentTimeEST', Carbon::now())
-            ->set('selectTeam', $randomSelection->team_id)
+            ->set('selectTeam', $randomSelection->id)
+            //->set('selectTeam', $randomSelection->team_id)
             ->set('selectTeamName', $randomSelection->option)
             //cant figure out how to test Rule Class BeforeWagerQuestionStart, but passing validation rules here seems fine..
             ->assertHasNoErrors(['selectTeam' => ['required', 'integer']])

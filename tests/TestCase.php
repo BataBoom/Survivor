@@ -18,8 +18,7 @@ abstract class TestCase extends BaseTestCase
         $alreadySeeded = WagerResult::All()->isEmpty();
 
         if ($alreadySeeded) {
-           // $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
-            //$this->artisan('db:seed', ['--class' => 'TestScheduleSeeder']);
+            $this->artisan('db:seed', ['--class' => 'TestDatabaseSeeder']);
         }
 
 

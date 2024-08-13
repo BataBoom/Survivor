@@ -16,20 +16,41 @@ class SurvivorFactory extends Factory
 
     public function definition()
     {
-        $game = WagerQuestion::Where('week', 1)->get()->random();
+        $week = $this->week ?? 1;
+
+        $game = WagerQuestion::Where('week', $week)->get()->random();
         $selection = $game->gameoptions->random();
-        //$pool = Pool::Where('type', 'survivor')->where('lives_per_person', 1)->first();
 
         return [
             'game_id' => $game->game_id,
             'user_id' => User::factory(),
             'selection' => $selection->option,
             'selection_id' => $selection->team_id,
-            //'pool_id' => $pool->id,
             'ticket_id' => SurvivorRegistration::factory(),
             'week' => $game->week,
         ];
     }
 
+    public function week(int $week)
+    {
+        return $this->state(function (array $attributes) use ($week) {
+            return [
+                'week' => $week,
+            ];
+        });
+    }
 
+    public function random(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'week' => 2,
+            ];
+        })->afterMaking(function (Survivor $pool) {
+            // ...
+        })->afterCreating(function (Survivor $pool) {
+            // ...
+        });
+
+    }
 }
