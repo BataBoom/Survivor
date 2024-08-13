@@ -54,9 +54,11 @@
                                     @if(Auth::user()->is($pool->creator))
                                     <a      class="btn btn-success"
                                             href="{{ route('pool.setup', ['pool' => $pool->id]) }}" wire:navigate>Finish Set up, Pay Entry Fee: ${{$pool->entry_cost }} @if($pool->guaranteed_prize > 1) + Guaranteed: ${{$pool->guaranteed_prize }} @endif</a>
-                                    @else
+                                    @elseif(now()->lessThan(Config::get('survivor.start_date')))
                                         <a      class="btn btn-sm btn-success"
                                                 href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register, Entry Fee: ${{$pool->entry_cost }}</a>
+                                    @else
+                                    <button class="btn btn-sm disabled">Registration Concluded</button>
                                     @endif
                                 </td>
                                 <td>{{ now()->greaterThan(Config::get('survivor.start_date')) ? 'In progress' : 'Registering' }}</td>

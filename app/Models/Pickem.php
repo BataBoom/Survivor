@@ -39,9 +39,9 @@ class Pickem extends Model
         return $this->hasOne(WagerQuestion::class, 'game_id', 'game_id');
     }
 
-    public function result()
+    public function results()
     {
-        return $this->hasOne(WagerResult::class, 'game_id', 'game_id');
+        return $this->hasOne(WagerResult::class, 'game', 'game_id');
     }
 
     public static function getGradedPicksByUser(User $user)

@@ -32,6 +32,7 @@ class IncomingPaymentListener
         $pool = $event->payment->pool;
         //Create Ticket
         $myTicket = $pool->registration()->create(['user_id' => $event->payment->user_id, 'lives_count' => $pool->lives_per_person]);
+
         //Update Payment w/ Ticket
         $event->payment->update([
             'ticket_type' => 'App\Models\SurvivorRegistration',
@@ -44,7 +45,7 @@ class IncomingPaymentListener
             Mail::to($event->payment->user->email)->send(new NewPaymentEmail($event->payment, $event->payment->user, 1));
         } elseif($event->type === 2) {
 
-         $pool->update(['hidden' => false]);
+            $pool->update(['hidden' => false]);
 
             //Send Success Email?
             Mail::to($event->payment->user->email)->send(new NewPaymentEmail($event->payment, $event->payment->user, 2));

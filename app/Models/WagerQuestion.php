@@ -32,7 +32,7 @@ class WagerQuestion extends Model
 
     public function result()
     {
-    return $this->belongsTo(WagerResult::class, 'game', 'game_id');
+    return $this->belongsTo(WagerResult::class, 'game_id', 'game');
     }
 
     public function wagers()
