@@ -113,7 +113,7 @@ NFL Survivor
             <a href="{{ route('register') }}" wire:navigate class="btn btn-primary w-full mb-4">Click Here To Signup</a>
             <div class="flex w-full items-center justify-center bg-gray-900">
                 <div class="relative z-0 h-96 w-96 rounded-3xl bg-emerald-500">
-                    <img class="w-full" src="https://survivor.nbz.one/images/icons/shape-2.svg" alt="" />
+                    <img class="w-full" src="{{ asset('icons/shape-2.svg') }}" alt="" />
                     <div class="absolute inset-0 z-10 flex items-center justify-center">
                         <img class="object-cover" src="https://i.imgur.com/WQgH3YN.png" alt="" />
                     </div>
