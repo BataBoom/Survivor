@@ -19,9 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             WagerTeamsSeeder::class,
             SurvivorScheduleSeeder::class,
+            CreateDummyPools::class,
         ]);
 
-        Pool::factory(['name' => 'NBZ Pickem', 'entry_cost' => 0])->pickem()->create();
+        //Pool::factory(['name' => 'NBZ Pickem', 'entry_cost' => 0])->pickem()->create();
 
         User::create(['name' => 'admin', 'email' =>  'admin@github.com', 'password' =>  Hash::make(config('survivor.admin_pw')), 'email_verified_at' => now()]);
 

@@ -17,7 +17,7 @@ class PoolPolicy
             //return true;
         }
 
-         return $user->pools->contains('pool_id', $pool->id);
+        return false;
     }
 
     /**
@@ -50,7 +50,7 @@ class PoolPolicy
         }
 
 
-        return false;
+        return $user->id === $pool->creator_id;
     }
 
     /**
@@ -59,7 +59,7 @@ class PoolPolicy
     public function delete(User $user, Pool $pool): bool
     {
         if($user->isAdmin()) {
-            return true;
+            //return true;
         }
 
         return $user->id === $pool->creator_id;
