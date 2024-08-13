@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,15 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        // Define a global before check
+        Gate::before(function (User $user, $ability) {
+            if ($user->isAdmin()) {
+                return true;
+            }
+        });
+
+
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
                 ->subject('Verify Email Address')
