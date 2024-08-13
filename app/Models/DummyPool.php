@@ -34,12 +34,12 @@ class DummyPool
     {
         $kilo = Pool::Where('name', 'Kilo')->first();
         $bravo = Pool::Where('name', 'Bravo')->first();
-        $pickem = Pool::Where('name', 'NBZ Pickem')->first();
+        $pickem = Pool::Where('name', "NBZ Pick'em")->first();
 
         $ourPromoPools = [
             ['id' => $bravo->id,'name' => 'Bravo', 'type' => 'Survivor', 'guaranteed_prize' => '0.01 BTC', 'entry_cost' => 'FREE', 'total_prize' => '0.01 BTC', 'lives_per_person' => 1, 'model' => $bravo],
             ['id' => $kilo->id,'name' => 'Kilo',  'type' => 'Survivor', 'guaranteed_prize' => '0.005 BTC', 'entry_cost' => '$10.00', 'total_prize' => '0.005 BTC', 'lives_per_person' => 1, 'model' => $kilo],
-            ['id' => $pickem->id,'name' => 'NBZ Pickem',  'type' => 'Pickem', 'guaranteed_prize' => '0.0', 'entry_cost' => 'FREE', 'total_prize' => '0.0', 'lives_per_person' => 'N/A' ,'model' => $pickem],
+            ['id' => $pickem->id,'name' => "NBZ Pick'em",  'type' => 'Pickem', 'guaranteed_prize' => '0.0', 'entry_cost' => 'FREE', 'total_prize' => '0.0', 'lives_per_person' => 'N/A' ,'model' => $pickem],
         ];
 
         return collect($ourPromoPools)->map(function ($item) {
@@ -51,7 +51,7 @@ class DummyPool
     public static function getPromoPoolsForController()
     {
 
-        return Pool::WhereIn('name', ['NBZ Pickem', 'Kilo', 'Bravo',])->whereNull('creator_id')->orderBy('guaranteed_prize', 'desc')->get();
+        return Pool::WhereIn('name', ["NBZ Pick'em", 'Kilo', 'Bravo',])->whereNull('creator_id')->orderBy('guaranteed_prize', 'desc')->get();
     }
     
 
