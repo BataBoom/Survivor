@@ -26,9 +26,9 @@ class Pool extends Model
 
     //Update Manually from Dummy Pools after theyre created
     public const DummyPrizes = [
-        "9cc187d5-e1cd-4294-acc5-3aa95af1fb14" => '0.01 BTC',
-        "9cc187d5-e66f-4e00-bace-6eba4a934545" => '0.005 BTC',
-        "9c3588ef-3c03-4d28-b7d3-cbd7a1bc6c00" => "0.0",
+        "9c35cbef-a356-40fe-931c-21bfc18733d6" => '0.01 BTC',
+        "9c35cc31-231c-43f6-aa51-d86d17512e1e" => '0.005 BTC',
+        "9c35c839-713e-4ad2-9d38-585f56a9d521" => "0.0",
     ];
 
     //Relationship to payments
