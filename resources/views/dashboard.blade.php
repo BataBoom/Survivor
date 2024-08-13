@@ -13,7 +13,7 @@
                 <div class="bg-white transition text-green-500 hover:text-black hover:bg-green-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('mypools.show') }}">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/american-football-field.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/american-football-field.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">Browse Pools</h2>
                         </div>
                         <p class="text-black font-semibold">
@@ -25,7 +25,7 @@
                 <div class="bg-white transition text-purple-500 hover:text-white hover:bg-green-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('pool.create') }}">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/marker.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/marker.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">Create Pool</h2>
                         </div>
                         <p class="text-black font-semibold">
@@ -37,7 +37,7 @@
                 <div class="bg-white transition text-blue-500 hover:text-white hover:bg-indigo-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('faq.index') }}">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/megaphone.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/megaphone.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">Frequently Asked Questions</h2>
                         </div>
                         <p class="text-black font-semibold">
@@ -48,7 +48,7 @@
                 <div class="bg-white transition text-purple-500 hover:text-white hover:bg-indigo-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('trophies.index') }}">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/trophy.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/trophy.png') }}"/>
                             <h2 class="text-xl font-bold mb-4">Trophy Room</h2>
                         </div>
                         <p class="text-black">View Survivor Legends</p>
@@ -58,7 +58,7 @@
                 <div class="bg-white transition text-accent hover:text-white hover:bg-orange-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('mypools.show') }}">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/strategyz.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/strategyz.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">Quick Stats</h2>
                         </div>
                         <!---
@@ -71,7 +71,7 @@
                 <div class="bg-white transition text-primary hover:text-accent hover:bg-blue-800  rounded-lg shadow-md p-6">
                     <a href="{{ route('support.index') }}" target="_blank">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/whistle.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/whistle.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">Contact Support</h2>
                         </div>
                     </a>
@@ -80,7 +80,7 @@
                 <div class="bg-white transition text-purple-500 hover:text-white hover:bg-indigo-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('my-payments.index') }}">
                         <div class="flex flex-1">
-                            <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/bitcoin.png"/>
+                            <img class="w-11 mr-4" src="{{ asset('/icons/bitcoin.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">My Payments</h2>
                         </div>
                         <p class="text-black">View my payment ledger</p>

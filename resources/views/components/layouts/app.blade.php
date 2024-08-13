@@ -19,6 +19,7 @@
             width: 100%;
         }
     </style>
+    <x-meta-data/>
 
 </head>
 <body class="dark font-sans antialiased">
