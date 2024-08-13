@@ -47,6 +47,10 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'incomingpayment' => [
+            \App\Http\Middleware\CustomPaymentToken::class,
+        ],
     ];
 
     /**

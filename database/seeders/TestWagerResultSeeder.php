@@ -15,7 +15,8 @@ class TestWagerResultSeeder extends Seeder
     public function run(): void
     {
         $allGames = WagerQuestion::All();
-
+        //$allGames = WagerQuestion::Where('week', 1)->get();
+        
         foreach($allGames as $game) {
 
             $randomSelection = $game->gameoptions->random();

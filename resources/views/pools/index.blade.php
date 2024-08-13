@@ -31,9 +31,9 @@
                             <tr class="hover text-center">
                                 <td>{{ ucfirst($pool->type) }}</td>
                                 <td>{{ $pool->name }}</td>
-                                <td>{{ $pool->prize_type }} @if($pool->total_prize) |  {{ $pool->total_prize }} (USD) @endif</td>
+                                <td>{{ $pool->total_prize }}</td>
 
-                                <th>${{ $pool->entry_cost ?? 'FREE' }}</th>
+                                <th>{{ $pool->entry_cost ?? 'FREE' }}</th>
                                 <td>{{ now()->greaterThan($start_date) ? 'In progress' : 'Registering' }}</td>
                                 <td>
                                     @can('view', $pool)
@@ -41,14 +41,25 @@
                                         <a
                                                 class="btn btn-sm btn-primary"
                                                 href="{{ route('pool.show', ['pool' => $pool->id]) }}" wire:navigate>View</a>
-                                    @else
-                                        <a
-                                                class="btn btn-sm btn-success"
-                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}"> Register </a>
+                                    @endcan
+
+                                    @cannot('view', $pool)
+                                        @if(now()->lessThan(Config::get('survivor.start_date')))
+                                            <a      class="btn btn-sm btn-success"
+                                                    href="{{ route('pool.register', ['pool' => $pool->id]) }}">Register, Entry Fee: {{$pool->entry_cost }}</a>
+                                        @else
+                                        <button class="btn btn-sm disabled">Registration Concluded</button>
+                                        @endif
+                                        
                                     @endcan
                                 </td>
+                                @if($pool->type == 'pickem')
+                                <td>N/A</td>
+                                @else
                                 <td>{{ $pool->lives_per_person }}</td>
-                                <td>{{ $pool->users->count() }}</td>
+                                @endif
+                            
+                                <td>{{ $pool->users?->count() }}</td>
 
                                 <td> {{ $start_date->diffForHumans() .' / '.$start_date->format('jS \o\f F, Y')}}</td>
                                 <td>
@@ -108,10 +119,16 @@
                                     <a
                                             class="btn btn-sm btn-primary"
                                             href="{{ route('pool.show', ['pool' => $pool->id]) }}" wire:navigate>View</a>
-                                    @else
-                                        <a
-                                                class="btn btn-sm btn-success"
-                                                href="{{ route('pool.register', ['pool' => $pool->id]) }}"> Register </a>
+                                    @endcan
+                                    @cannot('view', $pool)
+                                    
+                                        @if(now()->lessThan(Config::get('survivor.start_date')))
+                                            <a      class="btn btn-sm btn-success"
+                                                    href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register, Entry Fee: {{$pool->entry_cost }}</a>
+                                        @else
+                                        <button class="btn btn-sm disabled">Registration Concluded</button>
+                                        @endif
+                                        
                                     @endcan
                                 </td>
                                 <td>{{ $pool->lives_per_person }}</td>

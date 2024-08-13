@@ -61,8 +61,10 @@
                             <img class="w-11 mr-4" src="https://survivor.nbz.one/images/icons/strategyz.png"/>
                         <h2 class="text-xl font-bold mb-4">Quick Stats</h2>
                         </div>
+                        <!---
                         <p class="text-black hover:text-white font-semibold">Alive: 69 | Dead: 4
                         </p>
+                        --->
                     </a>
                 </div>
 

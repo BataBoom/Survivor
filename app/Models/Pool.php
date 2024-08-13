@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Carbon\Carbon;
 
 class Pool extends Model
 {
@@ -22,10 +24,11 @@ class Pool extends Model
 
     public const PRIZETYPES = ['crypto', 'credits', 'promotion'];
 
+    //Update Manually from Dummy Pools after theyre created
     public const DummyPrizes = [
-        "9c358964-47a0-4d8a-8665-3698e22059d2" => '0.01 BTC',
-        "9c358a69-cc4a-483e-89d0-599b3ca44475" => '0.005 BTC',
-        "9c3588ef-3c03-4d28-b7d3-cbd7a1bc6c00" => "0.0",
+        "9c35cbef-a356-40fe-931c-21bfc18733d6" => '0.01 BTC',
+        "9c35cc31-231c-43f6-aa51-d86d17512e1e" => '0.005 BTC',
+        "9c35c839-713e-4ad2-9d38-585f56a9d521" => "0.0",
     ];
 
     //Relationship to payments
