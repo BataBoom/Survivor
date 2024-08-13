@@ -19,8 +19,8 @@ class InvoiceGenerator {
 
     public function __construct(public User $user, public Pool $pool)
     {
-        if($this->user == $this->pool->creator_id) {
-            $this->total = $this->pool->entry_cost + 5;
+        if($this->user->id == $this->pool->creator_id) {
+            $this->total = $this->pool->entry_cost + $pool->guaranteed_prize + 5;
             $this->type = 2;
         } else {
             $this->total =  $this->pool->entry_cost;

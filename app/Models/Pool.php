@@ -24,9 +24,10 @@ class Pool extends Model
 
     public const PRIZETYPES = ['crypto', 'credits', 'promotion'];
 
+    //Update Manually from Dummy Pools after theyre created
     public const DummyPrizes = [
-        "9c358964-47a0-4d8a-8665-3698e22059d2" => '0.01 BTC',
-        "9c358a69-cc4a-483e-89d0-599b3ca44475" => '0.005 BTC',
+        "9cc187d5-e1cd-4294-acc5-3aa95af1fb14" => '0.01 BTC',
+        "9cc187d5-e66f-4e00-bace-6eba4a934545" => '0.005 BTC',
         "9c3588ef-3c03-4d28-b7d3-cbd7a1bc6c00" => "0.0",
     ];
 

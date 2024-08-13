@@ -16,6 +16,7 @@ use Validator;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Http\Services\InvoiceGenerator;
+use App\Models\DummyPool;
 
 class PoolController extends Controller
 {
@@ -24,12 +25,12 @@ class PoolController extends Controller
      */
     public function index()
     {
-        $officialPools = Config::get('survivor.dummy_pools') ? DummyPool::getPromoPools() : Pool::Where('creator_id', 1)->withCount('users')->orderBy('users_count', 'desc')->paginate(5);
+        $officialPools = Config::get('survivor.dummy_pools') ? DummyPool::getPromoPoolsForController() : Pool::Where('creator_id', 1)->withCount('users')->orderBy('users_count', 'desc')->paginate(5);
 
         return view('pools.index', [
             'pools' => Pool::Where('public', true)
                 ->Where('hidden', false)
-                ->Where('creator_id', '!==', 1)->orWhereNull('creator_id')
+                ->WhereNotNull('creator_id')
                 ->withCount('users')
                 ->orderBy('users_count', 'desc')
                 ->paginate(10),
@@ -203,48 +204,15 @@ class PoolController extends Controller
 
     public function finishSetup(Request $request, Pool $pool)
     {
-        $setupCost = number_format($pool->entry_cost + $pool->guaranteed_prize, 2);
 
-        return view('checkout.setup', ['pool' => $pool, 'setupCost' => $setupCost]);
+        $payment = new InvoiceGenerator(Auth::user(), $pool);
+        $paymentURL = $payment->makeInvoice();
+        return redirect()->away($paymentURL);
+
+        //$setupCost = number_format($pool->entry_cost + $pool->guaranteed_prize, 2);
+
+        //return view('checkout.setup', ['pool' => $pool, 'setupCost' => $setupCost]);
     }
-
-    public function checkout(Request $request, Pool $pool)
-    {
-
-        $user = User::Where('email', $request->input('email'))->first();
-
-        if($user) {
-
-            $payment = new InvoiceGeneratorV2($user, $pool);
-            $paymentURL = $payment->makeInvoice();
-            return redirect()->away($paymentURL);
-
-        } else {
-            $request->session()->flash('error', "Email has not been registered!");
-            return back();
-        }
-    }
-
-    public function creatorCheckout(Request $request, Pool $pool)
-    {
-        $user = $pool->creator;
-
-        if($user) {
-
-            $payment = new InvoiceGeneratorV2($user, $pool);
-            $payment->extraFee = $pool->guaranteed_prize;
-            $paymentURL = $payment->makeCreatorInvoice();
-
-            return redirect()->away($paymentURL);
-
-        } else {
-            $request->session()->flash('error', "Email has not been registered!");
-            return back();
-        }
-
-
-    }
-
 
     public function leave(Request $request, SurvivorRegistration $survivorregistration) {
 
