@@ -15,7 +15,7 @@ use App\Http\Requests\CreatePoolRequest;
 use Validator;
 use Illuminate\Validation\Rule;
 use App\Models\User;
-use App\Http\Services\InvoiceGeneratorV2;
+use App\Http\Services\InvoiceGenerator;
 
 class PoolController extends Controller
 {
@@ -24,18 +24,17 @@ class PoolController extends Controller
      */
     public function index()
     {
+        $officialPools = Config::get('survivor.dummy_pools') ? DummyPool::getPromoPools() : Pool::Where('creator_id', 1)->withCount('users')->orderBy('users_count', 'desc')->paginate(5);
+
         return view('pools.index', [
             'pools' => Pool::Where('public', true)
                 ->Where('hidden', false)
-                ->WhereNot('creator_id', 1)
+                ->Where('creator_id', '!==', 1)->orWhereNull('creator_id')
                 ->withCount('users')
                 ->orderBy('users_count', 'desc')
                 ->paginate(10),
             'start_date' => Config::get('survivor.start_date'),
-            'sitePools' => Pool::Where('creator_id', 1)
-                            ->withCount('users')
-                            ->orderBy('users_count', 'desc')
-                            ->paginate(5),
+            'sitePools' => $officialPools,
         ]);
     }
 
@@ -190,25 +189,15 @@ class PoolController extends Controller
                 $request->session()->flash('success', 'Success! Registered to: ' . $pool->name);
                 return redirect()->route('mypools.show');
             }
+        } elseif(now()->lessThan(Config::get('survivor.start_date')) && $pool->entry_cost > 0) {
+
+            $payment = new InvoiceGenerator(Auth::user(), $pool);
+            $paymentURL = $payment->makeInvoice();
+            return redirect()->away($paymentURL);
+
         } else {
 
-            /*
-            $register = $pool->registration()->create([
-                'user_id' => Auth::user()->id,
-                'alive' => true,
-                'lives_count' => 1,
-            ]);
-            //$request->session()->flash('error', 'Error! Registration Ended!');
-            //return redirect()->route('pool.show', ['pool' => $pool]);
-
-            $payment = new InvoiceGenerator(Auth::user(), $register);
-            $paymentURL = $payment->makeInvoice();
-
-            //$request->session()->flash('error', 'Error! Registration Ended!');
-
-            return redirect()->away($paymentURL);
-            */
-            return view('checkout.show', ['pool' => $pool]);
+            return back()->withErrors('Registration has concluded!');
         }
     }
 

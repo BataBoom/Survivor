@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Pickem;
-use App\Models\WagerResults;
+use App\Models\WagerResult;
 use Illuminate\Support\Facades\Log;
 
 class gradePickem extends Command
@@ -32,7 +32,6 @@ class gradePickem extends Command
     public function newGrader()
     {   
 
-        /* Works perfect, just to be safe use Pool 1 but thinking how to make that better, regardless fantastic refactor! */
         $allPicks = Pickem::where('week', $this->getWeek())->get();
 
             foreach ($allPicks as $pick) {

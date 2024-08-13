@@ -62,7 +62,7 @@ trait SurvivorTrait
                 'gid' => $game->game_id,
                 'mid' => $game->id,
                 'teams' => $tmz,
-                'result' => $game->results,
+                'result' => $game->result,
             ];
 
             $combinedData->push($item);

@@ -27,8 +27,9 @@ class AuthServiceProvider extends ServiceProvider
 
         // Define a global before check
         Gate::before(function (User $user, $ability) {
+            //if youre logged in as admin and you kill yourself from a pool you'll still be able to do things, as this sits
             if ($user->isAdmin()) {
-                return true;
+                //return true;     
             }
         });
 

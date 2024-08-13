@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-use App\Models\SurvivorRegistration;
+use App\Models\Pool;
 use Illuminate\Support\Facades\Http;
 use App\Models\User;
 
@@ -14,15 +14,18 @@ use App\Models\User;
  ****/
 class InvoiceGenerator {
 
+    public $total;
+    public $type;
 
-    public function __construct(public User $user, public SurvivorRegistration $survivorRegistration)
+    public function __construct(public User $user, public Pool $pool)
     {
-       //
-    }
-
-    private function getTotal()
-    {
-        return $this->survivorRegistration->pool->entry_cost + 5;
+        if($this->user == $this->pool->creator_id) {
+            $this->total = $this->pool->entry_cost + 5;
+            $this->type = 2;
+        } else {
+            $this->total =  $this->pool->entry_cost;
+            $this->type = 1;
+        }
     }
 
     private function create()
@@ -30,21 +33,21 @@ class InvoiceGenerator {
 
 
         try {
-            $response = Http::accept('application/json')->post("https://".env('MERCHANT_DOMAIN').'/api/createCashiersInvoice?auth_token='.env('MERCHANT_TOKEN'),[
+            $response = Http::accept('application/json')->post("https://".env('MERCHANT_DOMAIN').'/api/createSurvivorInvoice?auth_token='.env('MERCHANT_TOKEN'),[
                 'user_id' => $this->user->id,
                 'username' => $this->user->name,
-                'amount' => $this->getTotal(),
+                'amount' => $this->total,
                 'ip' => '0.0.0.0', //must be set
                 'duration' => '365 days', //must be set
-                'shop_hash' => $this->survivorRegistration->id,
-                'type'=> 69, //must
-                'product'=> 0, //must be set
+                'type'=> $this->type,
+                'product'=> $this->pool->id,
             ]);
 
             if ($response->ok())
             {
                 return $response->json('invoice_url');
             }
+
         } catch(\Throwable $e)
         {
             report($e);

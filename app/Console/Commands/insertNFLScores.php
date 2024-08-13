@@ -136,7 +136,7 @@ class insertNFLScores extends Command
      */
     public function handle()
     {   
-        echo $this->line("the week is: ".  $this->getWeek());
+        $this->line("the week is: ".  $this->getWeek());
 
         return $this->gradeIt();
     }
