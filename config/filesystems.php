@@ -71,6 +71,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+	public_path('nfl-logos') => storage_path('app/images/logo/nfl'),
     ],
 
 ];
