@@ -10,7 +10,7 @@ use App\Models\Pool;
 use Illuminate\Support\Facades\Config;
 use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Auth\Events\Verified;
 
 class FreshRegistrationListener
 {
@@ -25,7 +25,7 @@ class FreshRegistrationListener
     /**
      * Send welcome email + Add user to select pools, only after their email has been verified =]
      */
-    public function handle(Registered $event): void
+    public function handle(Verified $event): void
     {
 
         $survivorPool = Pool::Where('creator_id', 1)->where('entry_cost', '0.0')->where('type', 'survivor')->firstOrFail();
