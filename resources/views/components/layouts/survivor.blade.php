@@ -20,6 +20,7 @@
                 width: 100%;
             }
         </style>
+        <x-meta-data/>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen">

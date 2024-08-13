@@ -61,7 +61,7 @@
     <div class="flex justify-center mx-auto">
         <div class="flex-flex-col">
             <div>
-                Viewing Survivor Game
+                
             <livewire:survivor-game :pool="$pool" />
             </div>
 
