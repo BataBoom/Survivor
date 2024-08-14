@@ -40,7 +40,7 @@ class PickemStats extends Component
         foreach($this->pool->contenders as $contender) {
             $leader->push((object)[
                 'user' => $contender->user,
-                'record' => $contender->pickems->countBy(function ($model) {
+                'record' => $contender->pickems->whereNotNull('result')->countBy(function ($model) {
                     return $model->result ? 'Won' : 'Lost';
                 }),
             ]);
