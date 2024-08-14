@@ -23,6 +23,11 @@ Admin panel included on /admin, publish the assets using:
 php artisan filament:assets
 ```
 
+If you publish the admin panel, rebuild w/ NPM to fix Livewire (refresh bug)
+```
+npm run build
+```
+
 
 ![](https://i.imgur.com/if0T9Jw.png)
 ![](https://i.imgur.com/njHpkJD.png)

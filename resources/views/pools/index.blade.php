@@ -1,5 +1,9 @@
 <x-app-layout>
-
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-200 leading-tight">
+            {{ __('Browsing Pools') }}
+        </h2>
+    </x-slot>
     <x-slot:title>Browsing Pools </x-slot:title>
 
     <div class="py-2">
@@ -153,9 +157,16 @@
                 </div>
                 <div class="column pt-6 px-8">
                     <div class="flex justify-evenly">
+                        @if(now()->lessThan(config('survivor.start_date')))
                         <a href="{{ route('pool.create') }}" class="btn btn-success w-1/2 mx-4" wire:navigate>Create Pool</a>
-                        <a  href="{{ route('mypools.show') }}" class="btn btn-primary w-1/2 mx-4"  wire:navigate>My Pools</a>
+                        @endif
+
+                        <a href="{{ route('mypools.show') }}" @class([
+                        "btn btn-primary w-1/2 mx-4" => now()->lessThan(config('survivor.start_date')),
+                        "btn btn-primary w-full mx-4" => now()->greaterThan(config('survivor.start_date')),
+                        ]) wire:navigate>My Pools</a>
                     </div>
+
                 </div>
             </div>
         </div>

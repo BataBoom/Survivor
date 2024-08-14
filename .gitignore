@@ -6,3 +6,7 @@ node_modules/
 !storage/framework/sessions
 !storage/framework/cache
 storage/logs/laravel.log
+storage/app/**/*
+package-lock.json
+composer.lock
+public/**/*
