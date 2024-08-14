@@ -11,10 +11,9 @@
         <!-- Main Content -->
         <div class="mb-6">
             <p class="mb-4">Hi {{$name}},</p>
-            <p class="mb-4">We've received your request to join the league. You're in! You've automatically been signed up to </p>
-            <p class="mb-4">To get started, please verify your email address by clicking the link below:</p>
+            <p class="mb-4">We've received your request to join the league. Your request has been accepted. You've been automatially assigned to Bravo. Good luck!
             <p class="text-center">
-                <a href="#" class="inline-block bg-blue-500 text-white py-2 px-4 rounded">Verify Email</a>
+                <a href="https://survivor.nbz.one" class="inline-block bg-blue-500 text-white py-2 px-4 rounded">Take me to the arena</a>
             </p>
         </div>
 
