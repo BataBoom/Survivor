@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Config;
 use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Log;
 
 class FreshRegistrationListener
 {
@@ -27,9 +28,8 @@ class FreshRegistrationListener
      */
     public function handle(Verified $event): void
     {
-
-        $survivorPool = Pool::Where('creator_id', 1)->where('entry_cost', '0.0')->where('type', 'survivor')->firstOrFail();
-        $pickemPool = Pool::Where('creator_id', 1)->where('entry_cost', '0.0')->where('type', 'pickem')->firstOrFail();
+        $survivorPool = Pool::WhereNull('creator_id')->where('entry_cost', '0.0')->where('type', 'survivor')->firstOrFail();
+        $pickemPool = Pool::WhereNull('creator_id')->where('entry_cost', '0.0')->where('type', 'pickem')->firstOrFail();
 
         $pickemPool->registration()->create(['user_id' => $event->user->id, 'lives_count' => 100]);
         $survivorPool->registration()->create(['user_id' => $event->user->id, 'lives_count' => 1]);
