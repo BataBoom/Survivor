@@ -5,8 +5,8 @@ use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 
 return [
-    'start_date' => Carbon::createFromDate(2024, 9, 5, 'America/New_York'),
-    'over_date' => Carbon::createFromDate(2025, 1, 15, 'America/New_York'),
+    'start_date' => Carbon::createFromDate(2024, 9, 6, 'UTC'),
+    'over_date' => Carbon::createFromDate(2025, 1, 5, 'UTC'),
     'payments' => true,
     'admin_pw' => env('ADMIN_PW'),
     'dummy_pools' => true,

@@ -49,7 +49,7 @@
                         <li>My Lives: {{$survivorPool->lives_count}}</li>
                         <li>Prize: {{$survivorPool->pool->prize_type}}</li>
                         <li>Starting Contestants: {{ $survivorPool->pool->users->count() }}</li>
-                        <li>Remaining Contestants: {{ $survivorPool->pool->survivors->count() }}</li>
+                        <li>Remaining Contestants: {{ $survivorPool->pool->alive->count() }}</li>
                     </ul>
                 </div>
             @empty

@@ -40,7 +40,7 @@
                         <li>My Lives: {{$pickemPool->lives_count}}</li>
                         <li>Prize: {{$pickemPool->pool->prize_type}}</li>
                         <li>Starting Contestants: {{ $pickemPool->pool->users->count() }}</li>
-                        <li>Remaining Contestants: {{ $pickemPool->pool->survivors->count() }}</li>
+                        <li>Remaining Contestants: {{ $pickemPool->pool->alive->count() }}</li>
                     </ul>
                 </div>
 
@@ -74,7 +74,7 @@
                         <li>My Lives: {{$survivorPool->lives_count}}</li>
                         <li>Prize: {{$survivorPool->pool->prize_type}}</li>
                         <li>Starting Contestants: {{ $survivorPool->pool->users->count() }}</li>
-                        <li>Remaining Contestants: {{ $survivorPool->pool->survivors->count() }}</li>
+                        <li>Remaining Contestants: {{ $survivorPool->pool->alive->count() }}</li>
                         <li>
                             <a href="{{ route('fun.wire', ['pool' => $survivorPool->pool->id, 'survivorregistration' => $survivorPool->id]) }}" wire:navigate>
                                 Go to Survivor Game
