@@ -94,13 +94,13 @@ class PoolResource extends Resource
                     ->sortable()
                     ->alignment(Alignment::Center),
 
-                Tables\Columns\TextColumn::make('survivors_count')
-                    ->counts('survivors')
+                Tables\Columns\TextColumn::make('alive_count')
+                    ->counts('alive')
                     ->label('Players Alive')
                     ->sortable()
                     ->alignment(Alignment::Center),
 
-            ])->defaultSort('survivors_count', 'desc')
+            ])->defaultSort('alive_count', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
                         ->multiple()

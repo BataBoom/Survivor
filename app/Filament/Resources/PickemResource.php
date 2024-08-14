@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\SurvivorResource\Pages;
-use App\Filament\Resources\SurvivorResource\RelationManagers;
-use App\Models\Survivor;
+use App\Filament\Resources\PickemResource\Pages;
+use App\Filament\Resources\PickemResource\RelationManagers;
+use App\Models\Pickem;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,31 +12,30 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\QueryBuilder;
-use Filament\Tables\Filters\SelectFilter;
-use App\Models\Pool;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\SelectFilter;
 
-class SurvivorResource extends Resource
+class PickemResource extends Resource
 {
-    protected static ?string $model = Survivor::class;
+    protected static ?string $model = Pickem::class;
 
-    protected static ?string $navigationGroup = 'Survivor';
+    protected static ?string $navigationGroup = 'Pickem';
 
-    protected static ?string $navigationIcon = 'heroicon-o-fire';
+    protected static ?string $navigationIcon = 'heroicon-o-hand-raised';
+
+    protected static ?string $navigationLabel = "Pick'em";
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-               
                 TextInput::make('user_id')
                 ->label('User ID')
                 ->disabled(),
@@ -58,7 +57,7 @@ class SurvivorResource extends Resource
                     ->onColor('success')
                     ->offColor('danger')
                     ->helperText('Game cannot be graded until game has finished. Danger grading games from here, in development')
-                    ->disabled(function (Survivor $record): bool {
+                    ->disabled(function (Pickem $record): bool {
                         // Check if the 'ended' attribute is not null
                         //return $get('ended') !== null;
                         return $record->question->ended == false;
@@ -86,7 +85,7 @@ class SurvivorResource extends Resource
                 ->alignment(Alignment::Center)
                 ->color('info')
                 ->icon('heroicon-s-arrow-top-right-on-square')
-                ->url(fn (Survivor $record): ?string => $record ? route('pool.show', $record->pool->pool_id) : null)
+                ->url(fn (Pickem $record): ?string => $record ? route('pool.show', $record->pool->pool_id) : null)
                 ->openUrlInNewTab(),
 
 
@@ -103,10 +102,11 @@ class SurvivorResource extends Resource
             ])->defaultSort('week', 'asc')
             ->filters([
                     SelectFilter::make('pool')
-                        ->relationship('pool.pool', 'name', fn (Builder $query) => $query->where('type', 'survivor'))
+                        ->relationship('pool.pool', 'name', fn (Builder $query) => $query->where('type', 'pickem'))
                         ->searchable()
                         ->preload(),
-                        
+                    
+
                     SelectFilter::make('player')
                         ->relationship('user', 'name')
                         ->searchable()
@@ -116,12 +116,11 @@ class SurvivorResource extends Resource
                         ->options(array_combine(range(1,18), range(1,18))),
                     TernaryFilter::make('result')
                         ->nullable()
-                        ->placeholder('Won/Lost')
+                        ->placeholder('All')
                         ->trueLabel('Won')
                         ->falseLabel('Lost'),
 
             ], layout: FiltersLayout::AboveContent)
-
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -142,9 +141,9 @@ class SurvivorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSurvivors::route('/'),
-            'create' => Pages\CreateSurvivor::route('/create'),
-            'edit' => Pages\EditSurvivor::route('/{record}/edit'),
+            'index' => Pages\ListPickems::route('/'),
+            'create' => Pages\CreatePickem::route('/create'),
+            'edit' => Pages\EditPickem::route('/{record}/edit'),
         ];
     }
 }
