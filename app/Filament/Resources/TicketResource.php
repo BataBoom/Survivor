@@ -30,7 +30,24 @@ class TicketResource extends Resource
     {
         return $form
             ->schema([
-                //
+
+                Forms\Components\TextInput::make('user_id')
+                    ->label('user_id')
+                    ->disabled(),
+
+                Forms\Components\TextInput::make('subject')
+                    ->label('Subject')
+                    ->disabled(),
+
+                Forms\Components\Toggle::make('answered')
+                    ->label('Answered')
+                    ->onColor('success')
+                    ->offColor('danger'),
+
+                Forms\Components\Toggle::make('resolved')
+                    ->label('Resolved')
+                    ->onColor('success')
+                    ->offColor('danger'),
             ]);
     }
 
