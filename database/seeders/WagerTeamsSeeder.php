@@ -34,5 +34,12 @@ class WagerTeamsSeeder extends Seeder
 
 
         }
+
+        WagerTeam::Create([
+        'team_id' => 35,
+        'name' => 'Tie Game',
+        'abbreviation' => 'TIE',
+        'league' => 'nfl',
+        ]);
     }
 }

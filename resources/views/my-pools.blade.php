@@ -93,7 +93,7 @@
                                     --}}
                                     </div>
                                 </td>
-                                <td>{{ $pool->alive ? 'Alive' : 'Dead' }}</td>
+                                <td @class(['text-green-500' => $pool->alive, 'text-red-500' => !$pool->alive])>{{ $pool->alive ? 'Alive' : 'Dead' }}</td>
                                 <td>@if($pool->pool->type == 'survivor'){{ $pool->pool->lives_per_person }} @else N/A @endif</td>
                                 <td>@if($pool->pool->type == 'survivor') {{ $pool->lives_count }}  @else N/A @endif</td>
                                 <td>{{ $pool->pool->contenders->count() }}</td>
