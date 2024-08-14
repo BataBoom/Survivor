@@ -86,7 +86,7 @@ class UsersResource extends Resource
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: false),
                 */
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
