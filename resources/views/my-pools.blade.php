@@ -114,8 +114,14 @@
                 <div class="column pt-6 px-8">
 
                     <div class="flex justify-evenly">
+                        @if(now()->lessThan(config('survivor.start_date')))
                         <a href="{{ route('pool.create') }}" class="btn btn-success w-1/2 mx-4" wire:navigate>Create Pool</a>
-                        <a href="{{ route('pools.browse') }}" class="btn btn-primary w-1/2 mx-4" wire:navigate>Browse Pools</a>
+                        @endif
+
+                        <a href="{{ route('pools.browse') }}" @class([
+                        "btn btn-primary w-1/2 mx-4" => now()->lessThan(config('survivor.start_date')),
+                        "btn btn-primary w-full mx-4" => now()->greaterThan(config('survivor.start_date')),
+                        ]) wire:navigate>Browse Pools</a>
                     </div>
 
 
