@@ -43,7 +43,7 @@
                         @forelse($contenders as $contender)
                         <tr class="hover text-center">
                             <td>{{ $contender->user->name }}</td>
-                            <td>{{ $contender->alive ? 'Alive' : 'Dead' }}</td>
+                            <td @class(['text-green-500' => $contender->alive, 'text-red-500' => !$contender->alive])>{{ $contender->alive ? 'Alive' : 'Dead' }}</td>
                             <td>{{ $contender->created_at->diffForHumans() }} </td>
                         </tr>
                         @empty

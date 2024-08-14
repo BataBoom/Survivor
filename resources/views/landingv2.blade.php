@@ -54,7 +54,7 @@ NFL Survivor
     <div class="mx-auto max-w-screen-xl items-center gap-8 px-4 py-8 lg:grid lg:grid-cols-2 lg:px-6 lg:py-16 xl:gap-16">
         <div class="text-gray-500 sm:text-lg">
             <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl">Countdown to Kickoff </h2>
-            <div class="timer mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl" x-data="timer(new Date('2024-09-05T23:00:00').getTime())" x-init="init();">
+            <div class="timer mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl" x-data="timer(new Date('2024-09-06T00:20:00').getTime())" x-init="init();">
                 <h1 x-text="time().days"></h1><p class="text-sm m-2">Days</p>
                 <h1 x-text="time().hours"></h1><p class="text-sm m-2">Hours</p>
                 <h1 x-text="time().minutes"></h1><p class="text-sm m-2">Mins</p>

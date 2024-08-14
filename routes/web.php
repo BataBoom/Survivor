@@ -30,9 +30,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
-
-//Route::get('/support', [ContactController::class, 'index'])->name('support.index')->middleware('auth');
-
 Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
 
     Route::get('/my-pools/{pool:id}/edit', [PoolController::class, 'edit'])->name('pool.edit')->middleware('can:update,pool');
@@ -53,26 +50,25 @@ Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
 
     Route::get('/my-pools', [HomeController::class, 'show'])->name('mypools.show');
 
-    Route::view('/test', 'test');
-
     Route::get('/fun', [SurvivorController::class, 'fun']);
 
     Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool');
 
     Route::get('/all-pools', [PoolController::class, 'index'])->name('pools.browse');
 
-    Route::get('/my-pools/create', [PoolController::class, 'create'])->name('pool.create')->middleware('auth');
+    Route::get('/my-pools/create', [PoolController::class, 'create'])->name('pool.create')->middleware('season.started');
+
     Route::get('/my-pools/{pool:id}/delete', [PoolController::class, 'destroy'])->name('pool.destroy');
-    Route::post('/my-pools/create', [PoolController::class, 'store'])->middleware('auth')->name('pool.post');
-    Route::get('/my-pools/register/{pool:id}', [PoolController::class, 'register'])->name('pool.register')->middleware('auth');
-    Route::post('/my-pools/register/{pool:id}/checkout', [PoolController::class, 'checkout'])->name('pool.checkout')->middleware('auth');
+    Route::post('/my-pools/create', [PoolController::class, 'store'])->middleware('season.started')->name('pool.post');
+    Route::get('/my-pools/register/{pool:id}', [PoolController::class, 'register'])->name('pool.register')->middleware('season.started');
+    Route::post('/my-pools/register/{pool:id}/checkout', [PoolController::class, 'checkout'])->name('pool.checkout')->middleware('season.started');
 
     Route::get('/my-pools/{pool:id}/setup', [PoolController::class, 'finishSetup'])->name('pool.setup');
 
-    Route::post('/my-pools/{pool:id}/setup/checkout', [PoolController::class, 'creatorCheckout'])->name('pool.creatorCheckout')->middleware('auth');
+    Route::post('/my-pools/{pool:id}/setup/checkout', [PoolController::class, 'creatorCheckout'])->name('pool.creatorCheckout')->middleware('season.started');
 
 
-    Route::get('/my-pools/leave/{survivorregistration:id}', [PoolController::class, 'leave'])->name('pool.leave')->middleware('auth');
+    Route::get('/my-pools/leave/{survivorregistration:id}', [PoolController::class, 'leave'])->name('pool.leave')->middleware('season.started');
 
     Route::get('/my-payments', [PaymentController::class, 'index'])->name('my-payments.index')->middleware('auth');
 
@@ -81,7 +77,6 @@ Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
     Route::post('/support/{ticket:id}/store', [ContactController::class, 'store'])->name('ticket.store')->middleware('auth');
     Route::get('/support/{ticket:id}/destroy', [ContactController::class, 'destroy'])->name('ticket.destroy')->middleware('auth');
     Route::post('/support/create', [ContactController::class, 'create'])->name('ticket.create')->middleware('auth');
-
     Route::view('/trophy-room', 'trophy')->name('trophies.index');
     Route::view('/faq', 'faq')->name('faq.index');
 

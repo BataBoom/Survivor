@@ -21,7 +21,8 @@
                         </p>
                     </a>
                 </div>
-
+                
+                @if(now()->lessThan(config('survivor.start_date')))
                 <div class="bg-white transition text-purple-500 hover:text-white hover:bg-green-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('pool.create') }}">
                         <div class="flex flex-1">
@@ -33,6 +34,7 @@
                         </p>
                     </a>
                 </div>
+                @endif
 
                 <div class="bg-white transition text-blue-500 hover:text-white hover:bg-indigo-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('faq.index') }}">

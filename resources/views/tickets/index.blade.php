@@ -6,6 +6,40 @@
     </x-slot>
 
     <div class="max-w-7xl">
+
+        @if(Auth::user()->tickets->isNotEmpty())
+        <div class="overflow-x-auto max-w-4xl mx-auto my-8">
+                    <table class="table">
+                        <!-- head -->
+                        <thead>
+                        <tr class="text-center">
+
+                            <th>#</th>
+                            <th>Subject</th>
+                            <th>Replies</th>
+                            <th>Answered</th>
+                            <th>Resolved</th>
+                            
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse(Auth::user()->tickets as $ticket)
+                            <tr class="hover text-center">
+                                <td class="text-xs"><a class="link hover:text-indigo-500" href="{{ route('support.show', ['ticket' => $ticket->id]) }}" wire:navigate>{{ $ticket->id }}<a></td>
+                                <td><a class="link hover:text-indigo-500" href="{{ route('support.show', ['ticket' => $ticket->id]) }}" wire:navigate>{{ $ticket->subject }}</a></td>
+                                <td>{{ $ticket->replies->count() }}</td>
+                                <td @class(['text-success' => $ticket->answered, 'text-warning' => !$ticket->answered])>{{ $ticket->answered ? 'Yes' : 'No' }}</td>
+                                <td @class(['text-green-500' => $ticket->resolved, 'text-warning' => !$ticket->resolved])>{{ $ticket->resolved ? 'Yes' : 'No' }}</td>
+                            </tr>
+                        @empty
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
+
         <form action="{{ route('ticket.create') }}" method="POST" class="max-w-4xl mx-auto p-6 rounded-lg shadow-md">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
