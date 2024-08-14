@@ -5,4 +5,6 @@ node_modules/
 !storage/framework/views
 !storage/framework/sessions
 !storage/framework/cache
+!storage/app/public/
+!storage/app/icons/
 storage/logs/laravel.log
