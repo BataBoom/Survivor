@@ -58,7 +58,7 @@ trait SurvivorTrait
 
             $item = (object)[
                 'game' => $game->question,
-                'starts' => $game->starts_at,
+                'starts' => $game->begins->format('l F jS g:iA T'),
                 'gid' => $game->game_id,
                 'mid' => $game->id,
                 'teams' => $tmz,

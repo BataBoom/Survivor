@@ -50,7 +50,7 @@
                         </div>
                         <div class="row text-sm tracking-wide italic">
                             <div class="flex flex-col">
-                                <h4> {{ date('l F jS', strtotime($game->starts)) }}</h4>
+                                <h4> {{ $game->starts }}</h4>
                             @if (session('status'.$game->gid))
                                 <p class="text-success"> {{ session('status'.$game->gid) }} </p>
                             @endif

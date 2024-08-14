@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 
 class WagerQuestion extends Model
 {
@@ -43,6 +43,11 @@ class WagerQuestion extends Model
     public function scopeScheduled($query)
     {
         return $query->where('ended', false)->where('starts_at', '>=', now())->get();
+    }
+
+    public function getBeginsAttribute()
+    {
+        return $this->starts_at->setTimezone('America/New_York');
     }
     
     
