@@ -21,8 +21,10 @@ Password: YourAdminPassword (or as defined in .env)
 Admin panel included on /admin, publish the assets using:
 ```
 php artisan filament:assets
+```
 
-Rebuild w/ NPM to fix Livewire (refresh bug)
+If you publish the admin panel, rebuild w/ NPM to fix Livewire (refresh bug)
+```
 npm run build
 ```
 
