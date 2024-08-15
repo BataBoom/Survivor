@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Pool;
 
 class SurvivorDied extends Mailable
 {
@@ -21,13 +22,13 @@ class SurvivorDied extends Mailable
     public function __construct(public Survivor $survivor)
     {
         $this->survivor = $survivor;
-        $score = $this->survivor->results->select('home_score', 'away_score')->get()->first()->toArray();
+        $score = [$this->survivor->results->home_score, $this->survivor->results->away_score];
         rsort($score);
 
         $this->gameResult = [
             'game' => $this->survivor->results->question->question,
             'score' => $score[0] .' - '.$score[1],
-            'summary' => 'the ' . $this->survivor->selection.' lost to the '.$this->survivor->results->teams->where('team_id','!==', $this->survivor->selection_id)->first()->option.' '.$score[1] .' - '.$score[0],
+            'summary' => 'the ' . $this->survivor->selection.' lost to the '.$this->survivor->results->result->option.' '.$score[0] .' - '.$score[1],
         ];
     }
 
@@ -36,18 +37,9 @@ class SurvivorDied extends Mailable
      */
     public function envelope(): Envelope
     {
-        $varys = [
-            "Down goes ".$this->survivor->user->name.'!',
-        ];
-
-        if($this->survivor->week == 1) {
-            $subject = $this->survivor->pool->pool->name.': '."Down goes ".$this->survivor->user->name.'!';
-        } else {
-            $subject = $this->survivor->pool->pool->name.': '.$varys[array_rand($varys)];
-        }
 
         return new Envelope(
-            subject: $subject,
+            subject: $this->survivor->pool->pool->name.': ' . "Down goes ".ucfirst($this->survivor->user->name).' in week '. $this->survivor->week .'!',
         );
     }
 
@@ -73,12 +65,15 @@ class SurvivorDied extends Mailable
         return new Content(
             view: 'emails.survivor-died',
             with: [
-                'name' => $this->survivor->user->name,
+                'name' => ucfirst($this->survivor->user->name),
                 'survivor' => $this->survivor,
                 'pool' => $this->survivor->pool->pool,
                 'week' => $this->survivor->week,
                 'gg' => $gg[array_rand($gg)],
                 'gameSummary' => $this->gameResult,
+                'pickemLink' => route('pool.show', ['pool' => array_key_last(Pool::DummyPrizes)]),
+
+
             ],
         );
     }
