@@ -53,6 +53,13 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->id === 1;
     }
 
+    public function getAvatarAttribute()
+    {
+	$colors = ['26f00d', '1b8c78', '641d2e', 'e86654', '880487', '1e67e2', '048ed3', 'f7931a', 'd0cb65', '6c63ff'];
+        $color = $colors[array_rand($colors)];
+        return 'https://ui-avatars.com/api/?rounded=true&name='.$this->name.'&color='.$color.'&background=404143';
+    }
+
     // Relationship With Pool (CREATOR)
     public function createdPools() {
         return $this->hasMany(Pool::class, 'creator_id', 'id');

@@ -52,6 +52,8 @@ class ChatRoom extends Component
             'text' => $this->formMsg,
         ]);
 
+	$this->formMsg = '';
+
         broadcast(new NewChatroomMessageEvent($message))->toOthers();
 
         $this->messages = $this->pool->messages;
