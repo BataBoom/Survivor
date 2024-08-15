@@ -1,5 +1,5 @@
 <div id="chat-container" class="lg:max-w-2/3 max-h-screen my-4">
-    <div class="p-4 overflow-hidden">
+    <div class="p-4 overflow-hidden" wire:poll.visible.3s>
         @forelse($messages as $msg)
             <div @class(['chat', 'chat-start' => Auth::user()->is($msg->from), 'chat-end' => $msg->from->isNot(Auth::user())])>
                 <div class="avatar chat-image">
