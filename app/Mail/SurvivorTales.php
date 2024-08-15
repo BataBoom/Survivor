@@ -21,7 +21,7 @@ class SurvivorTales extends Mailable
     public function __construct(public Survivor $survivor)
     {
         $this->survivor = $survivor;
-        $score = $this->survivor->results->select('home_score', 'away_score')->get()->first()->toArray();
+        $score = [$this->survivor->results->home_score, $this->survivor->results->away_score];
         rsort($score);
 
         $this->gameResult = [
@@ -70,11 +70,11 @@ class SurvivorTales extends Mailable
         return new Content(
             view: 'emails.survivor-tales',
             with: [
-                'name' => $this->survivor->user->name,
+                'name' => ucfirst($this->survivor->user->name),
                 'survivor' => $this->survivor,
                 'pool' => $this->survivor->pool->pool,
                 'week' => $this->survivor->week,
-                //'gg' => $gg[array_rand($gg)],
+                'gg' => $gg[array_rand($gg)],
                 'gameSummary' => $this->gameResult,
             ],
         );
