@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class WagerResult extends Model
 {
-  
     use HasFactory;
     protected $table = 'wager_results';
     protected $guarded = [];
@@ -21,7 +20,7 @@ class WagerResult extends Model
 
     public function result()
     {
-    return $this->hasOne(WagerOption::class, 'team_id', 'winner');
+    return $this->hasOne(WagerTeam::class, 'team_id', 'winner');
     }
 
     public function teams()
