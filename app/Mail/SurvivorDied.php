@@ -48,6 +48,7 @@ class SurvivorDied extends Mailable
      */
     public function content(): Content
     {
+
         $gg = [
             "Womp womp, looks like you didn't quite make the cut this time. Better luck next time!",
             "Sorry champ, you're not the winner. Maybe try again and bring your A game!",
@@ -72,6 +73,7 @@ class SurvivorDied extends Mailable
                 'gg' => $gg[array_rand($gg)],
                 'gameSummary' => $this->gameResult,
                 'pickemLink' => route('pool.show', ['pool' => array_key_last(Pool::DummyPrizes)]),
+                'email' => $this->survivor->user->email,
 
 
             ],

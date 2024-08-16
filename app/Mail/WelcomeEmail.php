@@ -41,6 +41,7 @@ class WelcomeEmail extends Mailable
             view: 'emails.welcome',
             with: [
                 'name' => $this->user->name,
+                'email' => $this->user->email,
             ],
         );
     }
