@@ -27,6 +27,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 
+Route::get('unsubscribe/{user:email}', [HomeController::class, 'unsubscribe'])->name('unsubscribe');
 
 Route::get('/', [GuestController::class, 'index'])->name('home');
 

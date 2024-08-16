@@ -59,6 +59,7 @@ class NewPaymentEmail extends Mailable
                 'payment' => $this->payment,
                 'user' => $this->user,
                 'type' => ($this->type == 1) ? 'user' : 'admin',
+                'email' => $this->user->email,
                // 'entry_cost' => $this->pool->entry_cost,
                 //'total_prize' => $this->pool->total_prize,
             ],

@@ -25,7 +25,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'name',
         'email',
         'password',
-	'email_verified_at'
+	    'email_verified_at',
+        'subscribed',
     ];
 
     /**
@@ -46,6 +47,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'subscribed' => 'boolean',
     ];
 
     public function canAccessPanel(Panel $panel): bool
