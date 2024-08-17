@@ -18,9 +18,16 @@ class SurvivorRegistrationFactory extends Factory
             'user_id' => User::Factory(),
             'pool_id' => Pool::Factory(),
             'alive' => true,
-           'lives_count' => 1,
+            'lives_count' => 1,
         ];
     }
 
-
+    public function pool(Pool $pool)
+    {
+        return $this->state(function (array $attributes) use ($pool) {
+            return [
+                'pool_id' => $pool->id,
+            ];
+        });
+    }
 }

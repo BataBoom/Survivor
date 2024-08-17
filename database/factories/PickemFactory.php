@@ -16,7 +16,7 @@ class PickemFactory extends Factory
 
     public function definition()
     {
-        $game = WagerQuestion::Where('week', 1)->get()->random();
+        $game = WagerQuestion::Where('week', 3)->get()->random();
         $selection = $game->gameoptions->random();
         //$pool = Pool::Where('type', 'survivor')->where('lives_per_person', 1)->first();
 
@@ -28,6 +28,15 @@ class PickemFactory extends Factory
             'ticket_id' => SurvivorRegistration::factory(),
             'week' => $game->week,
         ];
+    }
+
+    public function pool(Pool $pool)
+    {
+        return $this->state(function (array $attributes) use ($pool) {
+            return [
+                'ticket_id' => SurvivorRegistration::factory()->pool($pool),
+            ];
+        });
     }
 
 
