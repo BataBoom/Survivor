@@ -77,4 +77,12 @@ class HomeController extends Controller
     {
         //
     }
+
+    public function unsubscribe(User $user)
+    {
+        
+        $user->update(['subscribed' => false]);
+        return view('unsub', ['user' => $user]);
+    }
+
 }

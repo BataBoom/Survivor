@@ -2,7 +2,7 @@
     <div class="flex justify-center mx-auto">
         <div class="flex-flex-col space-y-2">
             <div>
-                @if($whatweek > 1)
+                @if($whatweek > 0)
                 <a class="btn btn-sm" @click="leaderboard = ! leaderboard" x-text="leaderboard ? 'Hide Leaderboard' : 'Show Leaderboard'" :class="leaderboard ? 'btn-error' : 'btn-primary'">
                 @endif
                 </a>
@@ -14,44 +14,35 @@
             </div>
         </div>
     </div>
-    @if($whatweek > 1)
+    @if($whatweek > 0)
     <div x-show="leaderboard" x-collapse>
         <h1 class="text-xl tracking-wide text-accent text-center my-2">{{$pool->name}} Pick'em Leaderboard</h1>
         <table class="table">
             <!-- head -->
             <thead>
-            <tr>
+            <tr class="text-center">
                 <th>Rank</th>
                 <th>User</th>
                 <th>Record</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
             <!-- row 1 -->
             @forelse($leaderboard as $contender)
-                <tr>
+                <tr @class(['hover', 'border-dashed border border-primary' => $loop->last])>
                     <td>
                         {{$contender->rank}}
                     </td>
-                    <td>
+                    <td class="text-lg">
                         {{$contender->user->name}}
                     </td>
-                    <td class="flex justify-evenly">
+                    <td class="flex justify-evenly text-lg">
                         <p class="text-green-500 px-2">{{ $contender->record["Won"] ?? 0 }}</p> - <p class="text-red-500 px-2"> {{ $contender->record["Lost"]  ?? 0}}</p>
                     </td>
                 </tr>
             @empty
             @endforelse
             </tbody>
-            <!-- foot -->
-            <tfoot>
-            <tr>
-                <th>Rank</th>
-                <th>User</th>
-                <th>Record</th>
-
-            </tr>
-            </tfoot>
 
         </table>
     </div>

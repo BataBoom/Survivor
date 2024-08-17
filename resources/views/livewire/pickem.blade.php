@@ -64,7 +64,7 @@
                 <div id="body" class="text-white text-xl items-center rounded-b-xl">
 
                     <div class="flex justify-evenly">
-                        @if($week >= $whatweek)
+                        @if(is_null($game->result))
 
                             <img
 
@@ -120,7 +120,7 @@
                         @endif
                     </div>
 
-                    @if($week >= $whatweek)
+                    @if(is_null($game->result))
                         <div class="flex flex-wrap justify-around text-white">
                             <div>
                                 <a

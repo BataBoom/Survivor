@@ -38,7 +38,7 @@ class gradeSurvivor extends Command
 
         foreach ($allPicks as $pick) {
 
-                if($pick->results === null) {
+                if(is_null($pick->results)) {
                 continue;
                 }
 

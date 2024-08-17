@@ -64,7 +64,7 @@ class insertNFLScores extends Command
 
         $currentDatetime = Carbon::now()->addHours(4);
         $fetchGames = WagerQuestion::where("week", $this->getWeek())
-        ->where('starts_at', '<', $currentDatetime->toDateTimeString())
+        //->where('starts_at', '<', $currentDatetime->toDateTimeString())
         ->where('status', 0)
         ->pluck('game_id');
         return $fetchGames;
@@ -97,7 +97,10 @@ class insertNFLScores extends Command
         $file = $this->lookup();
         foreach ($file as $i => $game)
         {
-
+            if(!$file[$i]['status']['type']['completed']) {
+                $this->line('game hasnt finished! skipping');
+                continue;
+            }
         $gid = $file[$i]['id'];
         $step1 = $file[$i]['competitions'][0]['competitors'];
         $teamA = $step1[0];

@@ -28,6 +28,7 @@
         <!-- Footer -->
         <div class="text-center text-gray-600">
             <p class="mb-2">Best regards,<br>The Survivor Team</p>
+            <a style="color: #b0adc5; font-size: 12px;" class="text-xs" href="{{ route('unsubscribe', ['user' => $email]) }}">Unsubscribe?</a>
         </div>
     </div>
 
