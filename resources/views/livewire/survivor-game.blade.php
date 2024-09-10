@@ -122,7 +122,7 @@
                 <div class="grid lg:grid-cols-2 grid-rows-1 gap-2">
                     <div class="col p-2">
                         <div class="column w-full rounded-xl text-white p-2">
-                            <div class="rounded-xl lg:h-[550px] w-full items-center place-items-center border-4 border-double bg-gradient-to-tr from-red-700/90 via-indigo-900/90 to-blue-900/60 p-4">
+                            <div class="rounded-xl lg:h-[590px] w-full items-center place-items-center border-4 border-double bg-gradient-to-tr from-red-700/90 via-indigo-900/90 to-blue-900/60 p-4">
                                 <div class="flex items-center justify-between p-1 text-xs lg:text-sm">
                                     <h1 class="text-primary underline mr-4 lg:tracking-wide">Grade Ledger</h1>
 
@@ -187,12 +187,12 @@
 
 
                                 <div class="glass relative bottom-0 rounded-xl p-2 lg:my-6">
-                                    <div class="flex flex-wrap items-center justify-center py-4 lg:justify-evenly">
+                                    <div class="grid grid-cols-1 gap-4">
                                         @if($week > 1 && $realWeek >= $week)
-                                            <div class="col pb-2 lg:pb-0">
+                                            <div class="col">
                                                 <div class="flex items-center justify-center">
                                                     <div class="text-center">
-                                                        <h1 class="underline tracking-wide text-red-200">
+                                                        <h1 class="underline tracking-wide text-red-200 font-medium pb-2">
                                                             Week {{ $week - 1 }}'s
                                                             Biggest Loser</h1>
                                                         <div class="bg-red-500 opacity-80 rounded-xl py-2 px-4 mx-auto my-1">
@@ -224,7 +224,7 @@
                                         <div class="col">
                                             <div class="flex items-center justify-center">
                                                 <div class="text-center">
-                                                    <h1 class="underline tracking-wide text-blue-200">Player Count</h1>
+                                                    <h1 class="underline tracking-widest text-blue-200 font-medium">Player Count</h1>
                                                     <div class="bg-blue-500 opacity-80 rounded-xl py-2 px-4 mx-auto my-1">
                                                         <span class="font-bold text-green-500 drop-shadow-lg mr-2">{{ $playerCount['Alive'] }} Alive</span>
                                                         <span class="font-bold text-white">&nbsp;|</span>&nbsp;<span

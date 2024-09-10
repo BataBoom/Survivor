@@ -7,11 +7,11 @@
                 <div class="flex justify-around">
                     <div>
                         <a
-                                class="btn btn-sm btn-primary p-2"
+                                class="btn btn-primary btn-sm text-xs mx-2"
                                 href="{{ route('chat.show', ['pool' => $pool->id]) }}" wire:navigate>Go to {{$pool->name}} Chat</a>
                     </div>
                     <div>
-                    <a class="btn btn-sm btn-success p-2" href="{{ route('pickem.wire', ['pool' => $pool->id]) }}" wire:navigate>
+                    <a class="btn btn-success btn-sm text-xs mx-2" href="{{ route('pickem.wire', ['pool' => $pool->id]) }}" wire:navigate>
                         Go to {{$pool->name}}
                     </a>
                     </div>
