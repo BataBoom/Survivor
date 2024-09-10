@@ -1,4 +1,4 @@
-<div x-data="{ pickemstable: true, leaderboard: true }" x-init="leaderboard = false,pickemstable = true">
+<div x-data="{ pickemstable: true, leaderboard: true }" x-init="leaderboard = true,pickemstable = true">
     <div class="flex justify-center mx-auto">
         <div class="flex-flex-col space-y-2">
             <div>
@@ -16,7 +16,7 @@
     </div>
     @if($whatweek > 0)
     <div x-show="leaderboard" x-collapse>
-        <h1 class="text-xl tracking-wide text-accent text-center my-2">{{$pool->name}} Pick'em Leaderboard</h1>
+        <h1 class="text-xl tracking-wide text-accent text-center my-2 pt-6">{{$pool->name}} Leaderboard</h1>
         <table class="table">
             <!-- head -->
             <thead>
@@ -34,7 +34,7 @@
                         {{$contender->rank}}
                     </td>
                     <td class="text-lg">
-                        {{$contender->user->name}}
+                        {{$contender->user}}
                     </td>
                     <td class="flex justify-evenly text-lg">
                         <p class="text-green-500 px-2">{{ $contender->record["Won"] ?? 0 }}</p> - <p class="text-red-500 px-2"> {{ $contender->record["Lost"]  ?? 0}}</p>
@@ -48,7 +48,7 @@
     </div>
     @endif
     <div x-show="pickemstable" x-collapse>
-        <h1 class="text-xl tracking-wide text-primary text-center my-2">My Pickem Log</h1>
+        <h1 class="text-xl tracking-wide text-primary text-center my-2 pt-6">My Pickem Log</h1>
         <table class="table">
             <!-- head -->
             <thead>
