@@ -15,12 +15,12 @@ class WagerResult extends Model
 
     public function question()
     {
-    return $this->belongsTo(WagerQuestion::class, 'game', 'game_id');
+        return $this->belongsTo(WagerQuestion::class, 'game', 'game_id');
     }
 
     public function result()
     {
-    return $this->hasOne(WagerTeam::class, 'team_id', 'winner');
+        return $this->hasOne(WagerTeam::class, 'team_id', 'winner')->where('league', 'nfl');
     }
 
     public function teams()
