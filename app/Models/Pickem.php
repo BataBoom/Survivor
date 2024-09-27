@@ -36,7 +36,7 @@ class Pickem extends Model
 
     public function team()
     {
-        return $this->hasOne(WagerTeam::class, 'team_id', 'selection_id');
+        return $this->hasOne(WagerTeam::class, 'team_id', 'selection_id')->where('league', 'nfl');
     }
 
     public function question()

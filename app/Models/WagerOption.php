@@ -21,12 +21,12 @@ class WagerOption extends Model
 
     public function team()
     {
-    return $this->belongsTo(WagerTeam::class, 'team_id', 'team_id');
+    return $this->belongsTo(WagerTeam::class, 'team_id', 'team_id')->where('league', 'nfl');
     }
 
     public function teaminfo()
     {
-        return $this->hasOne(WagerTeam::class, 'team_id', 'team_id');
+        return $this->hasOne(WagerTeam::class, 'team_id', 'team_id')->where('league', 'nfl');
     }
 
     //Relationship to Survivor Picks
