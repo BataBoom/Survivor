@@ -21,7 +21,7 @@ class WagerTeamsSeeder extends Seeder
 
             $NFLTeams = $file['sports'][0]['leagues'][0]['teams'];
             
-            foreach($teams as $team)
+            foreach($NFLTeams as $team)
             {
 
             WagerTeam::Create([
@@ -42,7 +42,7 @@ class WagerTeamsSeeder extends Seeder
             'team_id' => 35,
             'name' => 'Tie Game',
             'abbreviation' => 'TIE',
-            'league' => null,
+            'league' => "nfl",
 
             ]);
         }

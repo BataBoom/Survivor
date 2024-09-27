@@ -57,6 +57,16 @@
                     </a>
                 </div>
 
+                <div class="bg-white transition text-green-500 hover:text-black hover:bg-green-500  rounded-lg shadow-md p-6">
+                    <a href="{{ route('betslip.create') }}">
+                        <div class="flex flex-1">
+                            <img class="w-11 mr-4" src="{{ asset('/icons/strategyz.png') }}"/>
+                        <h2 class="text-xl font-bold mb-4">Bet Tracker</h2>
+                        </div>
+                        
+                    </a>
+                </div>
+
                 <div class="bg-white transition text-accent hover:text-white hover:bg-orange-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('mypools.show') }}">
                         <div class="flex flex-1">

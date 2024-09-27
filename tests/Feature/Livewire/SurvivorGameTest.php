@@ -14,10 +14,11 @@ use App\Livewire\SurvivorGame;
 use App\Models\WagerQuestion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use App\Livewire\Traits\SurvivorTrait;
 
 class SurvivorGameTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SurvivorTrait;
 
     public $pool;
 
@@ -25,7 +26,7 @@ class SurvivorGameTest extends TestCase
 
     public $ticket;
 
-    public $week = 1;
+    public $week = 4; //Not allowing me to set custom week, not going to bother, but this does slow down testing time cause sys has to import all X weeks of games from API.
 
     protected function setUp(): void
     {
@@ -47,8 +48,8 @@ class SurvivorGameTest extends TestCase
         Livewire::actingAs($this->user)
         ->test(SurvivorGame::class, ['pool' => $this->pool])
         ->assertStatus(200)
-        ->assertSetStrict('week', 1)
-        ->assertSetStrict('realWeek', 1);
+        ->assertSetStrict('week', $this->decipherWeek())
+        ->assertSetStrict('realWeek', $this->decipherWeek());
         //->assertSetStrict('survivor', $ticket);
     }
 
@@ -56,7 +57,7 @@ class SurvivorGameTest extends TestCase
     {
 
         $randomWager = WagerQuestion::withWhereHas('gameoptions')
-            ->where('week', $this->week)
+            ->where('week', $this->decipherWeek())
             ->inRandomOrder()
             ->first();
 
@@ -69,8 +70,8 @@ class SurvivorGameTest extends TestCase
         Livewire::actingAs($this->user)
             ->test(SurvivorGame::class, ['pool' => $this->pool])
             ->assertStatus(200)
-            ->assertSetStrict('week', 1)
-            ->assertSetStrict('realWeek', 1)
+            ->assertSetStrict('week', $this->decipherWeek())
+            ->assertSetStrict('realWeek', $this->decipherWeek())
             ->assertSee('currentTimeEST', Carbon::now())
             ->set('selectTeam', $randomSelection->id)
             //->set('selectTeam', $randomSelection->team_id)
