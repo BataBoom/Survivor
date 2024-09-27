@@ -22,7 +22,7 @@
         </style>
         <x-meta-data/>
     </head>
-    <body class="font-sans antialiased">
+    <body data-theme="dark" class="font-sans antialiased">
         <div class="min-h-screen">
             <livewire:layout.navigation />
 

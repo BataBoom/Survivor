@@ -70,7 +70,7 @@ class WagerQuestionResource extends Resource
                     ->alignment(Alignment::Center)
                     ->toggleable(isToggledHiddenByDefault: false),
 
-                Tables\Columns\TextColumn::make('results.winner_name')->label('Winner')->alignment(Alignment::Center),
+                Tables\Columns\TextColumn::make('result.winner_name')->label('Winner')->alignment(Alignment::Center),
                     /*
                     Tables\Columns\SelectColumn::make('results.winner_name')
                         ->label('Winner')
@@ -99,7 +99,9 @@ class WagerQuestionResource extends Resource
                                 $query->whereIn('team_id', $data['team_id']);
                             }
                         }),
-                */
+                        */
+
+                
                 Tables\Filters\TernaryFilter::make('ended')
                     ->label('Concluded')
                     ->nullable()

@@ -4,7 +4,7 @@
 
         <!-- Main Content -->
         <div class="mb-6">
-            <p class="mb-4">Hi {{$name}},</p>
+            <p class="mb-4">Coach {{$name}},</p>
             <p class="text-gray-600">Week {{$week}}: on {{$pool->name}}</p>
             <p class="text-indigo-500">{{ $gameSummary['summary'] }}</p>
             <p class="mb-4">{{ $gg }}</p>

@@ -121,7 +121,7 @@ trait SurvivorTrait
             ->where('option', $pick)
             ->first();
 
-        return $currentTimeEST->lessThan($locateSelection->question->starts_at->subMinutes(30));
+        return $currentTimeEST->lessThan($locateSelection->question->starts_at->addMinutes(5));
 
     }
 

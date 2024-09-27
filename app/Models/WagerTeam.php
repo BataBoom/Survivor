@@ -9,7 +9,7 @@ class WagerTeam extends Model
 {
     use HasFactory;
     protected $table = 'wager_teams';
-    protected $fillable = ['team_id', 'league','name','abbreviation', 'color', 'altColor', 'location'];
+    protected $fillable = ['team_id', 'league','name','abbreviation', 'color', 'altColor', 'location', 'division', 'conference'];
     protected $primaryKey = 'id';
     public $incrementing = true;
 

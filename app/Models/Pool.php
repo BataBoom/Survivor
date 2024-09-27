@@ -83,6 +83,17 @@ class Pool extends Model
         )->where('alive', true);
     }
 
+    //Relationship to Survivor
+    public function allSurvivors()
+    {
+        return $this->hasManyThrough(
+            Survivor::class,
+            SurvivorRegistration::class,
+            'pool_id', // Foreign key on SurvivorRegistration table...
+            'ticket_id',      // Foreign key on Survivor table...
+        );
+    }
+
     //Return all users that registered to the pool
     public function users()
     {

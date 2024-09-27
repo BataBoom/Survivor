@@ -56,9 +56,9 @@ class SurvivorSubscriber implements ShouldQueue
                 //User won, but barely, game ended in a tie. Send Success email but maybe add some splice.
                 Mail::to($event->survivor->user->email)->send(new SurvivorTales($event->survivor));
             } elseif ($event->survivor->result === 0) {
-                //User won, but barely, game ended in a tie. Send Success email but maybe add some splice.
+                
                 Mail::to($event->survivor->user->email)->send(new SurvivorDied($event->survivor));
-                Log::debug('Loser Event Called, UID:' . $event->survivor->user->id.' Week: '. $event->survivor->week);
+                //Log::debug('Loser Event Called, UID:' . $event->survivor->user->id.' Week: '. $event->survivor->week);
             }
         }
 

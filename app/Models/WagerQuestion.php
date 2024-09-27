@@ -49,6 +49,14 @@ class WagerQuestion extends Model
     {
         return $this->starts_at->setTimezone('America/New_York');
     }
+
+    /* Added Mid Season for Stats/etc */
+    public function teams()
+    {
+        return $this->gameoptions->each(function ($item) {
+            return $item->team;
+        });
+    }
     
     
 }

@@ -67,4 +67,25 @@ class SurvivorRegistration extends Model
             ->where('alive', true);
     }
 
+    /*
+    public function scopePickemStatsTop10FavTeams($query)
+    {
+        return $query->whereRelation('pool', 'type', 'pickem')
+                ->pickems
+                ->groupBy('contender.pickems.selection_id')
+                ->map(function ($group) {
+                    $firstItem = $group->first();
+                    return [
+                        'selection_id' => $firstItem->selection_id,
+                        'team_name' => $firstItem->selection,
+                        'count' => $group->count(),
+                        'wins' => $group->where('result', 1)->count(),
+                        'losses' => $group->where('result', 0)->count(),
+                    ];
+                })
+                ->sortByDesc('count')
+                ->take(10);
+    }
+    */
+
 }

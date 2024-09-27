@@ -34,6 +34,11 @@ class Pickem extends Model
         return $this->hasOne(WagerOption::class, 'team_id', 'selection_id');
     }
 
+    public function team()
+    {
+        return $this->hasOne(WagerTeam::class, 'team_id', 'selection_id');
+    }
+
     public function question()
     {
         return $this->hasOne(WagerQuestion::class, 'game_id', 'game_id');
