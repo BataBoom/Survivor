@@ -25,7 +25,12 @@ class WagerResult extends Model
 
     public function teams()
     {
-    return $this->hasMany(WagerOption::class, 'game_id', 'game');
+        return $this->hasMany(WagerOption::class, 'game_id', 'game');
+    }
+
+    public function winningTeam()
+    {
+        return $this->hasOne(WagerTeam::class, 'team_id', 'winner');
     }
 
     public function survivor()
