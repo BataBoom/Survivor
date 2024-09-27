@@ -34,21 +34,25 @@ class gradeSurvivor extends Command
 
     public function newGrader()
     {
-        $allPicks = Survivor::where('week', $this->getWeek())->get();
+        $allPicks = Survivor::where('week', $this->getWeek())->whereNull('result')->get();
 
         foreach ($allPicks as $pick) {
 
-                if(is_null($pick->results)) {
+                if(is_null($pick->results) || !is_null($pick->result)) {
                 continue;
                 }
 
                 if($pick->selection_id === $pick->results->winner) {
                     //user won outright
                     $pick->update(['result' => 1]);
+		    
+                    $this->line($pick->user->name.' moves on! Pick: '.$pick->selection);
                 } elseif($pick->selection_id === 35)
                 {
                     //game ended in tie, user moves on..
                     $pick->update(['result' => 1]);
+	            
+                    $this->line($pick->user->name.' moves on! Pick: '.$pick->selection);
 
                 } elseif($pick->selection_id !== 35 && $pick->selection_id !== $pick->results->winner)
                 {
@@ -57,10 +61,12 @@ class gradeSurvivor extends Command
 
                     //Kill the User
                     $pick->pool->update(['alive' => 0]);
+		
+		    $this->line($pick->user->name.' has been killed! Pick: '.$pick->selection);
                 }
+
         }
     }
-
     public function survivorDidntPick()
     {
         $allSurvivors = SurvivorRegistration::SurvivorsAlive()->get();
@@ -80,7 +86,8 @@ class gradeSurvivor extends Command
      */
     public function handle()
     {
-        $this->newGrader();
-        $this->survivorDidntPick();
+        //$this->line('upgrade due');
+         $this->survivorDidntPick();
+         $this->newGrader();
     }
 }

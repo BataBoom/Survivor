@@ -54,16 +54,22 @@ class SurvivorTales extends Mailable
         if($this->gameTied) {
         $varys = [
             "Wow! So close. Just another 17(or so) weeks to push through.",
-            'Wow! So close. You survived to tell the tale, yet more games lay ahead.',
-            "Wow! So close.",
+            "Deadlock Survivors: The Adventure Isn't Over!",
+            "Survivor Standoff: Ready for the Next Round?",
+            "Tied at the Top: More Challenges Ahead!",
+            "Equal Ground: Your Survivor Saga Proceeds!",
+            "Survivor Standoff: Ready for the Next Round?",
+
             ];
         } else {
             $varys = [
             "You've passed the first hurdle! Just another 17(or so) weeks to push through.",
             'You survived to tell the tale, yet more games lay ahead.',
-            "You've come out the other side, but there's more in store for you.",
-            "You've survived to recount your experience, but there are further obstacles on the horizon.",
-            "You made it through to share your story, but there are still challenges ahead.",
+            "Victory Lap: But the Race Isn't Over Yet!",
+            "You're Still Standing - Ready for the Next Round?",
+            "Tales of Triumph: But the Story Isn't Over...",
+            "You've Escaped, But Can You Master What's Next?",
+            "From Surviving to Thriving: Your Next Adventure Awaits!",
             ];
         }
         
@@ -86,12 +92,17 @@ class SurvivorTales extends Mailable
         if($this->gameTied) {
             $gg = [
                  "Close call, you may not be so lucky next time! You may want to attend Pick'em to sharpen your skills",
+                 "Almost There! Brush Up Your Picks at Pick'em.",
+                 "Close One! Pick'em will help put you over the top.",
             ];
         } else {
             $gg = [
+                 "Impressive Play! Hats Off to You!",
                  "Great job, well played!",
                  "Congratulations on a hard-fought game!",
                  "Good game, you guys really brought your A-game tonight!",
+                 "Game Well Played! Your Dedication Shows!",
+
             ];
         }
 

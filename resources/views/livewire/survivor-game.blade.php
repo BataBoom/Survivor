@@ -210,9 +210,9 @@
                                                                 @else
 
                                                                     <p class="mr-2"> Lives Taken:</p>
-                                                                    <div class="btn btn-sm bg-black text-white">15x
+                                                                    <div class="btn btn-sm bg-black text-white">0x
                                                                     </div> <p
-                                                                            class="ml-2"> | Detroit Lions</p>
+                                                                            class="ml-2"> | No Lives taken</p>
                                                                 @endif
                                                             </div>
                                                         </div>

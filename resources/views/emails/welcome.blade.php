@@ -8,7 +8,7 @@
 
         <!-- Main Content -->
         <div class="mb-6">
-            <p class="mb-4">Hi {{$name}},</p>
+            <p class="mb-4">Coach {{$name}},</p>
             <p class="mb-4">We've received your request to join the league. Your request has been accepted. You've been automatially assigned to Bravo. Good luck!
             <p class="text-center">
                 <a href="https://survivor.nbz.one" class="button button-success">Take me to the arena</a>

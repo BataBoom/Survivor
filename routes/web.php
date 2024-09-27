@@ -26,6 +26,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
+Route::get('/forbidden/geex7891', [ForbiddenController::class, 'index']);
 
 Route::get('unsubscribe/{user:email}', [HomeController::class, 'unsubscribe'])->name('unsubscribe');
 
@@ -54,6 +55,7 @@ Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
     Route::get('/fun', [SurvivorController::class, 'fun']);
 
     Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool');
+
 
     Route::get('/all-pools', [PoolController::class, 'index'])->name('pools.browse');
 

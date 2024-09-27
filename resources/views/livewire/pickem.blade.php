@@ -6,15 +6,14 @@
        </ul>
     </div>
 @if (Route::currentRouteName() != 'pickem.stats')
-<div class="col">
+<div class="col text-center">
     <div class="flex justify-between">
         <div>
-            <a
-                    class="btn btn-sm btn-primary p-2"
+            <a class="btn btn-primary btn-sm text-xs mx-2"
                     href="{{ route('chat.show', ['pool' => $pool->id]) }}" wire:navigate>Go to {{$pool->name}} Chat</a>
         </div>
         <div>
-            <a class="btn btn-sm btn-success p-2" href="{{ route('pickem.stats', ['pool' => $pool->id]) }}" wire:navigate>
+            <a class="btn btn-success btn-sm text-xs mx-2" href="{{ route('pickem.stats', ['pool' => $pool->id]) }}" wire:navigate>
                  Go to {{ $pool->name }} Leaderboard
             </a>
         </div>

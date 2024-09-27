@@ -49,18 +49,28 @@ class SurvivorDied extends Mailable
     public function content(): Content
     {
 
-        $gg = [
-            "Womp womp, looks like you didn't quite make the cut this time. Better luck next time!",
-            "Sorry champ, you're not the winner. Maybe try again and bring your A game!",
-            "Well, well, well, looks like someone's not taking home the gold medal today. Keep practicing!",
-            "Oof, tough break. Maybe next time you'll have better luck. Keep your head up!",
-            "Unfortunately, you've been defeated in the battle of wits. But hey, at least you tried!",
-            "And the award for not winning goes to...you! Better luck next time, pal.",
-            "Looks like the universe decided it wasn't your day to shine. Keep on keepin' on!",
-            "Sorry to break it to you, but you didn't quite hit the jackpot this time. Keep playing!",
-            "You may not have won this round, but hey, practice makes perfect. Don't give up!",
-            "Ouch, tough loss. But hey, losing builds character, right? So you're basically winning in life now.",
-        ];
+        if($this->survivor->week === 1) {
+            $gg = [
+                "Ouch, tough loss. But hey, losing builds character, right? So you're basically winning in life now.",
+                "Oof, tough break. Maybe next time you'll have better luck. Keep your head up!",
+                
+            ];
+        } else {
+
+            $gg = [
+                "Womp womp, looks like you didn't quite make the cut this time. Better luck next time!",
+                //"Sorry champ, you're not the winner. Maybe try again and bring your A game!",
+                //"Well, well, well, looks like someone's not taking home the gold medal today. Keep practicing!",
+                "Oof, tough break. Maybe next time you'll have better luck. Keep your head up!",
+                //"Unfortunately, you've been defeated in NFL Survivor. But hey, at least you tried!",
+                "And the award for not winning goes to...you! Better luck next time, pal.",
+                "Looks like the universe decided it wasn't your day to shine. Keep on keepin' on!",
+                "Sorry to break it to you, but you didn't quite hit the jackpot this time. Keep playing!",
+                "You may not have won this round, but hey, practice makes perfect. Don't give up!",
+                "Ouch, tough loss. But hey, losing builds character, right? So you're basically winning in life now.",
+            ];
+
+        }
 
 
         return new Content(

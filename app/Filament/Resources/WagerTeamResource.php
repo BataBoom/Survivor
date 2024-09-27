@@ -42,6 +42,26 @@ class WagerTeamResource extends Resource
                         'mlb' => 'MLB',
                         'nba' => 'NBA',
                     ]),
+
+                Select::make('conference')
+                    ->options([
+                        'AFC' => 'AFC',
+                        'NFC' => 'NFC',
+                    ]),
+
+
+                 Select::make('division')
+                    ->options([
+                        'NFC North' => 'NFC North',
+                        'NFC East' => 'NFC East',
+                        'NFC West' => 'NFC West',
+                        'NFC South' => 'NFC South',
+                        'AFC North' => 'AFC North',
+                        'AFC East' => 'AFC East',
+                        'AFC West' => 'AFC West',
+                        'AFC South' => 'AFC South',
+                    ]),
+                    
             ]);
     }
 

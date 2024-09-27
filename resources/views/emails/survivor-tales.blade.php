@@ -3,12 +3,12 @@
     <div class="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
         <!-- Main Content -->
         <div class="mb-6">
-            <p class="mb-4">Well played, {{$name}}</p>
+            <p class="mb-4">Well played Coach {{$name}},</p>
             <p>Week {{$week}}: on {{$pool->name}}</p>
             <p class="text-indigo-500">{{ $gameSummary['summary'] }}</p>
             <p class="mb-4">{{$gg}}</p>
             <p class="text-center">
-                <a href="{{ route('pool.show', ['pool' => $pool->id]) }}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded">Take me to the Arena</a>
+                <a href="{{ route('pool.show', ['pool' => $pool->id]) }}" class="button button-success">Take me to the Arena</a>
             </p>
         </div>
 

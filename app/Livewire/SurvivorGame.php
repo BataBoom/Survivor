@@ -57,10 +57,10 @@ class SurvivorGame extends Component
 
         $this->user = Auth::User();
 
-        $this->week = 1;
-
+        //$this->week = 2;
+        $this->week = $this->decipherWeek();
         $this->realWeek = $this->decipherWeek();
-        //$this->realWeek = 2;
+        //$this->realWeek = 3;
 
         $this->survivor = $this->pool?->contenders->where('user_id', $this->user->id)->first();
 
@@ -321,7 +321,7 @@ class SurvivorGame extends Component
 
         $lw = $week - 1;
 
-        $biggestLoser = Survivor::Where('week', $lw)->where('result', false)->where('ticket_id', $this->survivor->id)->select('selection')->get();
+        $biggestLoser = $this->pool->allSurvivors()->Where('week', $lw)->where('result', false)->select('selection')->get();
 
         if($biggestLoser->count() >= 1) {
             $selectionCount = [];
