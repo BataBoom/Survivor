@@ -154,4 +154,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->hasMany(Ticket::class, 'user_id');
     }
 
+    public function betslips() {
+        return $this->hasMany(BetSlip::class, 'user_id');
+    }
+
 }

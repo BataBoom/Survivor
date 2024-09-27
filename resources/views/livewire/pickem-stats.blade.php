@@ -23,14 +23,17 @@
     <div class="grid grid-cols-1 lg:gap-4">
         
 <div x-show="stats" class='flex justify-center mt-10'>
+@if($poolFavTeams->isNotEmpty())
  <div class="stats stats-vertical lg:stats-horizontal shadow">
   <div class="stat text-center">
     <div class="stat-title text-primary">Most Picked</div>
-    <div class="stat-value text-sm text-secondary">{{ $myFavTeams->first()->team->name }}</div>
-    <div class="stat-desc italic">My Top Picked ({{ $myFavTeams->first()->wins }} - {{$myFavTeams->first()->losses}})</div>
-    <div class="stat-value text-sm text-accent">{{ $poolFavTeams->first()->team->name }}</div>
-    <div class="stat-desc italic">Pool Top Picked ({{ $poolFavTeams->first()->wins }} - {{$poolFavTeams->first()->losses}})</div>
+    <div class="stat-value text-sm text-secondary">{{ $myFavTeams->first()?->team->name }}</div>
+    <div class="stat-desc italic">My Top Picked ({{ $myFavTeams->first()?->wins }} - {{$myFavTeams->first()?->losses}})</div>
+    <div class="stat-value text-sm text-accent">{{ $poolFavTeams->first()?->team->name }}</div>
+    <div class="stat-desc italic">Pool Top Picked ({{ $poolFavTeams->first()?->wins }} - {{$poolFavTeams->first()?->losses}})</div>
   </div>
+  @endif
+
 {{--
   <div class="stat text-center">
     <div class="stat-title text-primary">My Conference Record</div>
@@ -41,6 +44,7 @@
   </div>
 --}}
 
+@if($mycard->TopPickedDivisons->isNotEmpty())
   <div class="stat text-center">
     <div class="stat-title text-primary">Divisional Picks</div>
     <ul class="stat-value text-sm">
@@ -51,6 +55,7 @@
       </ul>
     <div class="stat-desc italic p-1">- My Favorites</div>
   </div>
+  @endif
 
  
     <div class="stat text-center">

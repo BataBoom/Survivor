@@ -9,11 +9,14 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ChatroomController;
 use App\Http\Controllers\PoolController;
 use App\Http\Controllers\SurvivorController;
+use App\Http\Controllers\BettingPortfolioController;
 use App\Livewire\Pickem;
 use App\Livewire\Fun;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Livewire\BettingPortfolio;
+use App\Models\BetSlip;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +36,15 @@ Route::get('unsubscribe/{user:email}', [HomeController::class, 'unsubscribe'])->
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
+
+    Route::get('/bet-tracker/my-slips', [BettingPortfolioController::class, 'index'])->name('betslip.index');
+
+    Route::get('/bet-tracker/my-slips/{betslip:id}/edit', [BettingPortfolioController::class, 'edit'])->name('betslip.edit');
+    Route::post('/bet-tracker/my-slips/{betslip:id}/update', [BettingPortfolioController::class, 'update'])->name('betslip.update');
+
+    Route::get('/bet-tracker/my-slips/{betslip:id}/delete', [BettingPortfolioController::class, 'destroy'])->name('betslip.delete');
+
+    Route::get('/bet-tracker', BettingPortfolio::class)->name('betslip.create');
 
     Route::get('/my-pools/{pool:id}/edit', [PoolController::class, 'edit'])->name('pool.edit')->middleware('can:update,pool');
 
