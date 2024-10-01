@@ -158,4 +158,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->hasMany(BetSlip::class, 'user_id');
     }
 
+    public function quizscores() {
+        return $this->hasMany(QuizScore::class, 'user_id');
+    }
+
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ChatroomController;
 use App\Http\Controllers\PoolController;
 use App\Http\Controllers\SurvivorController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\BettingPortfolioController;
 use App\Livewire\Pickem;
 use App\Livewire\Fun;
@@ -17,6 +18,7 @@ use Livewire\Volt\Volt;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Livewire\BettingPortfolio;
 use App\Models\BetSlip;
+use App\Models\Quiz;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,10 @@ Route::get('unsubscribe/{user:email}', [HomeController::class, 'unsubscribe'])->
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
+
+    Route::get('/quizes', [QuizController::class, 'index'])->name('quiz.index');
+
+    Route::get('/quizes/{quiz:slug}', [QuizController::class, 'show'])->name('quiz.show');
 
     Route::get('/bet-tracker/my-slips', [BettingPortfolioController::class, 'index'])->name('betslip.index');
 
