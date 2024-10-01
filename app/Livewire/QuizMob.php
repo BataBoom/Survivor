@@ -76,7 +76,7 @@ class QuizMob extends Component
         // Now, to get the count of zeros:
         $correctCount = $count[1] ?? 0;  // This uses the null coalescing operator in case 0 wasn't found
 
-        $this->percent = $correctCount / 32 * 100;
+        $this->percent = $correctCount / $this->quizQuestions->count() * 100;
 
         $createScore = QuizScore::UpdateOrCreate(
         [
