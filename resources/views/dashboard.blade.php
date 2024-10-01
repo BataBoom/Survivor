@@ -66,7 +66,9 @@
                         
                     </a>
                 </div>
+
                 {{--
+
                 <div class="bg-white transition text-accent hover:text-white hover:bg-orange-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('mypools.show') }}">
                         <div class="flex flex-1">

@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\WagerTeam;
 use App\Models\League;
+use Illuminate\Support\Facades\Storage;
 
 class WagerTeamsSeeder extends Seeder
 {
@@ -17,26 +18,29 @@ class WagerTeamsSeeder extends Seeder
 
 
         if(WagerTeam::Where('league', 'nfl')->get()->isEmpty()) {
+
+            $NFLTeams = Storage::json('WagerTeamsData.json');
+
+            WagerTeam::insert($NFLTeams);
+            /*
             $file = json_decode(file_get_contents('https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams'), true);
 
             $NFLTeams = $file['sports'][0]['leagues'][0]['teams'];
             
-            foreach($NFLTeams as $team)
-            {
-
-            WagerTeam::Create([
-            'team_id' => $team['team']['id'],
-            'name' => $team['team']['displayName'],
-            'abbreviation' => $team['team']['abbreviation'],
-            'league' => strtolower($file['sports'][0]['leagues'][0]['abbreviation']),
-            'color'=> $team['team']['color'],
-            'altColor' => $team['team']['alternateColor'],
-            'location' => $team['team']['location'],
-            'league_id' => League::Where('name', 'NFL')->first()?->id,
-            ]);
-
-
-            }
+                foreach($NFLTeams as $team)
+                {
+                    WagerTeam::Create([
+                        'team_id' => $team['team']['id'],
+                        'name' => $team['team']['displayName'],
+                        'abbreviation' => $team['team']['abbreviation'],
+                        'league' => strtolower($file['sports'][0]['leagues'][0]['abbreviation']),
+                        'color'=> $team['team']['color'],
+                        'altColor' => $team['team']['alternateColor'],
+                        'location' => $team['team']['location'],
+                        'league_id' => League::Where('name', 'NFL')->first()?->id,
+                    ]);
+                }
+            */
 
             WagerTeam::Create([
             'team_id' => 35,
