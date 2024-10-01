@@ -27,11 +27,16 @@ class QuizMob extends Component
 
     public array $wrongAnswers = [];
 
+    public $quizQuestions;
+
     public function mount(Quiz $quiz)
     {
         $this->user = Auth::User();
         $this->quiz = $quiz;
-        foreach($this->quiz->questions as $question) {
+
+        $this->quizQuestions = $this->quiz->questions()->inRandomOrder()->get();
+        
+        foreach($this->quizQuestions as $question) {
             $this->answers[$question->id] = '';
             $this->scoreAnswers[$question->id] = '';
         }

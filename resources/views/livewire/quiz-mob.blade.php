@@ -3,7 +3,7 @@
 
 <x-mary-form wire:submit="save">
         <div class="grid grid-cols-2">
-            @foreach($quiz->questions as $question)
+            @foreach($quizQuestions as $question)
 
              <div class="col-span-2 md:col-span-1" wire:poll="scoreAnswers">
                            
