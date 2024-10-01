@@ -75,6 +75,8 @@ class insertNFLScores extends Command
         $teamA = $step1[0];
         $teamB = $step1[1];
 
+        $q = ['1Q' => $teamB['linescores'][0]['value'],'2Q' => $teamB['linescores'][1]['value'],'3Q' => $teamB['linescores'][2]['value'],'4Q' => $teamB['linescores'][3]['value']];
+
         if($teamA['winner']) {
         $result = $teamA['team']['id'];
         } elseif ($teamB['winner']) {
@@ -96,7 +98,15 @@ class insertNFLScores extends Command
         'winner_name' => $winnerName,
         'week' => $this->getWeek(),
         'home_score' => $teamA['score'],
+        'home_score_1Q' => $teamA['linescores'][0]['value'],
+        'home_score_2Q' => $teamA['linescores'][1]['value'],
+        'home_score_3Q' => $teamA['linescores'][2]['value'],
+        'home_score_4Q' => $teamA['linescores'][3]['value'],
         'away_score' => $teamB['score'],
+        'away_score_1Q' => $teamB['linescores'][0]['value'],
+        'away_score_2Q' => $teamB['linescores'][1]['value'],
+        'away_score_3Q' => $teamB['linescores'][2]['value'],
+        'away_score_4Q' => $teamB['linescores'][3]['value'],
         ]
         );        
         }

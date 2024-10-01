@@ -38,6 +38,11 @@ class BetSlip extends Model
         return $this->belongsTo(BetType::class, 'bet_type');
     }
 
+    public function league()
+    {
+        return $this->belongsTo(League::class, 'league_id');
+    }
+
     public function pick()
     {
         return $this->belongsTo(WagerTeam::class, 'selection_id');
