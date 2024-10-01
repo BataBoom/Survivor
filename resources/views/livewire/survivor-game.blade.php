@@ -91,6 +91,7 @@
         --}}
 
         <div class="container max-w-7xl sm:mx-6 md:mx-6 lg:mx-auto mt-16 mb-10">
+            <h1 class="bg-gradient-to-tr from-red-200 via-yellow-300 to-yellow-500 bg-clip-text text-transparent text-xl tracking-widest text-center m-2">We've got a Winner! Congratulations {{ ucwords($pool->alive->first()->user->name) }}!!</h1>
             <div id="body"
                  class="container mx-auto bg-gradient-to-bl from-red-800 via-violet-800 to-blue-500 rounded-3xl">
                 <div class="bg-neutral-800 text-white text-lg items-center rounded-t-xl p-4 mb-2">
@@ -186,7 +187,7 @@
                                 </div>
 
 
-                                <div class="glass relative bottom-0 rounded-xl p-2 lg:my-6">
+                                <div class="glass relative bottom-0 rounded-xl p-2 lg:my-4">
                                     <div class="grid grid-cols-1 gap-4">
                                         @if($week > 1 && $realWeek >= $week)
                                             <div class="col">
@@ -195,7 +196,7 @@
                                                         <h1 class="underline tracking-wide text-red-200 font-medium pb-2">
                                                             Week {{ $week - 1 }}'s
                                                             Biggest Loser</h1>
-                                                        <div class="bg-red-500 opacity-80 rounded-xl py-2 px-4 mx-auto my-1">
+                                                        <div class="bg-red-500 opacity-80 rounded-xl py-2 px-2 mx-auto">
                                                             <div class="flex justify-between items-center text-center tracking-wide text-sm lg:text-lg">
                                                                 @if ($biggestLoser)
                                                                     @foreach ($biggestLoser as $l => $v)
@@ -210,9 +211,9 @@
                                                                 @else
 
                                                                     <p class="mr-2"> Lives Taken:</p>
-                                                                    <div class="btn btn-sm bg-black text-white">0x
+                                                                    <div class="btn btn-sm bg-black text-white">15x
                                                                     </div> <p
-                                                                            class="ml-2"> | No Lives taken</p>
+                                                                            class="ml-2"> | Detroit Lions</p>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -221,7 +222,7 @@
                                             </div>
                                         @endif
 
-                                        <div class="col">
+                                        <div class="col py-2">
                                             <div class="flex items-center justify-center">
                                                 <div class="text-center">
                                                     <h1 class="underline tracking-widest text-blue-200 font-medium">Player Count</h1>
@@ -263,7 +264,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col glass rounded-2xl mx-2 my-4">
+                    <div class="col glass rounded-2xl mx-2 my-6">
                         <div class="flex flex-col">
                             <form wire:submit.prevent="submit">
                                 <input class="hidden" wire:model="currentTimeEST"/>
@@ -307,4 +308,54 @@
                 </div>
             </div>
         </div>
+@if($hasConcluded)
+<script type="text/javascript">
+var end = Date.now() + (15 * 1000);
+
+// go Buckeyes!
+var colors = ['#fbff6c', '#6ce8ff'];
+
+(function frame() {
+  confetti({
+   particleCount: 2,
+    angle: 240,
+    spread: 255,
+    origin: { y: -0.07, x: 0.3},
+    colors: colors
+  });
+  confetti({
+    particleCount: 2,
+    angle: 240,
+    spread: 255,
+    origin: { y: -0.07, x: 0.7},
+    colors: colors
+  });
+  if (Date.now() < end) {
+    requestAnimationFrame(frame);
+  }
+}());
+
+var duration = 15 * 1000;
+var animationEnd = Date.now() + duration;
+var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+var interval = setInterval(function() {
+  var timeLeft = animationEnd - Date.now();
+
+  if (timeLeft <= 0) {
+    return clearInterval(interval);
+  }
+
+  var particleCount = 50 * (timeLeft / duration);
+  // since particles fall down, start a bit higher than random
+  confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+  confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+}, 250);
+
+    </script>
+    @endif
     </div>

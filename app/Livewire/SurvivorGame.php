@@ -49,9 +49,13 @@ class SurvivorGame extends Component
 
     public $delteam;
 
+    public bool $hasConcluded = false;
+
     /* Pool is mounted from controller */
     public function mount()
-    {
+    {   
+        $this->hasConcluded = $this->pool->alive->count() === 1 ? true : false;
+        
         //Sub 30 mins for security..
         $this->currentTimeEST = Carbon::now();
 

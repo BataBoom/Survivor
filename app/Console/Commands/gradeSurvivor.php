@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Survivor;
+use App\Models\WagerQuestion;
 use App\Models\SurvivorRegistration;
 use App\Jobs\SurvivorGraded;
 use Illuminate\Support\Facades\Log;
@@ -63,7 +64,7 @@ class gradeSurvivor extends Command
                     //Kill the User
                     $pick->pool->update(['alive' => 0]);
 		
-		    $this->line($pick->user->name.' has been killed! Pick: '.$pick->selection);
+		           $this->line($pick->user->name.' has been killed! Pick: '.$pick->selection);
                 }
 
         }
@@ -74,6 +75,7 @@ class gradeSurvivor extends Command
 
         foreach($allSurvivors as $survivorTicket) {
             if($survivorTicket->survivorPicks()->where('week', $this->getWeek())->doesntExist()) {
+                $this->line('No pick! Killing '.$survivorTicket->user->name);
                 $survivorTicket->update(['alive' => false]);
             }
         }
@@ -87,8 +89,11 @@ class gradeSurvivor extends Command
      */
     public function handle()
     {
-        //$this->line('upgrade due');
-         //$this->survivorDidntPick();
-         $this->newGrader();
+        $this->newGrader();
+
+        if(WagerQuestion::Where('week', $this->getWeek())->whereDoesntHave('result')->count() === 0) {
+            $this->line('All results are in killing users that didnt pick this week');
+            $this->survivorDidntPick();
+        }         
     }
 }
