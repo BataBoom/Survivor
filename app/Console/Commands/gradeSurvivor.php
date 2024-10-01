@@ -18,7 +18,7 @@ class gradeSurvivor extends Command
      *
      * @var string
      */
-    protected $signature = 'grade:survivor {week}';
+    protected $signature = 'grade:survivor {week?}';
 
     /**
      * The console command description.
@@ -29,7 +29,7 @@ class gradeSurvivor extends Command
 
     public function getWeek()
     {
-        return $this->argument('week') ?? 'test';
+        return $this->argument('week') ?? json_decode(file_get_contents('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard'), true)['week']['number'];
     }
 
     public function newGrader()
@@ -40,6 +40,7 @@ class gradeSurvivor extends Command
 
                 if(is_null($pick->results) || !is_null($pick->result)) {
                 continue;
+                //Prevent grading if it's already been graded, or if the results dont exist.
                 }
 
                 if($pick->selection_id === $pick->results->winner) {
@@ -87,7 +88,7 @@ class gradeSurvivor extends Command
     public function handle()
     {
         //$this->line('upgrade due');
-         $this->survivorDidntPick();
+         //$this->survivorDidntPick();
          $this->newGrader();
     }
 }

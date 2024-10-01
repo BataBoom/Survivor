@@ -26,7 +26,7 @@ class gradePickem extends Command
 
     public function getWeek()
     {
-        return $this->argument('week') ?? 1;
+        return $this->argument('week') ?? json_decode(file_get_contents('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard'), true)['week']['number'];
     }
 
     public function newGrader()
