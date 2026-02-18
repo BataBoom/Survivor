@@ -6,12 +6,10 @@
         <div class="mb-6">
             <p class="mb-4">Coach {{$name}},</p>
             <p>
-            I hope this message finds you in good spirits, but I <b>must</b> cut to the chase with the urgency of a last-second field goal attempt. 
+            I hope this message finds you in good spirits, but I <b>must</b> cut to the chase with the urgency of a last-second field goal attempt.
             <br>
             <br>
-            You're still alive with 1 game left on the board. Whose it going to be Coach? Atlanta Falcons or Philadelphia Eagles on MNF. We're just 2 hours~ til kickoff. 
-            <br>
-            <br>
+            You're still alive with 1 game left on the board. Whose it going to be Coach? Minnesota Vikings or Chicago Bears on MNF?!
             </p>
             <p>
                 Think of this as the ultimate coaching challenge. Your legacy, your very existence, hinges on the wisdom of your choice. Will you go for the safe bet, or will you roll the dice on an underdog with everything to prove?

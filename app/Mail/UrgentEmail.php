@@ -20,10 +20,10 @@ class UrgentEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $user)
+    public function __construct(public User $user, public int $week = 1)
     {
         $this->user = $user;
-        $this->poolLink = Route('pool.show', ['pool' => Pool::Where('name', 'Bravo')->first()->id]);
+        $this->poolLink = Route('pool.show', ['pool' => Pool::Where('name', 'Cobra')->first()->id]);
     }
 
     /**
@@ -33,7 +33,10 @@ class UrgentEmail extends Mailable
     {
 
         return new Envelope(
-            subject: "Coach ".ucwords($this->user->name).": You're alive! But we need a play on MNF!",
+            //subject: "Coach ".ucwords($this->user->name).": You're alive! But we need a play on MNF!",
+             //subject: "Coach ".ucwords($this->user->name).": Your roster hasn't been finalized!",
+            //subject: "Last Chance, Coach ".ucwords($this->user->name),
+	   subject: "Coach ".ucwords($this->user->name).": Survivor pick unfinalized!",
         );
     }
 
@@ -44,11 +47,14 @@ class UrgentEmail extends Mailable
     {
 
         return new Content(
-            view: 'emails.mnf',
+            view: 'emails.tie',
+            //view: 'emails.mnf',
+            //view: 'emails.urgent',
             with: [
                 'name' => ucwords($this->user->name),
                 'email' => $this->user->email,
                 'link' => $this->poolLink,
+                'week' => $this->week,
                 'unsubscribelink' => route('unsubscribe', ['user' => $this->user->email]),
             ],
         );

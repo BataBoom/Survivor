@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'season.started' => \App\Http\Middleware\SeasonStarted::class,
+        'prevent.payment' => \App\Http\Middleware\PreventForbiddenPayment::class,
     ];
 }

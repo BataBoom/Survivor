@@ -12,6 +12,7 @@ use App\Models\Pool;
 use App\Models\SurvivorRegistration;
 use App\Models\User;
 use App\Models\WagerQuestion;
+use App\Models\WagerResult;
 use App\Events\SurvivorGradedEvent;
 use Illuminate\Support\Facades\Log;
 
@@ -76,6 +77,23 @@ class SimulateSeasonTest extends TestCase
         }
 
         Event::assertDispatched(SurvivorGradedEvent::class, $this->pool->contenders->count() * $this->maxWeeks);
+    }
+
+    public function test_tie_games_are_covered(): void
+    {
+        $countTies = WagerResult::Where('winner', 35)->count();
+
+        $this->assertGreaterThan(0, $countTies, 'WagerResult ties should be greater than zero');
+
+        for($i = 1; $i <= $this->maxWeeks; $i++) {
+           $this->artisan('grade:survivor', ['week' => $i]);
+        }
+
+        $tieGrade = Survivor::whereHas("results", function ($query) {
+                    $query->where("winner", 35);
+                    })->first();
+	$this->assertInstanceOf(Survivor::class, $tieGrade);
+        $this->assertNotNull($tieGrade->result);
     }
 
 }

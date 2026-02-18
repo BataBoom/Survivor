@@ -25,12 +25,13 @@ class PoolController extends Controller
      */
     public function index()
     {
-        $officialPools = Config::get('survivor.dummy_pools') ? DummyPool::getPromoPoolsForController() : Pool::Where('creator_id', 1)->withCount('users')->orderBy('users_count', 'desc')->paginate(5);
+        $officialPools = Config::get('survivor.dummy_pools') ? DummyPool::getPromoPoolsForController() : Pool::Where('creator_id', 1)->Where('hidden', false)->withCount('users')->orderBy('users_count', 'desc')->paginate(5);
 
         return view('pools.index', [
             'pools' => Pool::Where('public', true)
                 ->Where('hidden', false)
-                ->WhereNotNull('creator_id')
+                //->WhereNotNull('creator_id')
+		->WhereNot('creator_id', 1)
                 ->withCount('users')
                 ->orderBy('users_count', 'desc')
                 ->paginate(10),

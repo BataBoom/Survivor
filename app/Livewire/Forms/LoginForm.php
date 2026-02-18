@@ -39,6 +39,7 @@ class LoginForm extends Form
         }
 
         RateLimiter::clear($this->throttleKey());
+        Auth::user()->touch();
     }
 
     /**

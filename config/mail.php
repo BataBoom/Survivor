@@ -116,7 +116,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@survivor.satoshicast.net'),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@survivor.nbz.one'),
         'name' => env('MAIL_FROM_NAME', 'Survivor'),
     ],
 

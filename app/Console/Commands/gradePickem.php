@@ -6,16 +6,18 @@ use Illuminate\Console\Command;
 use App\Models\Pickem;
 use App\Models\WagerResult;
 use Illuminate\Support\Facades\Log;
+use App\Livewire\Traits\SurvivorTrait;
 
 class gradePickem extends Command
 {
+    use SurvivorTrait;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'grade:pickem {week}';
+    protected $signature = 'grade:pickem {week?}';
 
     /**
      * The console command description.
@@ -24,15 +26,15 @@ class gradePickem extends Command
      */
     protected $description = 'grade pickem picks';
 
-    public function getWeek()
+    public function getWeek(): int 
     {
-        return $this->argument('week') ?? 1;
+        return $this->argument('week') ?? $this->decipherWeek();
     }
 
     public function newGrader()
     {   
 
-        $allPicks = Pickem::where('week', $this->getWeek())->get();
+        $allPicks = Pickem::where('week', $this->getWeek())->WhereNull('result')->get();
 
             foreach ($allPicks as $pick) {
                 
@@ -53,7 +55,7 @@ class gradePickem extends Command
                     //user lost outright
                     $pick->update(['result' => 0]);
                 }
-        }
+            }
 
     }
     
@@ -65,6 +67,8 @@ class gradePickem extends Command
      */
     public function handle()
     {
+
+        //$this->line($this->getWeek());
         return $this->newGrader();
 
     }

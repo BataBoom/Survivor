@@ -33,7 +33,7 @@ NFL Survivor
         @scope('content', $slide)
         <div class="absolute inset-0 flex flex-col justify-center items-center text-white text-center">
             <h1 class="text-3xl lg:text-4xl font-bold mb-4 text-accent  [text-shadow:_0_1px_1px_rgb(0_0_0_/_90%)]">{{ $slide['title'] }}</h1>
-            <p class="text-base lg:text-lg mb-8">Welcome to the 3rd Annual NBZ NFL Survivor League.</p>
+            <p class="text-base lg:text-lg mb-8">Welcome to the 4th Annual NBZ NFL Survivor League.</p>
             <div>
                 <a x-transition.duration.500ms x-on:click.prevent="scrollToBottom" href="#bottom" class="btn btn-primary mr-4">How it works</a>
                 @guest
@@ -54,7 +54,7 @@ NFL Survivor
     <div class="mx-auto max-w-screen-xl items-center gap-8 px-4 py-8 lg:grid lg:grid-cols-2 lg:px-6 lg:py-16 xl:gap-16">
         <div class="text-gray-500 sm:text-lg">
             <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl">Countdown to Kickoff </h2>
-            <div class="timer mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl" x-data="timer(new Date('2024-09-08T17:00:00').getTime())" x-init="init();">
+            <div class="timer mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white md:text-4xl" x-data="timer(new Date('2025-09-07T17:00:00').getTime())" x-init="init();">
                 <h1 x-text="time().days"></h1><p class="text-sm m-2">Days</p>
                 <h1 x-text="time().hours"></h1><p class="text-sm m-2">Hours</p>
                 <h1 x-text="time().minutes"></h1><p class="text-sm m-2">Mins</p>
@@ -70,7 +70,7 @@ NFL Survivor
                     </div>
                     <div>
                         <p class="mb-1 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Win Big, Play For Free</p>
-                        <p class="font-light text-gray-500 dark:text-gray-400">Signup now and get drafted into the NBZ Alpha Pool for a chance to win 0.01 BTC ($600~).</p>
+                        <p class="font-light text-gray-500 dark:text-gray-400">Signup now and get drafted into the NBZ Cobra Pool for a chance to win 0.005 BTC ($600~).</p>
                     </div>
                 </div>
                 <div class="flex">
@@ -103,7 +103,7 @@ NFL Survivor
                     </div>
                     <div>
                         <p class="mb-1 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Increase Odds</p>
-                        <p class="font-light text-gray-500 dark:text-gray-400">Create and/or Join as many pools as you'd like prior to the season</p>
+                        <p class="font-light text-gray-500 dark:text-gray-400">Join our additional money pools for a chance to win more</p>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@ class GuestController extends Controller
         ],
         [
             'image' => asset('storage/bg-2.jpeg'),
-            'title' => 'Survive, Thrive, Win 0.01 BTC',
+            'title' => 'Survive, Thrive, Win 0.005 BTC',
         ],
         [
             'image' => asset('storage/bg-3.jpeg'),
@@ -39,7 +39,7 @@ class GuestController extends Controller
         ],
         [
             'image' => asset('storage/bg-5.jpg'),
-            'title' => 'Survive, Thrive, Win 0.01 BTC',
+            'title' => 'Survive, Thrive, Win 0.005 BTC',
         ],
         [
             'image' => asset('storage/bg-6.jpg'),

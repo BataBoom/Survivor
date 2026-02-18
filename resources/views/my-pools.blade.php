@@ -60,7 +60,7 @@
                                                 <div class="flex justify-start px-2">
                                                 <a
                                                         class="btn btn-sm btn-success"
-                                                        href="{{ route('pool.show', ['pool' => $pool->pool->id]) }}" wire:navigate>Open</a>
+                                                        href="{{ route('pool.show', ['pool' => $pool->pool->id]) }}"  @if($pool->pool->alive->count() > 1) wire:navigate @endif>Open</a>
                                                 </div>
                                                 <div class="flex justify-end px-2">
                                                 <a
@@ -114,10 +114,11 @@
                 <div class="column pt-6 px-8">
 
                     <div class="flex justify-evenly">
+			{{--
                         @if(now()->lessThan(config('survivor.start_date')))
                         <a href="{{ route('pool.create') }}" class="btn btn-success w-1/2 mx-4" wire:navigate>Create Pool</a>
                         @endif
-
+			--}}
                         <a href="{{ route('pools.browse') }}" @class([
                         "btn btn-primary w-1/2 mx-4" => now()->lessThan(config('survivor.start_date')),
                         "btn btn-primary w-full mx-4" => now()->greaterThan(config('survivor.start_date')),

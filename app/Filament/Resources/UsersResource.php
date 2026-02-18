@@ -59,8 +59,9 @@ class UsersResource extends Resource
                 Tables\Columns\TextColumn::make('id')->label('ID')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')->label('Name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('email')->label('Email')->searchable()->toggleable(isToggledHiddenByDefault: false),
-                Tables\Columns\TextColumn::make('created_at')->label('Created')->since()->sortable(),
-                Tables\Columns\TextColumn::make('email_verified_at')->label('Verified')->since()->sortable(),
+                Tables\Columns\TextColumn::make('created_at')->label('Created')->since()->sortable()->toggleable(isToggledHiddenByDefault: false),
+		Tables\Columns\TextColumn::make('updated_at')->label('Updated')->since()->sortable()->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('email_verified_at')->label('Verified')->since()->sortable()->toggleable(isToggledHiddenByDefault: false),
                 /*
                 Tables\Columns\TextColumn::make('survivorpools_count')
                 ->label('Survivor Tix')
@@ -86,7 +87,7 @@ class UsersResource extends Resource
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: false),
                 */
-            ])->defaultSort('created_at', 'desc')
+            ])->defaultSort('updated_at', 'desc')
             ->filters([
                 //
             ])

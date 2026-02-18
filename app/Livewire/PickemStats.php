@@ -34,8 +34,9 @@ class PickemStats extends Component
     public function mount()
     {
         $this->user = Auth::User();
-        $this->week = 3;
+        $this->week = $this->decipherWeek();
         $this->whatweek = $this->decipherWeek();
+	    //$this->whatweek = 1;
         $this->contender = $this->pool?->contenders?->where('user_id', $this->user->id)->first();
         $this->leaderboard = $this->fetchLeaderboard();
         $this->poolFavTeams = $this->poolsFavTeams();
@@ -100,7 +101,7 @@ class PickemStats extends Component
 
         $yourRank = $sortedLeaders->where('user', $this->user->name)->first() ?? null;
         
-        $top5 = $leader->take(10);
+        $top5 = $leader->take(5);
         if($yourRank) {
             $top5 = $top5->push($yourRank);
         }

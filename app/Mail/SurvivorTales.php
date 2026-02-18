@@ -59,17 +59,15 @@ class SurvivorTales extends Mailable
             "Tied at the Top: More Challenges Ahead!",
             "Equal Ground: Your Survivor Saga Proceeds!",
             "Survivor Standoff: Ready for the Next Round?",
-
             ];
         } else {
             $varys = [
-            "You've passed the first hurdle! Just another 17(or so) weeks to push through.",
+            "You've conquered the first challenge! Only 17 weeks (give or take) to go!",
             'You survived to tell the tale, yet more games lay ahead.',
-            "Victory Lap: But the Race Isn't Over Yet!",
-            "You're Still Standing - Ready for the Next Round?",
-            "Tales of Triumph: But the Story Isn't Over...",
-            "You've Escaped, But Can You Master What's Next?",
-            "From Surviving to Thriving: Your Next Adventure Awaits!",
+            "You survived the gauntlet—well done! But the journey's far from over.",
+            "You've made it through, stronger for it! More trials await you.",
+            "You’ve crossed the first finish line! Gear up for the next set of hurdles.",
+            "You’ve triumphed this round! Stay sharp—new adventures are on the horizon."
             ];
         }
         
@@ -79,6 +77,8 @@ class SurvivorTales extends Mailable
         } else {
             $subject = $this->survivor->pool->pool->name.': '.$varys[rand(1, array_key_last($varys))];
         }
+	//$subject = 'Winner Winner, Chicken Dinner! Youre a CHAMPION';
+
         return new Envelope(
             subject: $subject,
         );
@@ -92,20 +92,23 @@ class SurvivorTales extends Mailable
         if($this->gameTied) {
             $gg = [
                  "Close call, you may not be so lucky next time! You may want to attend Pick'em to sharpen your skills",
-                 "Almost There! Brush Up Your Picks at Pick'em.",
-                 "Close One! Pick'em will help put you over the top.",
+                 "Almost there! Brush up your picks at Pick'em.",
+                 "Close one! Pick'em will help put you over the top.",
+                 "GG, what a thrilling showdown!",
             ];
         } else {
             $gg = [
-                 "Impressive Play! Hats Off to You!",
+                 "Impressive Play! Hats off to You!",
                  "Great job, well played!",
                  "Congratulations on a hard-fought game!",
                  "Good game, you guys really brought your A-game tonight!",
-                 "Game Well Played! Your Dedication Shows!",
-
+                 "Game well played! Your dedication shows!",
+                 "Well played, you brought the heat tonight!",
+                 "GG, what a thrilling showdown!",
+                 "Congrats, you crushed it out there!"
             ];
         }
-
+	
 
         return new Content(
             view: 'emails.survivor-tales',

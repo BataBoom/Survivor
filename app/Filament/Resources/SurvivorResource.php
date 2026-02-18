@@ -89,18 +89,28 @@ class SurvivorResource extends Resource
                 ->url(fn (Survivor $record): ?string => $record ? route('pool.show', $record->pool->pool_id) : null)
                 ->openUrlInNewTab(),
 
-
+                Tables\Columns\TextColumn::make('user.name')->sortable(),
+                
+                Tables\Columns\TextColumn::make('week'),
+                
                 Tables\Columns\TextColumn::make('question.question')
                 ->label('Game')
-                ->size(TextColumn\TextColumnSize::ExtraSmall)
+                //->size(TextColumn\TextColumnSize::Large)
                 ->alignment(Alignment::Center),
 
-                Tables\Columns\TextColumn::make('user.name')->sortable(),
-                Tables\Columns\TextColumn::make('selection')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('week'),
+                
+                Tables\Columns\TextColumn::make('selection')
+		->size(TextColumn\TextColumnSize::Large)
+		->sortable()->searchable(),
+
+                Tables\Columns\TextColumn::make('results.result_score')
+		//->size(TextColumn\TextColumnSize::Medium)
+		->label('Final'),
+
+                
                 Tables\Columns\IconColumn::make('result')
                 ->boolean(),
-            ])->defaultSort('week', 'asc')
+            ])->striped()->defaultSort('week', 'asc')
             ->filters([
                     SelectFilter::make('pool')
                         ->relationship('pool.pool', 'name', fn (Builder $query) => $query->where('type', 'survivor'))
@@ -108,12 +118,16 @@ class SurvivorResource extends Resource
                         ->preload(),
                         
                     SelectFilter::make('player')
+                        ->label("Player(s)")
                         ->relationship('user', 'name')
                         ->searchable()
+                        ->multiple()
                         ->preload(),
+
                     SelectFilter::make('week')
                         ->multiple()
                         ->options(array_combine(range(1,18), range(1,18))),
+
                     TernaryFilter::make('result')
                         ->nullable()
                         ->placeholder('Won/Lost')

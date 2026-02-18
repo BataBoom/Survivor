@@ -49,6 +49,39 @@ class WagerResultFactory extends Factory
         ];
     }
 
+    public function tieGame(): Factory
+    {
+        $question = WagerQuestion::query()
+            ->whereDoesntHave('result')
+            ->inRandomOrder()
+            ->first();
+
+        return $this->state([
+            'game'        => $question?->game_id,
+            'winner'      => 35,
+            'winner_name' => 'TIE GAME',
+            'week'        => $question?->week ?? null,
+            'home_score'  => 24,
+            'away_score'  => 24,
+        ]);
+    }
+
+    public function appendTie(int $game)
+    {
+
+        $game = WagerQuestion::WhereDoesntHave('result')->Where('game_id', $game)->firstOrFail();
+
+        return $this->state(function (array $attributes) use ($game) {
+            return [
+                'game' => $game->game_id,
+                'winner' => 35,
+                'winner_name' => 'TIE GAME',
+                'week' =>  $game->week,
+                'home_score' => 24,
+                'away_score' => 24,
+            ];
+        });
+    }
 
     public function game(int $game)
     {

@@ -86,7 +86,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <h1 class="text-xl text-accent underline px-2">Community Pools</h1>
+            <h1 class="text-xl text-accent underline px-2">Official Pay Pools</h1>
             <div class="flex flex-col justify-center mt-16">
                 <div class="overflow-x-auto">
                     <table class="table">
@@ -113,7 +113,7 @@
                             <tr class="hover text-center">
                                 <td>{{ ucfirst($pool->type) }}</td>
                                 <td>{{ $pool->name }}</td>
-                                <td>{{ $pool->prize_type }} @if($pool->total_prize) |  {{ $pool->total_prize }} (USD) @endif</td>
+                                <td class="tooltip" data-tip="entries x fee - 20%">{{ $pool->prize_type }} @if($pool->total_prize) |  {{ $pool->total_prize }} (USD) @endif</td>
 
                                 <th>${{ $pool->entry_cost ?? 'FREE' }}</th>
                                 <td>{{ now()->greaterThan($start_date) ? 'In progress' : 'Registering' }}</td>
@@ -128,7 +128,7 @@
                                     
                                         @if(now()->lessThan(Config::get('survivor.start_date')))
                                             <a      class="btn btn-sm btn-success"
-                                                    href="{{ route('pool.register', ['pool' => $pool->id]) }}" wire:navigate>Register, Entry Fee: {{$pool->entry_cost }}</a>
+                                                    href="{{ route('pool.register', ['pool' => $pool->id]) }}">Register, Entry Fee: {{$pool->entry_cost }}</a>
                                         @else
                                         <button class="btn btn-sm disabled">Registration Concluded</button>
                                         @endif
@@ -157,10 +157,11 @@
                 </div>
                 <div class="column pt-6 px-8">
                     <div class="flex justify-evenly">
+			{{--
                         @if(now()->lessThan(config('survivor.start_date')))
                         <a href="{{ route('pool.create') }}" class="btn btn-success w-1/2 mx-4" wire:navigate>Create Pool</a>
                         @endif
-
+			--}}
                         <a href="{{ route('mypools.show') }}" @class([
                         "btn btn-primary w-1/2 mx-4" => now()->lessThan(config('survivor.start_date')),
                         "btn btn-primary w-full mx-4" => now()->greaterThan(config('survivor.start_date')),

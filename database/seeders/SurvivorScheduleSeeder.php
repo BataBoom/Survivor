@@ -19,7 +19,7 @@ class SurvivorScheduleSeeder extends Seeder
     {
 
         $week = 1; // Initial value of $week
-        $year = 2024;
+        $year = 2025;
       
 
         while ($week <= 18) { // Assuming the maximum value of $week is 18

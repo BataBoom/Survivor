@@ -49,19 +49,22 @@ class SurvivorGame extends Component
 
     public $delteam;
 
+    public bool $hasConcluded;
+
     /* Pool is mounted from controller */
     public function mount()
     {
+        $this->hasConcluded = $this->pool->alive->count() <= 3 ? true : false;
+	    //$this->hasConcluded = true;
         //Sub 30 mins for security..
         $this->currentTimeEST = Carbon::now();
 
         $this->user = Auth::User();
 
-        //$this->week = 2;
         $this->week = $this->decipherWeek();
         $this->realWeek = $this->decipherWeek();
-        //$this->realWeek = 3;
-
+	    //$this->realWeek = 1;
+	    //$this->week = 1;        
         $this->survivor = $this->pool?->contenders->where('user_id', $this->user->id)->first();
 
         $this->mypicks = $this->survivor->survivorPicks()->get();

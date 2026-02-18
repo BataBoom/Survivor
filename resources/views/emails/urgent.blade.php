@@ -9,7 +9,7 @@
             I hope this message finds you in good spirits, but I <b>must</b> cut to the chase with the urgency of a last-second field goal attempt. 
             <br>
             <br>
-            We're on the brink of kickoff for our fantastically fatal NFL contest, and it seems you've been caught in the huddle of indecision. Your team, your very survival, hangs in the balance, and yet, your playbook remains mysteriously empty for Week 1.
+            We're on the brink of kickoff for our fantastically fatal NFL contest, and it seems you've been caught in the huddle of indecision. Your team, your very survival, hangs in the balance, and yet, your playbook remains mysteriously empty for Week {{$week}}.
             <br>
             <br>
             Listen up, Coach, this isn't just any game; it's a battle royale where only the shrewdest tacticians survive. Your players are looking to you for guidance, and right now, they're staring at a clipboard with nothing but your coffee stains.

@@ -12,8 +12,27 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        //$schedule->command('app:moderate-pools')->hourly();
-        $schedule->command('grade:betslips')->hourly();
+        //$schedule->command('grade:betslips')->hourly();
+        //after 1PM game(s) in UTC
+        $schedule->command('insert:nflscores')->cron('15 20 * * 7');
+        $schedule->command('grade:pickem')->cron('20 20 * * 7');
+        //$schedule->command('grade:survivor')->cron('20 20 * * 7');
+        //after 4PM game(s) in UTC
+        $schedule->command('insert:nflscores')->cron('0 1 * * 1');
+        $schedule->command('grade:pickem')->cron('5 1 * * 1');
+        //$schedule->command('grade:survivor')->cron('5 1 * * 1');
+        //after SNF game(s) in UTC
+        $schedule->command('insert:nflscores')->cron('0 5 * * 1');
+        $schedule->command('grade:pickem')->cron('5 5 * * 1');
+        //$schedule->command('grade:survivor')->cron('5 5 * * 1');
+        //after MNF game(s) in UTC
+        $schedule->command('insert:nflscores')->cron('0 5 * * 2');
+        $schedule->command('grade:pickem')->cron('5 5 * * 2');
+        //$schedule->command('grade:survivor')->cron('5 5 * * 2');
+        //after TNF game(s) in UTC
+        $schedule->command('insert:nflscores')->cron('0 5 * * 5');
+        $schedule->command('grade:pickem')->cron('5 5 * * 5');
+        //$schedule->command('grade:survivor')->cron('5 5 * * 5');
     }
 
     /**

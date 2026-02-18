@@ -28,11 +28,13 @@ class FreshRegistrationListener
      */
     public function handle(Verified $event): void
     {
+	Log::info($event->user);
         //$survivorPool = Pool::WhereNull('creator_id')->where('entry_cost', '0.0')->where('type', 'survivor')->firstOrFail();
-        $pickemPool = Pool::WhereNull('creator_id')->where('entry_cost', '0.0')->where('type', 'pickem')->firstOrFail();
+        $survivorPool = Pool::Where("name", "Cobra")->firstOrfail();
+	$pickemPool = Pool::Where('creator_id', 1)->where('entry_cost', '0.0')->where('type', 'pickem')->firstOrFail();
 
         $pickemPool->registration()->create(['user_id' => $event->user->id, 'lives_count' => 100]);
-        //$survivorPool->registration()->create(['user_id' => $event->user->id, 'lives_count' => 1]);
+        $survivorPool->registration()->create(['user_id' => $event->user->id, 'lives_count' => 1]);
         Mail::to($event->user->email)->send(new WelcomeEmail($event->user));
 
         /*

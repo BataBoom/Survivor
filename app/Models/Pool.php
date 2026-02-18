@@ -28,7 +28,8 @@ class Pool extends Model
     public const DummyPrizes = [
         "9c35cbef-a356-40fe-931c-21bfc18733d6" => '0.01 BTC',
         "9c35cc31-231c-43f6-aa51-d86d17512e1e" => '0.005 BTC',
-        "9c35c839-713e-4ad2-9d38-585f56a9d521" => "0.0",
+        "9c35c839-713e-4ad2-9d38-585f56a9d521" => "0.001 BTC",
+	"9f55cf73-b4e6-4641-a24c-37e8b3d5f1cb" => '0.005 BTC',
     ];
 
     //Relationship to payments
@@ -43,8 +44,8 @@ class Pool extends Model
         if(in_array($this->id, array_keys(Self::DummyPrizes))) {
             return Self::DummyPrizes[$this->id];
         } else {
-            return '$'.number_format($this->payments->sum('amount_usd'), 2);
-            //return '$'.number_format($this->guaranteed_prize + $this->payments->sum('amount_usd'), 2);
+            //return '$'.number_format($this->payments->sum('amount_usd'), 2);
+	    return '$' . number_format($this->payments->sum('amount_usd') * 0.8, 2);
         }
     }
 

@@ -21,7 +21,7 @@ trait SurvivorTrait
         $options = collect();
         foreach ($Games as $game) {
             $teamIds = $game->gameoptions()->pluck('team_id');
-            $teamInfo = WagerTeam::whereIn('team_id', $teamIds)->select('abbreviation', 'name','team_id')->get();
+            $teamInfo = WagerTeam::where('league', 'nfl')->whereIn('team_id', $teamIds)->select('abbreviation', 'name','team_id')->get();
 
             $combinedData = collect([
                 'game' => $game->question,
@@ -78,25 +78,25 @@ trait SurvivorTrait
     public function decipherWeek()
     {
 
-        $dateRanges = [
-            ['start' => '2024-09-05', 'end' => '2024-09-09'],
-            ['start' => '2024-09-10', 'end' => '2024-09-16'],
-            ['start' => '2024-09-17', 'end' => '2024-09-23'],
-            ['start' => '2024-09-24', 'end' => '2024-09-30'],
-            ['start' => '2024-10-01', 'end' => '2024-10-07'],
-            ['start' => '2024-10-08', 'end' => '2024-10-14'],
-            ['start' => '2024-10-15', 'end' => '2024-10-21'],
-            ['start' => '2024-10-22', 'end' => '2024-10-28'],
-            ['start' => '2024-10-29', 'end' => '2024-11-05'],
-            ['start' => '2024-11-06', 'end' => '2024-11-11'],
-            ['start' => '2024-11-12', 'end' => '2024-11-18'],
-            ['start' => '2024-11-19', 'end' => '2024-11-25'],
-            ['start' => '2024-11-26', 'end' => '2024-12-02'],
-            ['start' => '2024-12-03', 'end' => '2024-12-09'],
-            ['start' => '2024-12-10', 'end' => '2024-12-16'],
-            ['start' => '2024-12-17', 'end' => '2024-12-23'],
-            ['start' => '2024-12-24', 'end' => '2024-12-30'],
-            ['start' => '2025-12-31', 'end' => '2025-01-01'],
+         $dateRanges = [
+            ['start' => '2026-09-05', 'end' => '2026-09-08'],
+            ['start' => '2026-09-09', 'end' => '2026-09-15'],
+            ['start' => '2026-09-16', 'end' => '2026-09-22'],
+            ['start' => '2026-09-23', 'end' => '2026-09-29'],
+            ['start' => '2026-09-30', 'end' => '2026-10-06'],
+            ['start' => '2026-10-07', 'end' => '2026-10-13'],
+            ['start' => '2026-10-13', 'end' => '2026-10-21'],
+            ['start' => '2026-10-21', 'end' => '2026-10-28'],
+            ['start' => '2026-10-28', 'end' => '2026-11-03'],
+            ['start' => '2026-11-03', 'end' => '2026-11-11'],
+            ['start' => '2026-11-10', 'end' => '2026-11-18'],
+            ['start' => '2026-11-16', 'end' => '2026-11-25'],
+            ['start' => '2026-11-25', 'end' => '2026-12-04'],
+            ['start' => '2026-11-30', 'end' => '2026-12-11'],
+            ['start' => '2026-12-09', 'end' => '2026-12-19'],
+            ['start' => '2026-12-20', 'end' => '2026-12-25'],
+            ['start' => '2026-12-23', 'end' => '2026-12-31'],
+            ['start' => '2026-12-31', 'end' => '2026-04-29'],
         ];
 
         $now = date('Y-m-d'); // Current date, can be customized

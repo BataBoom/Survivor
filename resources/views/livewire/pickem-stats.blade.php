@@ -17,6 +17,12 @@
 
                 </a>
             </div>
+
+            <div class="flex justify-center">
+                <a class="btn btn-sm btn-primary" href="{{ route('quiz.show', ['quiz' => 'NFL-divisions-Quiz']) }}">
+                    NFL Divisions Quiz
+                </a>
+            </div>
         </div>
     </div>
 
@@ -68,7 +74,7 @@
         <p class="text-sm italic text-secondary">AFC</p>
         </li>
       </ul>
-      <div class="stat-desc italic p-1"></div>
+     <div class="stat-desc italic p-1 text-xs">Only accounting for the selection Conference, broken query</div>
   </div>
   
 </div>
@@ -118,6 +124,7 @@
                 <th>Game</th>
                 <th>Pick</th>
                 <th>Result</th>
+                <th>Result %</th>
             </tr>
             </thead>
             <tbody>
@@ -136,6 +143,9 @@
                 </td>
                 <td  @class(['text-green-500' => $pickem->result, 'text-red-500' => !$pickem->result ])>
                         {{$pickem->result ? 'Won' : 'Lost'}}
+                </td>
+                <td  @class(['text-green-500' => $pickem->result, 'text-red-500' => !$pickem->result ])>
+                        {{$pickem->result ? $pickem->results->percentages["Won"] : $pickem->results->percentages["Lost"]}} agreed
                 </td>
                 @else
                 <td>{{$pickem->selection}}</td>

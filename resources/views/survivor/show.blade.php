@@ -53,7 +53,7 @@
                     </ul>
                 </div>
             @empty
-                <p>No survivor pools found.</p>
+               <!--- <p>No survivor pools found.</p> -->
             @endforelse
         </div>
 

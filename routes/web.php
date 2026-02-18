@@ -10,6 +10,7 @@ use App\Http\Controllers\ChatroomController;
 use App\Http\Controllers\PoolController;
 use App\Http\Controllers\SurvivorController;
 use App\Http\Controllers\BettingPortfolioController;
+use App\Http\Controllers\QuizController;
 use App\Livewire\Pickem;
 use App\Livewire\Fun;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,8 @@ use Livewire\Volt\Volt;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Livewire\BettingPortfolio;
 use App\Models\BetSlip;
+use App\Models\Quiz;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +39,10 @@ Route::get('unsubscribe/{user:email}', [HomeController::class, 'unsubscribe'])->
 Route::get('/', [GuestController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
+
+    Route::get('/quizes', [QuizController::class, 'index'])->name('quiz.index');
+
+    Route::get('/quizes/{quiz:slug}', [QuizController::class, 'show'])->name('quiz.show');
 
     Route::get('/bet-tracker/my-slips', [BettingPortfolioController::class, 'index'])->name('betslip.index');
 
@@ -66,7 +73,7 @@ Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
 
     Route::get('/fun', [SurvivorController::class, 'fun']);
 
-    Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool');
+    Route::get('/forbidden/game/{pool:id}', [ForbiddenController::class, 'show'])->name('forbidden.pool')->middleware('prevent.payment');
 
 
     Route::get('/all-pools', [PoolController::class, 'index'])->name('pools.browse');
@@ -75,8 +82,8 @@ Route::middleware(['auth', 'survivor', 'verified'])->group(function () {
 
     Route::get('/my-pools/{pool:id}/delete', [PoolController::class, 'destroy'])->name('pool.destroy');
     Route::post('/my-pools/create', [PoolController::class, 'store'])->middleware('season.started')->name('pool.post');
-    Route::get('/my-pools/register/{pool:id}', [PoolController::class, 'register'])->name('pool.register')->middleware('season.started');
-    Route::post('/my-pools/register/{pool:id}/checkout', [PoolController::class, 'checkout'])->name('pool.checkout')->middleware('season.started');
+    Route::get('/my-pools/register/{pool:id}', [PoolController::class, 'register'])->name('pool.register')->middleware(['season.started', 'prevent.payment']);
+    Route::post('/my-pools/register/{pool:id}/checkout', [PoolController::class, 'checkout'])->name('pool.checkout')->middleware(['season.started', 'prevent.payment']);
 
     Route::get('/my-pools/{pool:id}/setup', [PoolController::class, 'finishSetup'])->name('pool.setup');
 

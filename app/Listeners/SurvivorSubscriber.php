@@ -9,6 +9,7 @@ use App\Events\SurvivorGradedEvent;
 use Illuminate\Support\Facades\Log;
 use App\Mail\SurvivorTales;
 use App\Mail\SurvivorDied;
+use App\Mail\TiedEmail;
 use Illuminate\Support\Facades\Mail;
 
 class SurvivorSubscriber implements ShouldQueue
@@ -51,12 +52,11 @@ class SurvivorSubscriber implements ShouldQueue
         if($event->survivor->user->subscribed && !is_null($event->survivor->results)) {
             if ($event->survivor->result === 1 && $event->survivor->results->winner !== 35) {
                 Mail::to($event->survivor->user->email)->send(new SurvivorTales($event->survivor));
-                Log::debug('Winner Event Called, UID:' . $event->survivor->user->id.' Week: '. $event->survivor->week);
+                Log::info('Survivor Winner Event Called, UID:' . $event->survivor->user->id.' Week: '. $event->survivor->week);
             } elseif ($event->survivor->result === 1 && $event->survivor->results->winner === 35) {
                 //User won, but barely, game ended in a tie. Send Success email but maybe add some splice.
-                Mail::to($event->survivor->user->email)->send(new SurvivorTales($event->survivor));
+                Mail::to($event->survivor->user->email)->send(new TiedEmail($event->survivor));
             } elseif ($event->survivor->result === 0) {
-                
                 Mail::to($event->survivor->user->email)->send(new SurvivorDied($event->survivor));
                 //Log::debug('Loser Event Called, UID:' . $event->survivor->user->id.' Week: '. $event->survivor->week);
             }

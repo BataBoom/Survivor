@@ -69,7 +69,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     // Relationship With SurvivorRegistration
     public function pools() {
-        return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id');
+        //return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id');
+	return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id')->whereHas("pool", function ($query) {
+            $query->where("status", true);
+          });
     }
 
     // Relationship With SurvivorRegistration (tracker for survivor)
@@ -78,7 +81,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id')
             ->where('alive', true)
             ->whereHas('pool', function ($query) {
-                $query->where('type', 'survivor');
+                $query->where('status', true)->where('type', 'survivor');
             });
     }
 
@@ -87,7 +90,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->hasMany(SurvivorRegistration::class, 'user_id', 'id')
             ->where('alive', true)
             ->whereHas('pool', function ($query) {
-                $query->where('type', 'pickem');
+                $query->where('status', true)->where('type', 'pickem');
             });
     }
 
@@ -106,7 +109,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
             'id',      // Foreign key on Pool table...
             'id',      // Local key on User table...
             'pool_id'  // Local key on SurvivorRegistration table...
-        )->where('type', 'survivor');
+        )->where('status', true)->where('type', 'survivor');
 
     }
 
@@ -156,6 +159,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function betslips() {
         return $this->hasMany(BetSlip::class, 'user_id');
+    }
+
+    public function quizscores() {
+        return $this->hasMany(QuizScore::class, 'user_id');
     }
 
 }

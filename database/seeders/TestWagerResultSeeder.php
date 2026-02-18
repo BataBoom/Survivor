@@ -27,6 +27,9 @@ class TestWagerResultSeeder extends Seeder
                 $scores = ['away' => rand(21, 48), 'home' => rand(7, 20)];
             }
 
+            $random = rand(0,1);
+
+            if($random) {
             WagerResult::Create([
                 'game' => $randomSelection->game_id,
                 'winner' => $randomSelection->team_id,
@@ -35,6 +38,20 @@ class TestWagerResultSeeder extends Seeder
                 'home_score' => $scores['home'],
                 'away_score' => $scores['away'],
             ])->question()->update(['ended' => true, 'status' => true]);
+            } else {
+                /*
+                WagerResult::Factory()
+                ->appendTie($randomSelection->game_id)->create();
+                */
+                WagerResult::Create([
+                'game' => $randomSelection->game_id,
+                'winner' => 35,
+                'winner_name' => 'TIE',
+                'week' => $game->week,
+                'home_score' => 24,
+                'away_score' => 24,
+            ])->question()->update(['ended' => true, 'status' => true]);
+            }
 
         }
     }

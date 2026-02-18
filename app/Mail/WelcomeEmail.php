@@ -28,7 +28,7 @@ class WelcomeEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome to the 3rd Annual NBZ Survivor Season',
+            subject: 'Welcome to the 4th Annual NBZ Survivor Season',
         );
     }
 

@@ -21,7 +21,7 @@ class WagerTeamsSeeder extends Seeder
 
             $NFLTeams = $file['sports'][0]['leagues'][0]['teams'];
             
-            foreach($teams as $team)
+            foreach($NFLTeams as $team)
             {
 
             WagerTeam::Create([
@@ -42,11 +42,11 @@ class WagerTeamsSeeder extends Seeder
             'team_id' => 35,
             'name' => 'Tie Game',
             'abbreviation' => 'TIE',
-            'league' => null,
-
+            'league' => 'nfl',
+            'league_id' => League::Where('name', 'NFL')->first()?->id,
             ]);
         }
-
+        /*
         if(WagerTeam::Where('league', 'nhl')->get()->isEmpty()) {
 
             $file = json_decode(file_get_contents('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams'), true);
@@ -148,5 +148,6 @@ class WagerTeamsSeeder extends Seeder
 
             }
         }
+        */
     }
 }

@@ -28,9 +28,15 @@ $logout = function (Logout $logout) {
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+		    @if(now()->lessThan(Config::get('survivor.start_date')))
+                    <x-nav-link :href="route('pools.browse')" :active="request()->routeIs('pools.browse')" wire:navigate>
+                        {{ __('Browse Pools') }}
+                    </x-nav-link>
+                    @else
                     <x-nav-link :href="route('mypools.show')" :active="request()->routeIs('mypools.show')" wire:navigate>
                         {{ __('My Pools') }}
                     </x-nav-link>
+                    @endif
 
                     <x-nav-link :href="route('my-payments.index')" :active="request()->routeIs('my-payments.index')" wire:navigate>
                         {{ __('My Payments') }}

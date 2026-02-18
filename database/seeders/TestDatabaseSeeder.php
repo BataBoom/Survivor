@@ -16,6 +16,8 @@ class TestDatabaseSeeder extends Seeder
     {
 
         $this->call([
+            SportSeeder::class,
+            LeagueSeeder::class,
             WagerTeamsSeeder::class,
             TestScheduleSeeder::class,
             TestWagerResultSeeder::class,

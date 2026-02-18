@@ -10,3 +10,4 @@ storage/app/**/*
 package-lock.json
 composer.lock
 public/**/*
+public/index.php

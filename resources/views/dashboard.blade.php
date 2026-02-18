@@ -10,8 +10,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2 mx-4">
 
 
+                @if(now()->lessThan(Config::get('survivor.start_date')))
                 <div class="bg-white transition text-green-500 hover:text-black hover:bg-green-500  rounded-lg shadow-md p-6">
-                    <a href="{{ route('mypools.show') }}">
+                    <a href="{{ route('pools.browse') }}">
                         <div class="flex flex-1">
                             <img class="w-11 mr-4" src="{{ asset('/icons/american-football-field.png') }}"/>
                         <h2 class="text-xl font-bold mb-4">Browse Pools</h2>
@@ -21,7 +22,21 @@
                         </p>
                     </a>
                 </div>
+                @else
+                <div class="bg-white transition text-green-500 hover:text-black hover:bg-green-500  rounded-lg shadow-md p-6">
+                    <a href="{{ route('mypools.show') }}">
+                        <div class="flex flex-1">
+                            <img class="w-11 mr-4" src="{{ asset('/icons/american-football-field.png') }}"/>
+                        <h2 class="text-xl font-bold mb-4">My Pools</h2>
+                        </div>
+                        <p class="text-black font-semibold">
+                            Show my pools
+                        </p>
+                    </a>
+                </div>
+                @endif
                 
+                {{--
                 @if(now()->lessThan(config('survivor.start_date')))
                 <div class="bg-white transition text-purple-500 hover:text-white hover:bg-green-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('pool.create') }}">
@@ -35,6 +50,7 @@
                     </a>
                 </div>
                 @endif
+                --}}
 
                 <div class="bg-white transition text-blue-500 hover:text-white hover:bg-indigo-500  rounded-lg shadow-md p-6">
                     <a href="{{ route('faq.index') }}">
@@ -97,6 +113,16 @@
                         <h2 class="text-xl font-bold mb-4">My Payments</h2>
                         </div>
                         <p class="text-black">View my payment ledger</p>
+                    </a>
+                </div>
+
+                <div class="bg-white transition text-purple-500 hover:text-white hover:bg-indigo-500  rounded-lg shadow-md p-6">
+                    <a href="{{ route('quiz.show', ['quiz' => 'NFL-divisions-Quiz']) }}">
+                        <div class="flex flex-1">
+                            <img class="w-11 mr-4" src="{{ asset('/icons/marker.png') }}"/>
+                        <h2 class="text-xl font-bold mb-4">NFL Divisions Quiz</h2>
+                        </div>
+                        <p class="text-black">Test your NFL Knowledge</p>
                     </a>
                 </div>
             </div>
